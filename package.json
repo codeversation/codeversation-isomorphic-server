@@ -1,0 +1,19 @@
+{
+  "name": "isomorphic-react-redux-router",
+  "version": "0.0.0",
+  "description": "This is a basic isomorphic react server with using router and redux.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Alex-Aralis/isomorphic-react-redux-roueter.git"
+  },
+  "author": "Alex Aralis",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Alex-Aralis/isomorphic-react-redux-roueter/issues"
+  },
+  "homepage": "https://github.com/Alex-Aralis/isomorphic-react-redux-roueter#readme"
+}
