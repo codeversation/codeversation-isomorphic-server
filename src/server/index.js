@@ -11,8 +11,6 @@ const createLocation = createMemoryHistory().createLocation;
 
 const app = express();
 
-console.log('lsfddsjs');
-
 app.set('views', './views');
 app.set('view engine', 'jade');
 
@@ -29,16 +27,17 @@ app.get('/*', (req, res) => {
         console.log(err);
         res.status(500).json({ message: 'internal server error' });
       } else if (redirectLocation){
-
         app.render('index', { reactOutput })
+
       } else if (renderProps){
+        const appRoot = <RouterContext { ...renderProps } />;
+        const reactOutput = renderToString(appRoot);
 
-          const appRoot = <RouterContext { ...renderProps } />;
-          const reactOutput = renderToString(appRoot);
+        res.render('index', { reactOutput });
 
-          res.render('index', { reactOutput });
       } else {
         res.status(404).json({ message: 'page not found' });
+
       }
     })
 });
@@ -47,5 +46,5 @@ var server = app.listen(3000, function () {
   var host = server.address().address;
   var port = server.address().port;
 
-  console.log('Example app listening at http://%s:%s', host, port);
+  console.log('Listening at http://%s:%s', host, port);
 });
