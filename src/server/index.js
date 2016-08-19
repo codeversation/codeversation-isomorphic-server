@@ -3,11 +3,15 @@ import { SERVER_ROOT } from 'config';
 import express from 'express';
 import React from 'react';
 import Router from  'react-router';
-import { RoutingContext, match } from 'react-router';
-import { createMemoryHistory } from 'history';
+import { RouterContext, match } from 'react-router';
 import { renderToString } from 'react-dom/server';
 
+import { createMemoryHistory } from 'history';
+const createLocation = createMemoryHistory().createLocation;
+
 const app = express();
+
+console.log('lsfddsjs');
 
 app.set('views', './views');
 app.set('view engine', 'jade');
@@ -29,8 +33,7 @@ app.get('/*', (req, res) => {
         app.render('index', { reactOutput })
       } else if (renderProps){
 
-          const createLocation = createMemoryHistory().createLocation;
-          const appRoot = <RoutingContext { ...renderProps } />;
+          const appRoot = <RouterContext { ...renderProps } />;
           const reactOutput = renderToString(appRoot);
 
           res.render('index', { reactOutput });

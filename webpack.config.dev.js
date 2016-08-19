@@ -1,4 +1,4 @@
-// var webpack = require('webpack');
+var webpack = require('webpack');
 
 module.exports = {
   devtool: 'inline-source-map',
@@ -10,6 +10,9 @@ module.exports = {
     path: __dirname + '/build',
     filename: 'app.js',
   },
+  plugins: [
+    new webpack.NoErrorsPlugin(),
+  ],
   resolve: {
     extensions: ['', '.js'],
   },

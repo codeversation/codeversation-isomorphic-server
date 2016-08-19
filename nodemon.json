@@ -1,5 +1,12 @@
 {
+  "ignoreRoot": [],
   "watch": [
-    "build/lib"
-  ]
+    "lib/node_modules/"
+  ],
+  "ignore": [
+    "lib/node_modules/client/"
+  ],
+  "delay": 500,
+  "verbose": false,
+  "on-change-only": true
 }

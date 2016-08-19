@@ -4,11 +4,16 @@
   "description": "This is a basic isomorphic react server with using router and redux.",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently -p '{command}' -l 20 --kill-others 'npm run watch-src' 'npm run watch-lib' 'npm run watch-views' 'npm run server'",
-    "watch-src": "mkdir -p build/lib/node_modules && babel -wd build/lib/node_modules src",
+    "dev": "npm run build && npm run watch",
+    "watch": "concurrently -p '{command}' -l 10 --kill-others 'npm run watch-src' 'npm run watch-lib' 'npm run watch-views' 'npm run server'",
+    "build": "npm run build-lib && npm run build-views && npm run build-app",
+    "build-views": "mkdir -p build && cp -r views build/views",
+    "build-lib": "mkdir -p build/lib/node_modules && babel -d build/lib/node_modules src",
+    "build-app": "webpack --progress --config webpack.config.dev.js",
+    "watch-src": "babel -wd build/lib/node_modules src",
     "watch-views": "cpx --watch 'views/**/*' build/views",
-    "server": "cd build && nodemon lib/node_modules/server",
-    "watch-lib": "webpack --watch --progress --colors --config webpack.config.dev.js",
+    "server": "cd build && nodemon --on-change-only --config ../nodemon.json lib/node_modules/server",
+    "watch-lib": "webpack --watch --colors --config webpack.config.dev.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
