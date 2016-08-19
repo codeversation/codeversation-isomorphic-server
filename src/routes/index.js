@@ -1,4 +1,4 @@
-import { App } from '../components';
+import { App } from 'components';
 
 export default {
   component: App,

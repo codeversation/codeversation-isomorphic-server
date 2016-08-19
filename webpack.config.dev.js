@@ -3,7 +3,8 @@
 module.exports = {
   devtool: 'inline-source-map',
   entry: [
-    './build/lib/client',
+    'babel-polyfill',
+    './build/lib/node_modules/client',
   ],
   output: {
     path: __dirname + '/build',

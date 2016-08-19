@@ -4,9 +4,10 @@
   "description": "This is a basic isomorphic react server with using router and redux.",
   "main": "index.js",
   "scripts": {
-    "dev": "npm run watch-src & npm run watch-lib & npm run server",
-    "watch-src": "mkdir -p build/lib && babel -wd build/lib src",
-    "server": "cd build && nodemon lib/server",
+    "dev": "concurrently -p '{command}' -l 20 --kill-others 'npm run watch-src' 'npm run watch-lib' 'npm run watch-views' 'npm run server'",
+    "watch-src": "mkdir -p build/lib/node_modules && babel -wd build/lib/node_modules src",
+    "watch-views": "cpx --watch 'views/**/*' build/views",
+    "server": "cd build && nodemon lib/node_modules/server",
     "watch-lib": "webpack --watch --progress --colors --config webpack.config.dev.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -25,12 +26,16 @@
     "babel-cli": "^6.11.4",
     "babel-core": "^6.13.2",
     "babel-loader": "^6.2.5",
+    "babel-polyfill": "^6.13.0",
     "babel-preset-es2015": "^6.13.2",
     "babel-preset-react": "^6.11.1",
     "babel-preset-stage-0": "^6.5.0",
     "express": "^4.14.0",
+    "history": "^3.0.0",
+    "jade": "^1.11.0",
     "nodemon": "^1.10.2",
     "react": "^15.3.0",
+    "react-dom": "^15.3.0",
     "react-redux": "^4.4.5",
     "react-router": "^2.6.1",
     "redux": "^3.5.2",
@@ -38,7 +43,9 @@
   },
   "devDependencies": {
     "babel-eslint": "^6.1.2",
+    "concurrently": "^2.2.0",
     "eslint": "^3.3.1",
+    "source-map-support": "^0.4.2",
     "watch": "^0.19.2"
   }
 }

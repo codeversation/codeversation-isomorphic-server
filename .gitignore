@@ -2,4 +2,4 @@
 build/
 .env
 lib/
-node_modules/
+/node_modules/
