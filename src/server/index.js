@@ -5,6 +5,12 @@ import React from 'react';
 import Router from  'react-router';
 import { RouterContext, match } from 'react-router';
 import { renderToString } from 'react-dom/server';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import reducer from 'reducers';
+
+const store = createStore(reducer);
+const initialReduxStateJSON = JOSN.stringify(store.getState());
 
 import { createMemoryHistory } from 'history';
 const createLocation = createMemoryHistory().createLocation;
@@ -20,7 +26,7 @@ app.get('/js/app.js', (req, res) => {
   res.sendFile(SERVER_ROOT + '/app.js');
 });
 
-app.get('/*', (req, res) => {
+app.get('/*', async (req, res) => {
   match({ routes, location: createLocation(req.url) },
     (err, redirectLocation, renderProps) => {
       if (err) {
@@ -30,10 +36,14 @@ app.get('/*', (req, res) => {
         app.render('index', { reactOutput })
 
       } else if (renderProps){
-        const appRoot = <RouterContext { ...renderProps } />;
-        const reactOutput = renderToString(appRoot);
+        const appRoot = (
+          <Provider store={store}>
+            <RouterContext { ...renderProps } />
+          </Provider>
+        );
 
-        res.render('index', { reactOutput });
+        const reactOutput = renderToString(appRoot);
+        res.render('index', { reactOutput, initialReduxStateJSON });
 
       } else {
         res.status(404).json({ message: 'page not found' });
