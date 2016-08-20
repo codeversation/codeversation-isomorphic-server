@@ -1,6 +1,38 @@
 # A starter project for an isomorphic React app.
 
-## Integrated with
-- Redux
-- Router
-- babel
+## React Libraries
+- [Redux](https://github.com/reactjs/redux)
+- [Router](https://github.com/reactjs/react-router)
+
+## Utility Libraries
+- [lodash](https://lodash.com/)
+
+## Servered with
+- [Express](https://expressjs.com/)
+- [Jade](http://jade-lang.com/)
+
+## Compiled with
+- [Webpack](https://webpack.github.io/)
+- [Babel](https://babeljs.io/)
+
+## Development Environment with
+- Webpack --watch
+- Babel --watch
+- [nodemon](https://github.com/remy/nodemon)
+- [cpx](https://github.com/mysticatea/cpx)
+- [concurrently](https://github.com/kimmobrunfeldt/concurrently)
+- lots of scripts
+
+# Getting Started
+
+Start the build system with
+
+```shell
+npm run dev
+```
+
+Do build without watching or starting server
+
+```shell
+npm run build
+```
