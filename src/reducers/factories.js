@@ -16,7 +16,8 @@ export const listReducerFactory = (type) => {
       case phrase('insert'):
         return items.insert(id, data);
       case update('update'):
-        return items.update(id, old => ({ ...old, data }));
+        return items;
+        // return items.update(id, old => ({ ...old, data }));
       case phrase('clear'):
         return items.clear();
       case phrase('sort'):

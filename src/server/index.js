@@ -1,4 +1,5 @@
 import 'source-map-support/register';
+import 'babel-polyfill';
 import { SERVER_ROOT } from 'config';
 import express from 'express';
 import React from 'react';

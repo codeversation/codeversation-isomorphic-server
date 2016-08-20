@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
+import items from './items';
 
-// import partial reducers
-export { default as items } from './items';
-
-// import all partial reducers as `reducers`
-import * as reducers from 'reducers';
+const _reducers = { items };
 
 // export after using helper object to partition state
-export default combineReduceders(reducers);
+console.log(_reducers);
+
+export { items };
+export default combineReducers(_reducers);
