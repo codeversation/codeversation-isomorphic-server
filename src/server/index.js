@@ -3,18 +3,14 @@ import 'babel-polyfill';
 import { SERVER_ROOT } from 'config';
 import express from 'express';
 import React from 'react';
-import Router from  'react-router';
-import { RouterContext, match } from 'react-router';
+import Router, { RouterContext, match } from  'react-router';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducer from 'reducers';
 
 const store = createStore(reducer);
-const initialReduxStateJSON = JOSN.stringify(store.getState());
-
-import { createMemoryHistory } from 'history';
-const createLocation = createMemoryHistory().createLocation;
+const initialReduxStateJSON = JSON.stringify(store.getState());
 
 const app = express();
 
@@ -28,17 +24,17 @@ app.get('/js/app.js', (req, res) => {
 });
 
 app.get('/*', async (req, res) => {
-  match({ routes, location: createLocation(req.url) },
+  match({ routes, location: req.url },
     (err, redirectLocation, renderProps) => {
       if (err) {
         console.log(err);
         res.status(500).json({ message: 'internal server error' });
       } else if (redirectLocation){
-        app.render('index', { reactOutput })
+        res.redirect(302, redirectLocation.pathname + redirectLocation.search);
 
       } else if (renderProps){
         const appRoot = (
-          <Provider store={store}>
+          <Provider store={ store }>
             <RouterContext { ...renderProps } />
           </Provider>
         );

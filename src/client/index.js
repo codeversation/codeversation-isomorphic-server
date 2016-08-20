@@ -1,15 +1,19 @@
 import React from 'react';
-import Router from 'react-router';
+import { render } from 'react-dom';
+import { Router, browserHistory } from 'react-router';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import routes from 'routes';
 import reducer from 'reducers';
+import { $ } from 'client/utilities';
 
-Router.run(routes, Router.HistoryLocation, (Handler, state) => {
-  const initialStore = JSON.parse(document.getElementById('initialReduxStateJSON').innerText);
-  const store = createStore(reducer, initialState);
+const initialState = JSON.parse($('#initialReduxStateJSON').innerText);
+const store = createStore(reducer, initialState);
 
-  React.render((
-    <Provider store={store}>
-      <Handler />
+render((
+    <Provider store={ store }>
+      <Router routes={ routes } history={ browserHistory } />
     </Provider>
-  ), document.getElementById('reactOutput'));
-});
+  ),
+  $('#reactOutput')
+);

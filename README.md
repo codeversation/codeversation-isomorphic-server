@@ -36,3 +36,9 @@ Do build without watching or starting server
 ```shell
 npm run build
 ```
+
+Clean up build dir with
+
+```shell
+npm run Clean
+```

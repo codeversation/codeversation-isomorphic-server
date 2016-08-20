@@ -9,7 +9,7 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1')
 
   body
-    #app!= reactOutput
+    #reactOutput!= reactOutput
 
   script(src='http://localhost:3000/js/app.js', defer)
-  script(type='application/json')!= initialReduxStateJSON
+  script(type='application/json')#initialReduxStateJSON!= initialReduxStateJSON

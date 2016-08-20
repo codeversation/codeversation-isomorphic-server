@@ -2,28 +2,26 @@ import { List } from 'immutable';
 import { constJoin } from 'utilities';
 
 export const listReducerFactory = (type) => {
-
   const phrase = verb => constJoin(verb, type);
 
-  return (state = new List(), action) => {
+  return (list = new List(), action) => {
     const { data, id, comparator } = action;
 
     switch (action.type) {
       case phrase('append'):
-        return items.concat(data);
+        return list.concat(data);
       case phrase('delete'):
-        return items.delete(id);
+        return list.delete(id);
       case phrase('insert'):
-        return items.insert(id, data);
-      case update('update'):
-        return items;
-        // return items.update(id, old => ({ ...old, data }));
+        return list.insert(id, data);
+      case phrase('update'):
+        return list.update(id, old => ({ ...old, data }));
       case phrase('clear'):
-        return items.clear();
+        return list.clear();
       case phrase('sort'):
-        return items.sort(comparator);
+        return list.sort(comparator);
       default:
-        return items;
+        return list;
     }
   }
 };
