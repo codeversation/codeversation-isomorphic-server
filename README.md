@@ -25,7 +25,13 @@
 
 # Getting Started
 
-Start the build system with
+Fist, install all the npm packages with
+
+```shell
+npm install
+```
+
+Start the dev server with
 
 ```shell
 npm run dev
@@ -40,5 +46,10 @@ npm run build
 Clean up build dir with
 
 ```shell
-npm run Clean
+npm run clean
 ```
+
+# TODO
+- Work out source mapping completely
+- Integrate React Hotloading
+- Integrate page autoreload
