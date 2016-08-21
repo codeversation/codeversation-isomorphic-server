@@ -1,6 +1,12 @@
-import { App } from 'components';
+import { App, ItemList } from 'components';
 
 export default {
   component: App,
-  path: '/'
+  path: '/',
+  childRoutes: [
+    {
+      component: ItemList,
+      path: 'list',
+    },
+  ]
 };

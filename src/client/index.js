@@ -6,8 +6,9 @@ import { createStore } from 'redux';
 import routes from 'routes';
 import reducer from 'reducers';
 import { $ } from 'client/utilities';
+import { decodeStore, log } from 'utilities';
 
-const initialState = JSON.parse($('#initialReduxStateJSON').innerText);
+const initialState = decodeStore($('#initialReduxStateJSON').innerText);
 const store = createStore(reducer, initialState);
 
 render((

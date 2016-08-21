@@ -1,5 +1,5 @@
 import { constJoin } from 'utilities';
-import mapValues from 'lodash/object/mapValues';
+import mapValues from 'lodash/mapValues';
 
 export const listActionFactory = (type) => {
   let actions = {
@@ -12,7 +12,7 @@ export const listActionFactory = (type) => {
 
   return mapValues(actions,
     (action, verb) =>
-      ( ...args ) =>
-        ({ ...action( ...args ), type: constJoin(verb, type) })
+      (...args) =>
+        ({ ...action(...args), type: constJoin(verb, type) })
   );
 };

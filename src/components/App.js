@@ -1,11 +1,32 @@
-import React from 'react';
-import { Component } from 'react';
+import React, { Component } from 'react';
+// import { Link } from 'react-router';
 
 class App extends Component {
-
-  render () {
-    return <h1> Hello World </h1>;
+  state = {
+    text: 'Hello Universe',
   }
+
+  handleClick() {
+    
+    this.setState({
+      text: 'something else',
+    });
+
+    this.context.router.push('/list');
+  }
+
+  render() {
+    return (
+      <div>
+        <h1 onClick={ ::this.handleClick }> { this.state.text } </h1>
+        { this.props.children }
+      </div>
+    );
+  }
+}
+
+App.contextTypes = {
+  router: React.PropTypes.object.isRequired,
 };
 
 export default App;

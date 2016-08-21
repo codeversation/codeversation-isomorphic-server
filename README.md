@@ -53,3 +53,4 @@ npm run clean
 - Work out source mapping completely
 - Integrate React Hotloading
 - Integrate page autoreload
+- Async routes?
