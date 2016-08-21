@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Item } from 'components';
+import Item from './Item';
 import { log } from 'utilities';
 
 class ItemList extends Component {
@@ -13,19 +13,13 @@ class ItemList extends Component {
   }
 
   render() {
-    log(this.props.items);
-
-    const Items = this.props.items.toJS().map(
-      (item, idx) => item // <Item _text={ item } key={ idx } />
-    );
-
-    log(Items);
-
     return (
       <div onClick={ ::this.handleClick }>
         <h2> click me </h2>
         <ul>
-          { Items }
+          { this.props.items.toJS().map(
+            (item, idx) => <Item _text={ item } key={ idx } />
+          ) }
         </ul>
       </div>
     );

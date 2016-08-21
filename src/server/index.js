@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducer from 'reducers';
 import { item } from 'actions';
+import { log } from 'utilities';
 
 const app = express();
 
@@ -25,7 +26,7 @@ app.get('/*', async (req, res) => {
   match({ routes, location: req.url },
     (err, redirectLocation, renderProps) => {
       if (err) {
-        console.log(err);
+        log(err);
         res.status(500).json({ message: 'internal server error' });
       } else if (redirectLocation){
         res.redirect(302, redirectLocation.pathname + redirectLocation.search);
@@ -57,5 +58,5 @@ var server = app.listen(3000, function () {
   var host = server.address().address;
   var port = server.address().port;
 
-  console.log('Listening at http://%s:%s', host, port);
+  log('Listening at http://%s:%s', host, port);
 });
