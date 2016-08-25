@@ -5,7 +5,7 @@ import { spawnemon, prawn } from 'server/utilities';
 import { log, pelay } from 'utilities';
 import nodemonConfig from 'json/nodemon'
 
-/*
+
 const wp =
 webpackMiddleware(
   webpack(webpackConfig),
@@ -13,11 +13,10 @@ webpackMiddleware(
     publicPath: '/js/',
     stats: {
       colors: true,
-      quiet: true,
+      progress: false,
     },
   }
 );
-*/
 
 /*
 prawn(['lib/node_modules/server'])
@@ -64,10 +63,14 @@ spawnemon({
   process.on('SIGINT', () => {
     bs.exit();
     nodemon.emit('quit');
+    process.exit();
   });
 
   bs.init({
-    proxy: 'localhost:3030',
+    proxy: {
+      target: 'localhost:3030',
+      middleware: wp,
+    },
     // files: ['lib/**/*'],
   });
 
