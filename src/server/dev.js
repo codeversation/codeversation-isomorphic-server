@@ -11,45 +11,13 @@ webpackMiddleware(
   webpack(webpackConfig),
   {
     publicPath: '/js/',
-    stats: {
-      colors: true,
-      progress: false,
+    stats: false,
+    progress: true,
+    watchOptions: {
+      aggregateTimeout: 300,
     },
   }
 );
-
-/*
-prawn(['lib/node_modules/server'])
-
-.then(child => {
-  log('node server started');
-
-  child.stdout.on('data', data => {
-    log(`server: ${data}`);
-  });
-
-  child.stderr.on('data', data => {
-    log(`SERVER ERROR: ${data}`);
-  });
-
-  child.on('exit', status => {
-    bs.exit();
-    log(`Sever Exited with ${status}.`);
-  });
-
-  const bs = require('browser-sync').create();
-
-  bs.init({
-    proxy: 'localhost: 3030',
-    files: ['lib/**\/*'],
-  });
-})
-
-.catch(err => {
-  log(err);
-});
-*/
-
 
 spawnemon({
   ...nodemonConfig,
@@ -71,11 +39,15 @@ spawnemon({
       target: 'localhost:3030',
       middleware: wp,
     },
+    open: false,
+    reloadOnRestart: true,
+    reloadDelay: 1000,
     // files: ['lib/**/*'],
   });
 
   nodemon.on('start', () => {
-    pelay(1).then(::bs.reload);
+    // pelay(1).then(::bs.reload);
+    bs.reload();
   });
 })
 .catch(::console.error);

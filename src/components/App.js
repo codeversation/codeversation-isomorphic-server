@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 class App extends Component {
   state = {
     text: 'Hello Universe',
-    subtext: 'now with browser',
+    subtext: 'now with browser-sync',
   }
 
   handleClick() {
