@@ -72,7 +72,7 @@ spawnemon({
   });
 
   nodemon.on('start', () => {
-    pelay(1.5).then(::bs.reload);
+    pelay(1).then(::bs.reload);
   });
 })
 .catch(::console.error);

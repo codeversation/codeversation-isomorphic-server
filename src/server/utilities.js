@@ -19,8 +19,10 @@ export const spawnemon = config => new Promise(
 
     nodemon(config);
 
-    timeout.cancel();
-    log('nodemon started');
+    nodemon.once('start', () => {
+      timeout.cancel();
+      log('nodemon started');
+      resolve(nodemon);
+    });
 
-    resolve(nodemon);
   });
