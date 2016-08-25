@@ -21,7 +21,7 @@ webpackMiddleware(
 
 spawnemon({
   ...nodemonConfig,
-  script: 'lib/node_modules/server',
+  script: 'lib/node_modules/server/devServer',
 })
 .then(nodemon => {
   log('browser-sync starting');

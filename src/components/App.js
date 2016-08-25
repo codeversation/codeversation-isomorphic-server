@@ -4,11 +4,10 @@ import React, { Component } from 'react';
 class App extends Component {
   state = {
     text: 'Hello Universe',
-    subtext: 'now with browser-sync',
+    subtext: 'now with browser',
   }
 
   handleClick() {
-
     this.setState({
       text: 'something else',
     });
