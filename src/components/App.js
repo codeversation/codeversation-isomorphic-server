@@ -4,10 +4,11 @@ import React, { Component } from 'react';
 class App extends Component {
   state = {
     text: 'Hello Universe',
+    subtext: 'now with browser',
   }
 
   handleClick() {
-    
+
     this.setState({
       text: 'something else',
     });
@@ -18,7 +19,11 @@ class App extends Component {
   render() {
     return (
       <div>
-        <h1 onClick={ ::this.handleClick }> { this.state.text } </h1>
+        <h1 onClick={ ::this.handleClick }>
+          { this.state.text }
+        </h1>
+        <h3> { this.state.subtext } </h3>
+
         { this.props.children }
       </div>
     );

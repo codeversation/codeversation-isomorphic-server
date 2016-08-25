@@ -1,21 +1,26 @@
 import nodemon from 'nodemon';
-import { pelay } from 'utilites';
+import { pelay, log } from 'utilities';
+import { spawn } from 'child_process';
 
-export const spawnemon = script => {
-  nodemon({
-    script,
-    ext: 'js json',
+export const prawn =
+  (args = [], cmd = 'node') => new Promise((resolve, reject) => {
+    const child = spawn(cmd, args);
+
+    resolve(child);
   });
 
-  return new Promise((resolve, reject) => {
+export const spawnemon = config => new Promise(
+
+  (resolve, reject) => {
     const timeout =
-      pelay(1)
-      .then(() => 'server did not start after timout')
-      .then(reject);
-    
-    nodemon.once('start', () => {
-      timeout.cacel()
-      resolve();
-    });
+    pelay(5)
+    .then(() => 'server did not start after timout')
+    .then(reject);
+
+    nodemon(config);
+
+    timeout.cancel();
+    log('nodemon started');
+
+    resolve(nodemon);
   });
-};
