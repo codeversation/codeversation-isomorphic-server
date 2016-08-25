@@ -52,5 +52,3 @@ npm run clean
 # TODO
 - Work out source mapping completely
 - Integrate React Hotloading
-- Integrate page autoreload
-- Async routes?
