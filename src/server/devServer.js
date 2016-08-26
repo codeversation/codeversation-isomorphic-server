@@ -16,5 +16,6 @@ var server = app.listen(3030, function () {
   var host = server.address().address;
   var port = server.address().port;
 
+  log('* LISTENING *');
   log('Listening at http://%s:%s', host, port);
 });

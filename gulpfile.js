@@ -11,9 +11,11 @@ var nodemonConfig = require('./json/nodemon');
 var browserSync = require('browser-sync').create();
 var webpack = require('webpack');
 var webpackMiddleware = require('webpack-middleware');
+var gutil = require('gulp-util');
 
-const wp =
-webpackMiddleware(
+
+webpack.watch = true;
+const wp = webpackMiddleware(
   webpack(webpackConfig),
   {
     publicPath: '/js/',
@@ -47,27 +49,20 @@ paths['devServerEntry'] = path.join(paths.lib, 'server/devServer.js');
 
 nodemonConfig.watch = [paths.lib];
 
-gulp.task('default', () => {
-  gulp.src('')
-});
-
-
-gulp.task('build-app', ['build-lib'], () => {
-  webpackConfig.watch = false;
-
-  return gulp.src(paths.clientEntry)
-    .pipe(gulpWebpack(webpackConfig))
-    .pipe(gulp.dest(paths.build));
-});
-
 // start dev server
-gulp.task('server', ['browser-sync', 'watch'], () => {
+gulp.task('server', ['browser-sync', 'browser-sync-watch'], () => {
   nodemonConfig.script = paths.devServerEntry;
+  nodemonConfig.stdout = false;
 
   nodemon(nodemonConfig)
 
-  .on('start', () => {
-    browserSync.reload();
+  .on('stdout', data => {
+    var str = data.toString().trim();
+
+    str.split(/\r\n|\r|\n/g).forEach(line => {
+      gutil.log(`[srv]: ${line}`);
+      if(line === '* LISTENING *') browserSync.reload();
+    });
   });
 });
 
@@ -78,15 +73,47 @@ gulp.task('browser-sync', () => {
       middleware: wp,
     },
     open: false,
-    reloadOnRestart: true,
-    reloadDelay: 1000,
+    reloadOnRestart: false,
+    reloadDelay: 0,
     // files: ['lib/**/*'],
   });
 });
 
-gulp.task('build', ['build-lib', 'build-views', 'build-json', 'build-app']);
+gulp.task('build',
+  [
+    'build-lib',
+    'build-views',
+    'build-json',
+    'build-app'
+  ]
+);
 
-gulp.task('watch', ['build', 'watch-src', 'watch-json', 'watch-views', 'watch-lib']);
+gulp.task('watch',
+  [
+    'pre-watch-build',
+    'watch-src',
+    'watch-json',
+    'watch-views',
+    'watch-lib'
+  ]
+);
+
+gulp.task('browser-sync-build',
+  [
+    'build-lib',
+    'build-views',
+    'build-json',
+  ]
+);
+
+gulp.task('browser-sync-watch',
+  [
+    'browser-sync-build',
+    'watch-src',
+    'watch-json',
+    'watch-views',
+  ]
+);
 
 // watches
 gulp.task('watch-src', () => {
@@ -101,6 +128,7 @@ gulp.task('watch-views', () => {
   gulp.watch(paths.viewFiles, ['build-views']);
 });
 
+// unused in favor of webpackMiddleware with browser-sync
 gulp.task('watch-lib', () => {
   webpackConfig.watch = true;
 
@@ -111,7 +139,16 @@ gulp.task('watch-lib', () => {
   });
 });
 
-// builds
+///////////// builds
+
+gulp.task('build-app', ['build-lib'], () => {
+  webpackConfig.watch = false;
+
+  return gulp.src(paths.clientEntry)
+    .pipe(gulpWebpack(webpackConfig))
+    .pipe(gulp.dest(paths.build));
+});
+
 gulp.task('build-lib', () => {
   return gulp.src(paths.srcFiles)
     .pipe(changed(paths.lib))
