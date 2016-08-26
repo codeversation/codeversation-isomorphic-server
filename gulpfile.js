@@ -13,20 +13,6 @@ var webpack = require('webpack');
 var webpackMiddleware = require('webpack-middleware');
 var gutil = require('gulp-util');
 
-
-webpack.watch = true;
-const wp = webpackMiddleware(
-  webpack(webpackConfig),
-  {
-    publicPath: '/js/',
-    stats: false,
-    progress: true,
-    watchOptions: {
-      aggregateTimeout: 300,
-    },
-  }
-);
-
 var paths = {
   src: 'src',
   build: 'build',
@@ -67,6 +53,19 @@ gulp.task('server', ['browser-sync', 'browser-sync-watch'], () => {
 });
 
 gulp.task('browser-sync', () => {
+
+  const wp = webpackMiddleware(
+    webpack(webpackConfig),
+    {
+      publicPath: '/js/',
+      stats: false,
+      progress: true,
+      watchOptions: {
+        aggregateTimeout: 300,
+      },
+    }
+  );
+
   browserSync.init({
     proxy: {
       target: 'localhost:3030',
@@ -90,7 +89,7 @@ gulp.task('build',
 
 gulp.task('watch',
   [
-    'pre-watch-build',
+    'build',
     'watch-src',
     'watch-json',
     'watch-views',
@@ -147,6 +146,7 @@ gulp.task('build-app', ['build-lib'], () => {
   return gulp.src(paths.clientEntry)
     .pipe(gulpWebpack(webpackConfig))
     .pipe(gulp.dest(paths.build));
+
 });
 
 gulp.task('build-lib', () => {
