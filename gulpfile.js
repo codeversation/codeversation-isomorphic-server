@@ -5,6 +5,7 @@ var browserSync = require('browser-sync');
 var path = require('path');
 var changed = require('gulp-changed');
 var del = require('del');
+var webpackConfig = require('./webpack.config.dev.js');
 
 var paths = {
   src: 'src',
@@ -22,6 +23,9 @@ paths['lib'] = path.join(paths.build, 'lib', 'node_modules');
 paths['libFiles'] = path.join(paths.lib, '**', '*.js');
 paths['jsonDest'] = path.join(paths.build, 'json');
 paths['viewsDest'] = path.join(paths.build, 'views');
+paths['clientEntry'] = path.join(paths.lib, 'client/index.js');
+paths['serverEntry'] = path.join(paths.lib, 'server/index.js');
+
 
 gulp.task('default', () => {
   gulp.src('')
@@ -58,10 +62,29 @@ gulp.task('watch-views', () => {
   gulp.watch(paths.viewFiles, ['build-views']);
 });
 
-gulp.task('build', ['build-lib', 'build-views', 'build-json']);
+gulp.task('watch-lib', () => {
+  webpackConfig.watch = true;
 
-gulp.task('watch', ['build', 'watch-src', 'watch-json', 'watch-views']);
+  gulp.watch(paths.libFiles, {}, () => {
+    return gulp.src(paths.clientEntry)
+      .pipe(webpack(webpackConfig))
+      .pipe(gulp.dest(paths.build));
+  });
+});
+
+gulp.task('build-app', ['build-lib'], () => {
+  webpackConfig.watch = false;
+
+  return gulp.src(paths.clientEntry)
+    .pipe(webpack(webpackConfig))
+    .pipe(gulp.dest(paths.build));
+});
+
+
+gulp.task('build', ['build-lib', 'build-views', 'build-json', 'build-app']);
+
+gulp.task('watch', ['build', 'watch-src', 'watch-json', 'watch-views', 'watch-lib']);
 
 gulp.task('clean', () => {
-  return del('build/');
+  return del(paths.build);
 });
