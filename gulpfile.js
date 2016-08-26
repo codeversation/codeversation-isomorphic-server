@@ -1,11 +1,29 @@
 var gulp = require('gulp');
 var babel = require('gulp-babel');
-var webpack = require('gulp-webpack');
+var gulpWebpack = require('gulp-webpack');
 var browserSync = require('browser-sync');
 var path = require('path');
 var changed = require('gulp-changed');
 var del = require('del');
 var webpackConfig = require('./webpack.config.dev.js');
+var nodemon = require('gulp-nodemon');
+var nodemonConfig = require('./json/nodemon');
+var browserSync = require('browser-sync').create();
+var webpack = require('webpack');
+var webpackMiddleware = require('webpack-middleware');
+
+const wp =
+webpackMiddleware(
+  webpack(webpackConfig),
+  {
+    publicPath: '/js/',
+    stats: false,
+    progress: true,
+    watchOptions: {
+      aggregateTimeout: 300,
+    },
+  }
+);
 
 var paths = {
   src: 'src',
@@ -25,12 +43,75 @@ paths['jsonDest'] = path.join(paths.build, 'json');
 paths['viewsDest'] = path.join(paths.build, 'views');
 paths['clientEntry'] = path.join(paths.lib, 'client/index.js');
 paths['serverEntry'] = path.join(paths.lib, 'server/index.js');
+paths['devServerEntry'] = path.join(paths.lib, 'server/devServer.js');
 
+nodemonConfig.watch = [paths.lib];
 
 gulp.task('default', () => {
   gulp.src('')
 });
 
+
+gulp.task('build-app', ['build-lib'], () => {
+  webpackConfig.watch = false;
+
+  return gulp.src(paths.clientEntry)
+    .pipe(gulpWebpack(webpackConfig))
+    .pipe(gulp.dest(paths.build));
+});
+
+// start dev server
+gulp.task('server', ['browser-sync', 'watch'], () => {
+  nodemonConfig.script = paths.devServerEntry;
+
+  nodemon(nodemonConfig)
+
+  .on('start', () => {
+    browserSync.reload();
+  });
+});
+
+gulp.task('browser-sync', () => {
+  browserSync.init({
+    proxy: {
+      target: 'localhost:3030',
+      middleware: wp,
+    },
+    open: false,
+    reloadOnRestart: true,
+    reloadDelay: 1000,
+    // files: ['lib/**/*'],
+  });
+});
+
+gulp.task('build', ['build-lib', 'build-views', 'build-json', 'build-app']);
+
+gulp.task('watch', ['build', 'watch-src', 'watch-json', 'watch-views', 'watch-lib']);
+
+// watches
+gulp.task('watch-src', () => {
+  gulp.watch(paths.srcFiles, ['build-lib']);
+});
+
+gulp.task('watch-json', () => {
+  gulp.watch(paths.jsonFiles, ['build-json']);
+});
+
+gulp.task('watch-views', () => {
+  gulp.watch(paths.viewFiles, ['build-views']);
+});
+
+gulp.task('watch-lib', () => {
+  webpackConfig.watch = true;
+
+  gulp.watch(paths.libFiles, {}, () => {
+    return gulp.src(paths.clientEntry)
+      .pipe(gulpWebpack(webpackConfig))
+      .pipe(gulp.dest(paths.build));
+  });
+});
+
+// builds
 gulp.task('build-lib', () => {
   return gulp.src(paths.srcFiles)
     .pipe(changed(paths.lib))
@@ -50,41 +131,7 @@ gulp.task('build-json', () => {
     .pipe(gulp.dest(paths.jsonDest));
 });
 
-gulp.task('watch-src', () => {
-  gulp.watch(paths.srcFiles, ['build-lib']);
-});
-
-gulp.task('watch-json', () => {
-  gulp.watch(paths.jsonFiles, ['build-json']);
-});
-
-gulp.task('watch-views', () => {
-  gulp.watch(paths.viewFiles, ['build-views']);
-});
-
-gulp.task('watch-lib', () => {
-  webpackConfig.watch = true;
-
-  gulp.watch(paths.libFiles, {}, () => {
-    return gulp.src(paths.clientEntry)
-      .pipe(webpack(webpackConfig))
-      .pipe(gulp.dest(paths.build));
-  });
-});
-
-gulp.task('build-app', ['build-lib'], () => {
-  webpackConfig.watch = false;
-
-  return gulp.src(paths.clientEntry)
-    .pipe(webpack(webpackConfig))
-    .pipe(gulp.dest(paths.build));
-});
-
-
-gulp.task('build', ['build-lib', 'build-views', 'build-json', 'build-app']);
-
-gulp.task('watch', ['build', 'watch-src', 'watch-json', 'watch-views', 'watch-lib']);
-
+// clean
 gulp.task('clean', () => {
   return del(paths.build);
 });
