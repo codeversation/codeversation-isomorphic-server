@@ -5,7 +5,9 @@
   "main": "build/lib/node_modules/server.js",
   "scripts": {
     "start": "gulp server",
-    "test": "mocha build/lib/node_modules/test/"
+    "build": "gulp clean; gulp build",
+    "clean": "gulp clean",
+    "test": "gulp clean; gulp build-lib; mocha build/lib/node_modules/test/"
   },
   "repository": {
     "type": "git",

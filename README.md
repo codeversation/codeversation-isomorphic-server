@@ -16,12 +16,10 @@
 - [Babel](https://babeljs.io/)
 
 ## Development Environment with
-- Webpack --watch
-- Babel --watch
+- [Gulp](http://gulpjs.com/)
+- [browser-sync](https://www.browsersync.io/)
+- [webpack-middleware](https://github.com/kriasoft/webpack-middleware)
 - [nodemon](https://github.com/remy/nodemon)
-- [cpx](https://github.com/mysticatea/cpx)
-- [concurrently](https://github.com/kimmobrunfeldt/concurrently)
-- lots of scripts
 
 # Getting Started
 
@@ -34,7 +32,7 @@ npm install
 Start the dev server with
 
 ```shell
-npm run dev
+npm start
 ```
 
 Do build without watching or starting server
@@ -47,6 +45,12 @@ Clean up build dir with
 
 ```shell
 npm run clean
+```
+
+If you want to use the gulp targets directly install gulp globally
+
+```shell
+sudo npm install -g gulp
 ```
 
 # TODO
