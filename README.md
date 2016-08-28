@@ -1,5 +1,4 @@
-![documentation](https://doc.esdoc.org/github.com/Alex-Aralis/isomorphic-react-redux-router/badge.svg)
-
+![documentation](https://alex-aralis.github.io/isomorphic-react-redux-router/doc/image/badge.svg)
 
 ## A starter project for an isomorphic React app.
 
