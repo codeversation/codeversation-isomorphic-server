@@ -70,13 +70,13 @@ To build the documentation run
 npm run doc
 ```
 
-this will produce files ready for serving in the docs folder.
+this will produce files ready for serving in the `doc/` folder.
 
 to server these files and read through the documentation
 
 ```shell
 sudo npm i -g http-server # install the server
-http-server docs # this will server the files in doc on localhost:8080
+http-server doc # this will server the files in doc on localhost:8080
 ```
 
 ### TODO
