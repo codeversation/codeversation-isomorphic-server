@@ -10,5 +10,6 @@ git commit -m 'commit the doc dir' && \
 git subtree split --prefix=doc -b gh-pages && \
 git push github +gh-pages
 
-git checkout master && \
+git checkout master
 git branch -D gh-pages-prep
+git branch -D gh-pages
