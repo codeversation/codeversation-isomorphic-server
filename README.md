@@ -1,27 +1,31 @@
-# A starter project for an isomorphic React app.
+## A starter project for an isomorphic React app.
 
-## React Libraries
+#### React Libraries
 - [Redux](https://github.com/reactjs/redux)
 - [Router](https://github.com/reactjs/react-router)
 
-## Utility Libraries
+#### Utility Libraries
 - [lodash](https://lodash.com/)
 
-## Servered with
+#### Servered with
 - [Express](https://expressjs.com/)
 - [Jade](http://jade-lang.com/)
 
-## Compiled with
+#### Compiled with
 - [Webpack](https://webpack.github.io/)
 - [Babel](https://babeljs.io/)
 
-## Development Environment with
+#### Development Environment with
 - [Gulp](http://gulpjs.com/)
 - [browser-sync](https://www.browsersync.io/)
 - [webpack-middleware](https://github.com/kriasoft/webpack-middleware)
 - [nodemon](https://github.com/remy/nodemon)
 
-# Getting Started
+#### Document Generation with
+- [jsdoc](http://usejsdoc.org/)
+
+
+### Getting Started
 
 Fist, install all the npm packages with
 
@@ -53,6 +57,22 @@ If you want to use the gulp targets directly install gulp globally
 sudo npm install -g gulp
 ```
 
-# TODO
+
+#### Documentation
+To build the documentation run
+
+```shell
+npm run doc
+```
+
+this will produce files ready for serving in the docs folder.
+
+to server these files and read through the documentation
+
+```shell
+sudo npm i -g http-server # install the server
+http-server docs # this will server the files in doc on localhost:8080
+```
+
+### TODO
 - Work out source mapping completely
-- Integrate React Hotloading

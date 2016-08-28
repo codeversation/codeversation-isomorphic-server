@@ -1,0 +1,32 @@
+{
+    "tags": {
+        "allowUnknownTags": true,
+        "dictionaries": ["jsdoc","closure"]
+    },
+    "source": {
+        "include": [
+          "README.md",
+          "src"
+        ],
+        "includePattern": ".+\\.js(doc)?$",
+        "excludePattern": "(^|\\/|\\\\)_"
+    },
+    "opts": {
+      "destination": "docs",
+      "recurse": true
+    },
+    "plugins": [
+      "node_modules/jsdoc-babel"
+    ],
+    "babel": {
+      "presets": [
+        "react",
+        "es2015",
+        "stage-0"
+      ]
+    },
+    "templates": {
+        "cleverLinks": false,
+        "monospaceLinks": false
+    }
+}

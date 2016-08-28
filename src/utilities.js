@@ -6,6 +6,11 @@ Promise.config({
   cancellation: true,
 });
 
+/**
+ * Converts args into an uppercase, underscore seperated string.
+ * @param {...*} Words
+ * @returns {String} Result
+ */
 export const constJoin = (...words) =>
   words.map(word => word.toUpperCase()).join('_');
 
