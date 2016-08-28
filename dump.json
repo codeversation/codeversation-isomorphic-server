@@ -1,0 +1,1748 @@
+[
+  {
+    "__docId__": 0,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/actionTypes.js",
+    "memberof": null,
+    "longname": "src/actionTypes.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "\nexport const ITEM = 'ITEM';\n"
+  },
+  {
+    "__docId__": 1,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "ITEM",
+    "memberof": "src/actionTypes.js",
+    "longname": "src/actionTypes.js~ITEM",
+    "access": null,
+    "export": true,
+    "importPath": "isomorphic-react-redux-router/src/actionTypes.js",
+    "importStyle": "{ITEM}",
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "string"
+      ]
+    }
+  },
+  {
+    "__docId__": 2,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/actions/factories.js",
+    "memberof": null,
+    "longname": "src/actions/factories.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import { constJoin } from 'utilities';\nimport mapValues from 'lodash/mapValues';\n\nexport const listActionFactory = (type) => {\n  let actions = {\n    append: data => ({ data }),\n    insert: (id, data) => ({ id, data }),\n    delete: id => ({ id }),\n    update: (id, data) => ({ id, data }),\n    sort: comparator => ({comparator }),\n  };\n\n  return mapValues(actions,\n    (action, verb) =>\n      (...args) =>\n        ({ ...action(...args), type: constJoin(verb, type) })\n  );\n};\n"
+  },
+  {
+    "__docId__": 3,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "listActionFactory",
+    "memberof": "src/actions/factories.js",
+    "longname": "src/actions/factories.js~listActionFactory",
+    "access": null,
+    "export": true,
+    "importPath": "isomorphic-react-redux-router/src/actions/factories.js",
+    "importStyle": "{listActionFactory}",
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 4,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/actions/index.js",
+    "memberof": null,
+    "longname": "src/actions/index.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "export { default as item } from './item';\n"
+  },
+  {
+    "__docId__": 5,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/actions/item.js",
+    "memberof": null,
+    "longname": "src/actions/item.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import { ITEM } from 'actionTypes';\nimport { listActionFactory } from './factories';\n\nexport default listActionFactory(ITEM);\n"
+  },
+  {
+    "__docId__": 6,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/client/index.js",
+    "memberof": null,
+    "longname": "src/client/index.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import React from 'react';\nimport { render } from 'react-dom';\nimport { Router, browserHistory } from 'react-router';\nimport { Provider } from 'react-redux';\nimport { createStore } from 'redux';\nimport routes from 'routes';\nimport reducer from 'reducers';\nimport { $ } from 'client/utilities';\nimport { decodeStore, log } from 'utilities';\n\nconst initialState = decodeStore($('#initialReduxStateJSON').innerText);\nconst store = createStore(reducer, initialState);\n\nrender((\n    <Provider store={ store }>\n      <Router routes={ routes } history={ browserHistory } />\n    </Provider>\n  ),\n  $('#reactOutput')\n);\n"
+  },
+  {
+    "__docId__": 7,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "initialState",
+    "memberof": "src/client/index.js",
+    "longname": "src/client/index.js~initialState",
+    "access": null,
+    "export": false,
+    "importPath": "isomorphic-react-redux-router/src/client/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 11,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 8,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "store",
+    "memberof": "src/client/index.js",
+    "longname": "src/client/index.js~store",
+    "access": null,
+    "export": false,
+    "importPath": "isomorphic-react-redux-router/src/client/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 12,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 9,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/client/utilities.js",
+    "memberof": null,
+    "longname": "src/client/utilities.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "export const $ = ::document.querySelector;\n"
+  },
+  {
+    "__docId__": 10,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "$",
+    "memberof": "src/client/utilities.js",
+    "longname": "src/client/utilities.js~$",
+    "access": null,
+    "export": true,
+    "importPath": "isomorphic-react-redux-router/src/client/utilities.js",
+    "importStyle": "{$}",
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 11,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/App.js",
+    "memberof": null,
+    "longname": "src/components/App.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import React, { Component } from 'react';\n// import { Link } from 'react-router';\n\nclass App extends Component {\n  state = {\n    text: 'Hello Universe',\n    subtext: 'now with browser-sync',\n  }\n\n  handleClick() {\n    this.setState({\n      text: 'something else',\n    });\n\n    this.context.router.push('/list');\n  }\n\n  render() {\n    return (\n      <div>\n        <h1 onClick={ ::this.handleClick }>\n          { this.state.text }\n        </h1>\n        <h3> { this.state.subtext } </h3>\n\n        { this.props.children }\n      </div>\n    );\n  }\n}\n\nApp.contextTypes = {\n  router: React.PropTypes.object.isRequired,\n};\n\nexport default App;\n"
+  },
+  {
+    "__docId__": 12,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "App",
+    "memberof": "src/components/App.js",
+    "longname": "src/components/App.js~App",
+    "access": null,
+    "export": true,
+    "importPath": "isomorphic-react-redux-router/src/components/App.js",
+    "importStyle": "App",
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "interface": false,
+    "extends": [
+      "react~Component"
+    ]
+  },
+  {
+    "__docId__": 13,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "handleClick",
+    "memberof": "src/components/App.js~App",
+    "longname": "src/components/App.js~App#handleClick",
+    "access": null,
+    "description": null,
+    "lineNumber": 10,
+    "undocument": true,
+    "params": [],
+    "generator": false
+  },
+  {
+    "__docId__": 14,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "render",
+    "memberof": "src/components/App.js~App",
+    "longname": "src/components/App.js~App#render",
+    "access": null,
+    "description": null,
+    "lineNumber": 18,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 15,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/Item.js",
+    "memberof": null,
+    "longname": "src/components/Item.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import React, { Component } from 'react';\n\nexport default class Item extends Component {\n  render() {\n    return (<li> { this.props._text } </li>);\n  }\n};\n"
+  },
+  {
+    "__docId__": 16,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "Item",
+    "memberof": "src/components/Item.js",
+    "longname": "src/components/Item.js~Item",
+    "access": null,
+    "export": true,
+    "importPath": "isomorphic-react-redux-router/src/components/Item.js",
+    "importStyle": "Item",
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "interface": false,
+    "extends": [
+      "react~Component"
+    ]
+  },
+  {
+    "__docId__": 17,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "render",
+    "memberof": "src/components/Item.js~Item",
+    "longname": "src/components/Item.js~Item#render",
+    "access": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 18,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/ItemList.js",
+    "memberof": null,
+    "longname": "src/components/ItemList.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import React, { Component } from 'react';\nimport { connect } from 'react-redux';\nimport Item from './Item';\nimport { log } from 'utilities';\n\nclass ItemList extends Component {\n  handleClick() {\n    this.props.appendItem();\n  }\n\n  componentWillMount() {\n    //this.props.appendItem();\n  }\n\n  render() {\n    return (\n      <div onClick={ ::this.handleClick }>\n        <h2> click me </h2>\n        <ul>\n          { this.props.items.toJS().map(\n            (item, idx) => <Item _text={ item } key={ idx } />\n          ) }\n        </ul>\n      </div>\n    );\n  }\n}\n\nimport { item } from 'actions';\n\nconst mapStateToProps = ({ items }) => ({ items });\nconst mapDispatchToProps = dispatch => ({\n  appendItem(text = 'a default') {\n    dispatch(item.append(text));\n  },\n});\n\nexport default connect(\n  mapStateToProps,\n  mapDispatchToProps,\n)(ItemList);\n"
+  },
+  {
+    "__docId__": 19,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "ItemList",
+    "memberof": "src/components/ItemList.js",
+    "longname": "src/components/ItemList.js~ItemList",
+    "access": null,
+    "export": false,
+    "importPath": "isomorphic-react-redux-router/src/components/ItemList.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "interface": false,
+    "extends": [
+      "react~Component"
+    ]
+  },
+  {
+    "__docId__": 20,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "handleClick",
+    "memberof": "src/components/ItemList.js~ItemList",
+    "longname": "src/components/ItemList.js~ItemList#handleClick",
+    "access": null,
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "params": [],
+    "generator": false
+  },
+  {
+    "__docId__": 21,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "componentWillMount",
+    "memberof": "src/components/ItemList.js~ItemList",
+    "longname": "src/components/ItemList.js~ItemList#componentWillMount",
+    "access": null,
+    "description": null,
+    "lineNumber": 11,
+    "undocument": true,
+    "params": [],
+    "generator": false
+  },
+  {
+    "__docId__": 22,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "render",
+    "memberof": "src/components/ItemList.js~ItemList",
+    "longname": "src/components/ItemList.js~ItemList#render",
+    "access": null,
+    "description": null,
+    "lineNumber": 15,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 23,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "mapStateToProps",
+    "memberof": "src/components/ItemList.js",
+    "longname": "src/components/ItemList.js~mapStateToProps",
+    "access": null,
+    "export": false,
+    "importPath": "isomorphic-react-redux-router/src/components/ItemList.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 31,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 24,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "mapDispatchToProps",
+    "memberof": "src/components/ItemList.js",
+    "longname": "src/components/ItemList.js~mapDispatchToProps",
+    "access": null,
+    "export": false,
+    "importPath": "isomorphic-react-redux-router/src/components/ItemList.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 32,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 25,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/index.js",
+    "memberof": null,
+    "longname": "src/components/index.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "export App from './App';\nexport Item from './Item';\nexport ItemList from './ItemList';\n"
+  },
+  {
+    "__docId__": 26,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/config.js",
+    "memberof": null,
+    "longname": "src/config.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "export const ENV = 'development';\nexport const SERVER_ROOT = process.cwd();\n"
+  },
+  {
+    "__docId__": 27,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "ENV",
+    "memberof": "src/config.js",
+    "longname": "src/config.js~ENV",
+    "access": null,
+    "export": true,
+    "importPath": "isomorphic-react-redux-router/src/config.js",
+    "importStyle": "{ENV}",
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "string"
+      ]
+    }
+  },
+  {
+    "__docId__": 28,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "SERVER_ROOT",
+    "memberof": "src/config.js",
+    "longname": "src/config.js~SERVER_ROOT",
+    "access": null,
+    "export": true,
+    "importPath": "isomorphic-react-redux-router/src/config.js",
+    "importStyle": "{SERVER_ROOT}",
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 29,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/reducers/factories.js",
+    "memberof": null,
+    "longname": "src/reducers/factories.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import { List } from 'immutable';\nimport { constJoin } from 'utilities';\n\nexport const listReducerFactory = (type) => {\n  const phrase = verb => constJoin(verb, type);\n\n  return (list = new List(), action) => {\n    const { data, id, comparator } = action;\n\n    switch (action.type) {\n      case phrase('append'):\n        return list.concat(data);\n      case phrase('delete'):\n        return list.delete(id);\n      case phrase('insert'):\n        return list.insert(id, data);\n      case phrase('update'):\n        return list.update(id, old => ({ ...old, data }));\n      case phrase('clear'):\n        return list.clear();\n      case phrase('sort'):\n        return list.sort(comparator);\n      default:\n        return list;\n    }\n  }\n};\n"
+  },
+  {
+    "__docId__": 30,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "listReducerFactory",
+    "memberof": "src/reducers/factories.js",
+    "longname": "src/reducers/factories.js~listReducerFactory",
+    "access": null,
+    "export": true,
+    "importPath": "isomorphic-react-redux-router/src/reducers/factories.js",
+    "importStyle": "{listReducerFactory}",
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 31,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/reducers/index.js",
+    "memberof": null,
+    "longname": "src/reducers/index.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import { combineReducers } from 'redux';\nimport items from './items';\n\nconst reducers = { items };\n\nexport { items };\nexport default combineReducers(reducers);\n"
+  },
+  {
+    "__docId__": 32,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "reducers",
+    "memberof": "src/reducers/index.js",
+    "longname": "src/reducers/index.js~reducers",
+    "access": null,
+    "export": false,
+    "importPath": "isomorphic-react-redux-router/src/reducers/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 33,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/reducers/items.js",
+    "memberof": null,
+    "longname": "src/reducers/items.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import { List } from 'immutable';\nimport { ITEM } from 'actionTypes';\n\nimport { listReducerFactory } from './factories';\n\nexport default listReducerFactory(ITEM);\n"
+  },
+  {
+    "__docId__": 34,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/routes/index.js",
+    "memberof": null,
+    "longname": "src/routes/index.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import { App, ItemList } from 'components';\n\nexport default {\n  component: App,\n  path: '/',\n  childRoutes: [\n    {\n      component: ItemList,\n      path: 'list',\n    },\n  ]\n};\n"
+  },
+  {
+    "__docId__": 35,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/server/app.js",
+    "memberof": null,
+    "longname": "src/server/app.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import { SERVER_ROOT } from 'config';\nimport express from 'express';\nimport React from 'react';\nimport Router, { RouterContext, match } from  'react-router';\nimport { renderToString } from 'react-dom/server';\nimport { Provider } from 'react-redux';\nimport { createStore } from 'redux';\nimport reducer from 'reducers';\nimport { item } from 'actions';\nimport { log } from 'utilities';\n\nconst app = express();\n\napp.set('views', './views');\napp.set('view engine', 'jade');\n\nimport routes from '../routes';\n\napp.get('/js/app.js', (req, res) => {\n  res.sendFile(SERVER_ROOT + '/app.js');\n});\n\napp.get('/*', async (req, res) => {\n  match({ routes, location: req.url },\n    (err, redirectLocation, renderProps) => {\n      if (err) {\n        log(err);\n        res.status(500).json({ message: 'internal server error' });\n      } else if (redirectLocation){\n        res.redirect(302, redirectLocation.pathname + redirectLocation.search);\n\n      } else if (renderProps){\n        const store = createStore(reducer);\n\n        store.dispatch(item.append('hi from the server'));\n\n        const appRoot = (\n          <Provider store={ store }>\n            <RouterContext { ...renderProps } />\n          </Provider>\n        );\n\n        const reactOutput = renderToString(appRoot);\n        const initialReduxStateJSON = JSON.stringify(store.getState());\n\n        res.render('index', { reactOutput, initialReduxStateJSON });\n\n      } else {\n        res.status(404).json({ message: 'page not found' });\n\n      }\n    })\n});\n\nexport default app;\n"
+  },
+  {
+    "__docId__": 36,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "app",
+    "memberof": "src/server/app.js",
+    "longname": "src/server/app.js~app",
+    "access": null,
+    "export": true,
+    "importPath": "isomorphic-react-redux-router/src/server/app.js",
+    "importStyle": "app",
+    "description": null,
+    "lineNumber": 12,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 37,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/server/devServer.js",
+    "memberof": null,
+    "longname": "src/server/devServer.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import 'source-map-support/register';\nimport 'babel-polyfill';\n\nimport app from './app';\nimport { log } from 'utilities';\nimport PrettyError from 'pretty-error';\n\nconst pe = new PrettyError();\n\napp.use(err => {\n    log(pr.render(err));\n    next();\n});\n\nvar server = app.listen(3030, function () {\n  var host = server.address().address;\n  var port = server.address().port;\n\n  log('* LISTENING *');\n  log('Listening at http://%s:%s', host, port);\n});\n"
+  },
+  {
+    "__docId__": 38,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "pe",
+    "memberof": "src/server/devServer.js",
+    "longname": "src/server/devServer.js~pe",
+    "access": null,
+    "export": false,
+    "importPath": "isomorphic-react-redux-router/src/server/devServer.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "type": {
+      "types": [
+        "pretty-error~PrettyError"
+      ]
+    }
+  },
+  {
+    "__docId__": 39,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "server",
+    "memberof": "src/server/devServer.js",
+    "longname": "src/server/devServer.js~server",
+    "access": null,
+    "export": false,
+    "importPath": "isomorphic-react-redux-router/src/server/devServer.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 15,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 40,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/server/index.js",
+    "memberof": null,
+    "longname": "src/server/index.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import 'source-map-support/register';\nimport 'babel-polyfill';\n\nimport app from './app';\nimport { log } from 'utilities';\n\nvar server = app.listen(3030, function () {\n  var host = server.address().address;\n  var port = server.address().port;\n\n  log('Listening at http://%s:%s', host, port);\n});\n"
+  },
+  {
+    "__docId__": 41,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "server",
+    "memberof": "src/server/index.js",
+    "longname": "src/server/index.js~server",
+    "access": null,
+    "export": false,
+    "importPath": "isomorphic-react-redux-router/src/server/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 42,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/server/utilities.js",
+    "memberof": null,
+    "longname": "src/server/utilities.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "/**\n * Utility functions that should only be used on the server side.\n * @module server/utilities\n */\n\nimport nodemon from 'nodemon';\nimport { pelay, log } from 'utilities';\nimport { spawn } from 'child_process';\n\n/**\n * A promised process spawn.\n * @function\n * @param {array} [args=[]] - the parameters to pass to cmd\n * @param {string} [cmd='node'] - the command to run\n * @return {Promise} will resolve after process spawns with with child\n */\nexport const prawn =\n  (args = [], cmd = 'node') => new Promise((resolve, reject) => {\n    const child = spawn(cmd, args);\n\n    resolve(child);\n  });\n\nexport const spawnemon = config => new Promise(\n\n  (resolve, reject) => {\n    const timeout =\n    pelay(5)\n    .then(() => 'server did not start after timout')\n    .then(reject);\n\n    nodemon(config);\n\n    nodemon.once('start', () => {\n      timeout.cancel();\n      log('nodemon started');\n      resolve(nodemon);\n    });\n\n  });\n"
+  },
+  {
+    "__docId__": 43,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "prawn",
+    "memberof": "src/server/utilities.js",
+    "longname": "src/server/utilities.js~prawn",
+    "access": null,
+    "export": true,
+    "importPath": "isomorphic-react-redux-router/src/server/utilities.js",
+    "importStyle": "{prawn}",
+    "description": "A promised process spawn.",
+    "lineNumber": 17,
+    "unknown": [
+      {
+        "tagName": "@function",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "array"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "[]",
+        "defaultRaw": [],
+        "name": "args",
+        "description": "the parameters to pass to cmd"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "'node'",
+        "defaultRaw": "'node'",
+        "name": "cmd",
+        "description": "the command to run"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Promise"
+      ],
+      "spread": false,
+      "description": "will resolve after process spawns with with child"
+    },
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 44,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "spawnemon",
+    "memberof": "src/server/utilities.js",
+    "longname": "src/server/utilities.js~spawnemon",
+    "access": null,
+    "export": true,
+    "importPath": "isomorphic-react-redux-router/src/server/utilities.js",
+    "importStyle": "{spawnemon}",
+    "description": null,
+    "lineNumber": 24,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 45,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/test/utilities.js",
+    "memberof": null,
+    "longname": "src/test/utilities.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import chai from 'chai';\nimport chaiAsPromised from 'chai-as-promised';\nimport assert from 'assert';\nimport { pelay, constJoin, decodeStore } from 'utilities';\nimport { fromJS } from 'immutable';\n\nchai.use(chaiAsPromised);\nlet should = chai.should();\n\ndescribe('utilities', () => {\n  describe('#pelay', () => {\n    it('should resolve after 0.1s', () => {\n      return pelay(0.1).should.be.fulfilled;\n    });\n  });\n\n  describe('#constJoin', () => {\n    it('should return TEST_STRING', () => {\n      constJoin('test', 'string').should.equal('TEST_STRING');\n    });\n  });\n\n  describe('#decodeStore', () => {\n    it('should properly convert json into Immutable state', () => {\n      let orgState = {\n        a: fromJS([1,2]),\n        b: fromJS({\n          c: 'c',\n          d: [2,3]\n        }),\n        e: 1,\n      };\n\n      decodeStore(JSON.stringify(orgState)).should.eql(orgState);\n    });\n  });\n});\n"
+  },
+  {
+    "__docId__": 46,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "should",
+    "memberof": "src/test/utilities.js",
+    "longname": "src/test/utilities.js~should",
+    "access": null,
+    "export": false,
+    "importPath": "isomorphic-react-redux-router/src/test/utilities.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 47,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/utilities.js",
+    "memberof": null,
+    "longname": "src/utilities.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "/**\n * General utilities for use in the client or server.\n * @module utilities\n */\n\nimport { fromJS } from 'immutable';\nimport mapValues from 'lodash/mapValues';\nimport Promise from 'bluebird';\n\nPromise.config({\n  cancellation: true,\n});\n\n/**\n * Converts args into an uppercase, underscore seperated string.\n * @function\n * @param {string} words - variable number of string words to cat.\n * @return {string} Result\n */\nexport const constJoin = (...words) =>\n  words.map(word => word.toUpperCase()).join('_');\n\n/**\n * decode the plain json string into a store where\n * all the objects are converted with immutable\n * @function\n * @param {string} json - the input json\n * @return {object} store - the redux store with Immutable members\n */\nexport const decodeStore =\n  json => mapValues(JSON.parse(json), val => fromJS(val));\n\n/**\n * A simple logging function for debugging.\n * Will not produce output in production.\n * @function\n * @param {string} messages - variable arg list of strings\n */\nexport const log = ::console.log;\n\n/**\n * A promised delay function.  The promise returned can be canceled to\n * stop the timer and prevent resolution.\n * @function\n * @param  {Number} duration - time in seconds to delay\n * @return {Promise} delayPromise - promise that will resolve after\n * {@link duration} seconds\n */\nexport const pelay = time =>\n  new Promise((resolve, reject, onCancel) => {\n    const pelayTimeout = setTimeout(resolve, time*1000);\n\n    onCancel(() => clearTimeout(pelayTimeout));\n  });\n"
+  },
+  {
+    "__docId__": 48,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "constJoin",
+    "memberof": "src/utilities.js",
+    "longname": "src/utilities.js~constJoin",
+    "access": null,
+    "export": true,
+    "importPath": "isomorphic-react-redux-router/src/utilities.js",
+    "importStyle": "{constJoin}",
+    "description": "Converts args into an uppercase, underscore seperated string.",
+    "lineNumber": 20,
+    "unknown": [
+      {
+        "tagName": "@function",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "words",
+        "description": "variable number of string words to cat."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "string"
+      ],
+      "spread": false,
+      "description": "Result"
+    },
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 49,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "decodeStore",
+    "memberof": "src/utilities.js",
+    "longname": "src/utilities.js~decodeStore",
+    "access": null,
+    "export": true,
+    "importPath": "isomorphic-react-redux-router/src/utilities.js",
+    "importStyle": "{decodeStore}",
+    "description": "decode the plain json string into a store where\nall the objects are converted with immutable",
+    "lineNumber": 30,
+    "unknown": [
+      {
+        "tagName": "@function",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "json",
+        "description": "the input json"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "object"
+      ],
+      "spread": false,
+      "description": "store - the redux store with Immutable members"
+    },
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 50,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "log",
+    "memberof": "src/utilities.js",
+    "longname": "src/utilities.js~log",
+    "access": null,
+    "export": true,
+    "importPath": "isomorphic-react-redux-router/src/utilities.js",
+    "importStyle": "{log}",
+    "description": "A simple logging function for debugging.\nWill not produce output in production.",
+    "lineNumber": 39,
+    "unknown": [
+      {
+        "tagName": "@function",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "messages",
+        "description": "variable arg list of strings"
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 51,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "pelay",
+    "memberof": "src/utilities.js",
+    "longname": "src/utilities.js~pelay",
+    "access": null,
+    "export": true,
+    "importPath": "isomorphic-react-redux-router/src/utilities.js",
+    "importStyle": "{pelay}",
+    "description": "A promised delay function.  The promise returned can be canceled to\nstop the timer and prevent resolution.",
+    "lineNumber": 49,
+    "unknown": [
+      {
+        "tagName": "@function",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "duration",
+        "description": "time in seconds to delay"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Promise"
+      ],
+      "spread": false,
+      "description": "delayPromise - promise that will resolve after\n{@link duration} seconds"
+    },
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 53,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Infinity",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Infinity",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Infinity",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 54,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "NaN",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~NaN",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 55,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "undefined",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~undefined",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 56,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "null",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~null",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 57,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Object",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 58,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~object",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 59,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Function",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 60,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~function",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 61,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Boolean",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 62,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~boolean",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 63,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Symbol",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Symbol",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 64,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Error",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Error",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 65,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "EvalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~EvalError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 66,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "InternalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/InternalError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~InternalError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 67,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "RangeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~RangeError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 68,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "ReferenceError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~ReferenceError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 69,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "SyntaxError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~SyntaxError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 70,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "TypeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~TypeError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 71,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "URIError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~URIError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 72,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Number",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 73,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~number",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 74,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Date",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Date",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 75,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "String",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~String",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 76,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "string",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~string",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 77,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "RegExp",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~RegExp",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 78,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 79,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Int8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Int8Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 80,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Uint8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint8Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 81,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Uint8ClampedArray",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint8ClampedArray",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 82,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Int16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Int16Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 83,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Uint16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint16Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint16Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 84,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Int32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Int32Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 85,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Uint32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint32Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 86,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Float32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Float32Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 87,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Float64Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Float64Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 88,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Map",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Map",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 89,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Set",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Set",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 90,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "WeakMap",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~WeakMap",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 91,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "WeakSet",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~WeakSet",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 92,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "ArrayBuffer",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~ArrayBuffer",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 93,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "DataView",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~DataView",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 94,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "JSON",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~JSON",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 95,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Promise",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Promise",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 96,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Generator",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Generator",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 97,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "GeneratorFunction",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~GeneratorFunction",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 98,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Reflect",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Reflect",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 99,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Proxy",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Proxy",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 101,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "CanvasRenderingContext2D",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~CanvasRenderingContext2D",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 102,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "DocumentFragment",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~DocumentFragment",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 103,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Element",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Element",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~Element",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 104,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Event",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Event",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~Event",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 105,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Node",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Node",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~Node",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 106,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "NodeList",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/NodeList",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~NodeList",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 107,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "XMLHttpRequest",
+    "externalLink": "https://developer.mozilla.org/en/docs/Web/API/XMLHttpRequest",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~XMLHttpRequest",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 108,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "AudioContext",
+    "externalLink": "https://developer.mozilla.org/en/docs/Web/API/AudioContext",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~AudioContext",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  }
+]

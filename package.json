@@ -1,0 +1,66 @@
+{
+  "name": "isomorphic-react-redux-router",
+  "version": "0.0.0",
+  "description": "This is a basic isomorphic react server with using router and redux.",
+  "main": "build/lib/node_modules/server.js",
+  "scripts": {
+    "start": "gulp server",
+    "build": "gulp clean; gulp build",
+    "clean": "gulp clean",
+    "doc": "esdoc -c esdoc.config.json",
+    "test": "gulp clean; gulp build-lib; mocha build/lib/node_modules/test/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Alex-Aralis/isomorphic-react-redux-roueter.git"
+  },
+  "author": "Alex Aralis",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Alex-Aralis/isomorphic-react-redux-roueter/issues"
+  },
+  "homepage": "https://github.com/Alex-Aralis/isomorphic-react-redux-roueter#readme",
+  "dependencies": {
+    "babel": "^6.5.2",
+    "babel-cli": "^6.11.4",
+    "babel-core": "^6.13.2",
+    "babel-loader": "^6.2.5",
+    "babel-polyfill": "^6.13.0",
+    "babel-preset-es2015": "^6.13.2",
+    "babel-preset-react": "^6.11.1",
+    "babel-preset-stage-0": "^6.5.0",
+    "bluebird": "^3.4.1",
+    "express": "^4.14.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-webpack": "^1.5.0",
+    "http-server": "^0.9.0",
+    "immutable": "^3.8.1",
+    "jade": "^1.11.0",
+    "lodash": "^4.15.0",
+    "nodemon": "^1.10.2",
+    "react": "^15.3.0",
+    "react-dom": "^15.3.0",
+    "react-redux": "^4.4.5",
+    "react-router": "^2.7.0",
+    "redux": "^3.5.2",
+    "webpack": "^1.13.2"
+  },
+  "devDependencies": {
+    "babel-eslint": "^6.1.2",
+    "browser-sync": "^2.14.0",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^5.3.0",
+    "del": "^2.2.2",
+    "esdoc": "^0.4.8",
+    "esdoc-es7-plugin": "0.0.3",
+    "eslint": "^3.3.1",
+    "gulp-changed": "^1.3.2",
+    "gulp-nodemon": "^2.1.0",
+    "gulp-util": "^3.0.7",
+    "mocha": "^3.0.2",
+    "pretty-error": "^2.0.0",
+    "source-map-support": "^0.4.2",
+    "webpack-middleware": "^1.5.1"
+  }
+}
