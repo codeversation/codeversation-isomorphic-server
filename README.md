@@ -22,7 +22,7 @@
 - [nodemon](https://github.com/remy/nodemon)
 
 #### Document Generation with
-- [jsdoc](http://usejsdoc.org/)
+- [esdoc](https://esdoc.org/)
 
 
 ### Getting Started
