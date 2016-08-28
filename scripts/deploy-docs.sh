@@ -1,10 +1,12 @@
 #!/bin/bash
 
+git branch -D gh-pages
+git branch -D gh-pages-prep
+
 git checkout -b gh-pages-prep && \
 npm run doc && \
 git add -f doc && \
 git commit -m 'commit the doc dir' && \
-git branch -D gh-pages && \
 git subtree split --prefix=doc -b gh-pages && \
 git push github gh-pages
 
