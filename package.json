@@ -7,7 +7,7 @@
     "start": "gulp server",
     "build": "gulp clean; gulp build",
     "clean": "gulp clean",
-    "doc": "jsdoc -c jsdoc.config.json",
+    "doc": "esdoc -c esdoc.config.json",
     "test": "gulp clean; gulp build-lib; mocha build/lib/node_modules/test/"
   },
   "repository": {
@@ -52,6 +52,8 @@
     "chai-as-promised": "^5.3.0",
     "concurrently": "^2.2.0",
     "del": "^2.2.2",
+    "esdoc": "^0.4.8",
+    "esdoc-es7-plugin": "0.0.3",
     "eslint": "^3.3.1",
     "gulp-changed": "^1.3.2",
     "gulp-nodemon": "^2.1.0",

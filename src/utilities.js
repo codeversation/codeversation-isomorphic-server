@@ -1,7 +1,6 @@
 /**
- * general utilities for use in the client or server
+ * General utilities for use in the client or server.
  * @module utilities
- * @see module:utilities
  */
 
 import { fromJS } from 'immutable';
@@ -45,7 +44,7 @@ export const log = ::console.log;
  * @function
  * @param  {Number} duration - time in seconds to delay
  * @return {Promise} delayPromise - promise that will resolve after
- * `time` seconds
+ * {@link duration} seconds
  */
 export const pelay = time =>
   new Promise((resolve, reject, onCancel) => {

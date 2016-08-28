@@ -1,7 +1,19 @@
+/**
+ * Utility functions that should only be used on the server side.
+ * @module server/utilities
+ */
+
 import nodemon from 'nodemon';
 import { pelay, log } from 'utilities';
 import { spawn } from 'child_process';
 
+/**
+ * A promised process spawn.
+ * @function
+ * @param {array} [args=[]] - the parameters to pass to cmd
+ * @param {string} [cmd='node'] - the command to run
+ * @return {Promise} will resolve after process spawns with with child
+ */
 export const prawn =
   (args = [], cmd = 'node') => new Promise((resolve, reject) => {
     const child = spawn(cmd, args);
