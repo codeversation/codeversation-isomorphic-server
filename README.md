@@ -2,7 +2,7 @@
 
 ## A starter project for an isomorphic React app.
 
-Check out the [documentation](https://doc.esdoc.org/github.com/Alex-Aralis/isomorphic-react-redux-router/).
+Check out the [documentation](https://doc.esdoc.org/github.com/Alex-Aralis/isomorphic-react-redux-router/badge.svg).
 
 #### React Libraries
 - [Redux](https://github.com/reactjs/redux)
