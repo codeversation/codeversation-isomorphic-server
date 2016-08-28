@@ -76,3 +76,5 @@ http-server docs # this will server the files in doc on localhost:8080
 
 ### TODO
 - Work out source mapping completely
+- add linter to build system to enforce styles
+- production build config
