@@ -34,7 +34,7 @@ paths['serverEntry'] = path.join(paths.lib, 'server/index.js');
 paths['devServerEntry'] = path.join(paths.lib, 'server/devServer.js');
 
 nodemonConfig.watch = [paths.lib];
-
+gulp.task('default', ['server'])
 // start dev server
 gulp.task('server', ['browser-sync', 'browser-sync-watch'], () => {
   nodemonConfig.script = paths.devServerEntry;
