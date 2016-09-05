@@ -3,7 +3,7 @@
 
 ## Problem Statement
 
-Currently, there is no way to collaborate in browser on coding projects with immediate feedback. Since there are already options for receiving feedback on code, and ways to edit code in the browser, we will bring these two concepts together to create a collaborative coding environment.    This project will set itself apart by having immediate evaluation and a snippet history via git version control in a browser based setting.
+Currently, there is no way to collaborate in browser on coding projects with immediate feedback. Since there are already options for receiving feedback on code, and ways to edit code in the browser, we will bring these two concepts together to create a collaborative coding environment. This project will set itself apart by having immediate evaluation and a snippet history via git version control in a browser based setting.
 
 ## Project Objectives
 
@@ -17,10 +17,10 @@ Currently, there is no way to collaborate in browser on coding projects with imm
 
 ## Stakeholders
 
-***Users:*** Anybody that programs or wants to program while utilizing online, collaborative programming.
-***Developers:*** Alex Aralis, Patricia Chun, Jeremy Lehman, Zach Perry
-***Development Managers:*** Our 307 TAs
-***Project Managers:*** 
+***Users:*** Anybody that programs or wants to program while utilizing online, collaborative programming.  
+***Developers:*** Alex Aralis, Patricia Chun, Jeremy Lehman, Zach Perry  
+***Development Managers:*** Our 307 TAs  
+***Project Managers:***  
 
 ## Project Deliverables
 
