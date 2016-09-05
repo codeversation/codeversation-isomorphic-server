@@ -12,6 +12,7 @@ var browserSync = require('browser-sync').create();
 var webpack = require('webpack');
 var webpackMiddleware = require('webpack-middleware');
 var gutil = require('gulp-util');
+var eslint = require('gulp-eslint');
 
 var paths = {
   src: 'src',
@@ -34,7 +35,7 @@ paths['serverEntry'] = path.join(paths.lib, 'server/index.js');
 paths['devServerEntry'] = path.join(paths.lib, 'server/devServer.js');
 
 nodemonConfig.watch = [paths.lib];
-
+gulp.task('default', ['server', 'eslint'])
 // start dev server
 gulp.task('server', ['browser-sync', 'browser-sync-watch'], () => {
   nodemonConfig.script = paths.devServerEntry;
@@ -50,6 +51,13 @@ gulp.task('server', ['browser-sync', 'browser-sync-watch'], () => {
       if(line === '* LISTENING *') browserSync.reload();
     });
   });
+});
+
+gulp.task('eslint', () => {
+  return gulp.src(['**/*.js', '!node_modules/**'])
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
 });
 
 gulp.task('browser-sync', () => {
