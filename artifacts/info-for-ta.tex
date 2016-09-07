@@ -1,0 +1,99 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Frequently Asked Questions
+% LaTeX Template
+% Version 1.0 (22/7/13)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Adam Glesser (adamglesser@gmail.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry} % Required to make the margins smaller to fit more content on each page
+\usepackage[linkcolor=blue]{hyperref} % Required to create hyperlinks to questions from elsewhere in the document
+\hypersetup{pdfborder={0 0 0}, colorlinks=true, urlcolor=blue} % Specify a color for hyperlinks
+\usepackage{todonotes} % Required for the boxes that questions appear in
+\usepackage{tocloft} % Required to give customize the table of contents to display questions
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+\usepackage{palatino} % Use the Palatino font
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs
+
+% Create and define the list of questions
+\newlistof{questions}{faq}{} % This creates a new table of contents-like environment that will output a file with extension .faq
+\setlength\cftbeforefaqtitleskip{4em} % Adjusts the vertical space between the title and subtitle
+\setlength\cftafterfaqtitleskip{1em} % Adjusts the vertical space between the subtitle and the first question
+\setlength\cftparskip{.3em} % Adjusts the vertical space between questions in the list of questions
+
+% Create the command used for questions
+\newcommand{\question}[1] % This is what you will use to create a new question
+{
+\refstepcounter{questions} % Increases the questions counter, this can be referenced anywhere with \thequestions
+\par\noindent % Creates a new unindented paragraph
+\phantomsection % Needed for hyperref compatibility with the \addcontensline command
+\addcontentsline{faq}{questions}{#1} % Adds the question to the list of questions
+\todo[inline, color=orange!20]{\textbf{#1}} % Uses the todonotes package to create a fancy box to put the question
+\vspace{1em} % White space after the question before the start of the answer
+}
+
+% Uncomment the line below to get rid of the trailing dots in the table of contents
+%\renewcommand{\cftdot}{}
+
+% Uncomment the two lines below to get rid of the numbers in the table of contents
+%\let\Contentsline\contentsline
+%\renewcommand\contentsline[3]{\Contentsline{#1}{#2}{}}
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	TITLE AND LIST OF QUESTIONS
+%----------------------------------------------------------------------------------------
+
+\begin{center}
+\Huge{\bf \emph{Codeversation Information for TA's}} % Main title
+
+\Large{Alex Aralis, Patricia Chun, Jeremy Lehman, Zach Perry}
+\end{center}
+
+\listofquestions % This prints the subtitle and a list of all of your questions
+
+% \newpage % Comment this if you would like your questions and answers to start immediately after table of questions
+
+%----------------------------------------------------------------------------------------
+%	QUESTIONS AND ANSWERS
+%----------------------------------------------------------------------------------------
+
+\question{What repository hosting service does Codeversation use?}
+
+The Codeversation project uses Git as its SVC and is hosted via Github.  
+
+%------------------------------------------------
+
+\question{How do I view the Codeversation team's repository}\label{repository}
+
+Our project repositories are located at \url{https://github.com/codeversation}.
+
+%------------------------------------------------
+
+\question{How do I get permissions to view the project?}
+
+You don't need to!  The repositories in the Codeversation Organization are all totally public/open source.  
+
+%------------------------------------------------
+
+\question{Where do the documents/artifacts live?}\label{labels}
+
+All the most up to date documents for the Codeversation project can found in the master branch of the \url{https://github.com/codeversation/codeversation-isomorphic-server} repository in the artifacts folder.
+
+\question{What's up with the artifact's .md format?}
+
+The documents stored on our github are in the \href{https://daringfireball.net/projects/markdown/}{Markdown} format.  Markdown is a convenient way to create pretty looking documents that render to HTML.  Github will automatically render Markdown files when viewed from there site.
+
+\end{document}
