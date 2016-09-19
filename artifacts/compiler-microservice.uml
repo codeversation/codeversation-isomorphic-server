@@ -1,0 +1,22 @@
+@startuml
+title Compiler Microservice
+
+scale 2
+set namespaceSeparator none
+
+interface Compiler {
+    string compile(string snippet)
+}
+
+Java ..|> Compiler
+ES7 ..|> Compiler
+"C++" ..|> Compiler
+Python ..|> Compiler
+"...Other Languages" ..|> Compiler
+
+class Snippet {
+    body : string
+}
+
+Compiler <-- Snippet
+@enduml
