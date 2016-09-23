@@ -18,5 +18,5 @@ class Snippet {
     body : string
 }
 
-Compiler <-- Snippet
+Compiler "1" <-- Snippet
 @enduml
