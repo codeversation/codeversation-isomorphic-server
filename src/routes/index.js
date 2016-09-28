@@ -1,4 +1,4 @@
-import { App, ItemList } from 'components';
+import { App, ItemList, Login } from 'components';
 
 export default {
   component: App,
@@ -7,6 +7,10 @@ export default {
     {
       component: ItemList,
       path: 'list',
+    },
+    {
+      component: Login,
+      path: 'login',
     },
   ]
 };
