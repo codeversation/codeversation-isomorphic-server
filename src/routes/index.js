@@ -1,4 +1,4 @@
-import { App, ItemList, Login, Codeversation, CodeversationForm } from 'components';
+import { App, ItemList, Login, Signup, Codeversation, CodeversationForm } from 'components';
 
 export default {
   component: App,
@@ -11,6 +11,10 @@ export default {
     {
       component: Codeversation,
       path: 'view',
+    },
+    {
+      component: Signup,
+      path: 'signup',
     },
     {
       component: Login,
