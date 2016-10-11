@@ -18,7 +18,8 @@ var paths = {
   src: 'src',
   build: 'build',
   json: 'json',
-  views: 'views'
+  views: 'views',
+  envFile: '.env',
 };
 
 paths['app'] = path.join(paths.build, 'app.js');
@@ -166,15 +167,22 @@ gulp.task('build-lib', () => {
 
 gulp.task('build-views', () => {
   return gulp.src(paths.viewFiles)
-    .pipe(changed(paths.lib))
+    .pipe(changed(paths.viewsDest))
     .pipe(gulp.dest(paths.viewsDest));
 });
 
 gulp.task('build-json', () => {
   return gulp.src(paths.jsonFiles)
-    .pipe(changed(paths.lib))
+    .pipe(changed(paths.jsonDest))
     .pipe(gulp.dest(paths.jsonDest));
 });
+
+gulp.task('build-dotenv', () => {
+  return gulp.src(paths.envFile)
+    .pipe(changed(paths.lib))
+    .pipe(gulp.dest(paths.lib))
+
+})
 
 // clean
 gulp.task('clean', () => {

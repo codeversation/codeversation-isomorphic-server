@@ -38,6 +38,7 @@
     "immutable": "^3.8.1",
     "jade": "^1.11.0",
     "lodash": "^4.15.0",
+    "mongoose": "^4.6.3",
     "nodemon": "^1.10.2",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
