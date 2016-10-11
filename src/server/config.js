@@ -1,4 +1,4 @@
-import dotenv from 'dotent';
+import dotenv from 'dotenv';
 
 dotenv.load();
 

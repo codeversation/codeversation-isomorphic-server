@@ -1,4 +1,4 @@
-import { SERVER_ROOT } from 'config';
+import { SERVER_ROOT, DB_URI } from 'server/config';
 import express from 'express';
 import React from 'react';
 import Router, { RouterContext, match } from  'react-router';
@@ -8,6 +8,12 @@ import { createStore } from 'redux';
 import reducer from 'reducers';
 import { item } from 'actions';
 import { log } from 'utilities';
+
+// initialize mongoose - mongodb connection
+import mongoose from 'mongoose';
+
+log(DB_URI);
+//mongoose.connect(DB_URI);
 
 const app = express();
 
