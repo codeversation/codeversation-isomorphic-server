@@ -37,8 +37,9 @@ paths['devServerEntry'] = path.join(paths.lib, 'server/devServer.js');
 
 nodemonConfig.watch = [paths.lib];
 gulp.task('default', ['server', 'eslint'])
+
 // start dev server
-gulp.task('server', ['browser-sync', 'browser-sync-watch'], () => {
+gulp.task('server', ['browser-sync', 'browser-sync-build-watch'], () => {
   nodemonConfig.script = paths.devServerEntry;
   nodemonConfig.stdout = false;
 
@@ -87,22 +88,31 @@ gulp.task('browser-sync', () => {
   });
 });
 
+gulp.task('build-watch',
+  [
+    'build',
+    'watch',
+  ]
+);
+
 gulp.task('build',
   [
-    'build-lib',
-    'build-views',
-    'build-json',
-    'build-app'
+    'browser-sync-build',
+    'build-app',
   ]
 );
 
 gulp.task('watch',
   [
-    'build',
-    'watch-src',
-    'watch-json',
-    'watch-views',
-    'watch-lib'
+    'browser-sync-watch',
+    'watch-lib',
+  ]
+);
+
+gulp.task('browser-sync-build-watch',
+  [
+    'browser-sync-build',
+    'browser-sync-watch',
   ]
 );
 
@@ -111,15 +121,16 @@ gulp.task('browser-sync-build',
     'build-lib',
     'build-views',
     'build-json',
+    'build-dotenv',
   ]
 );
 
 gulp.task('browser-sync-watch',
   [
-    'browser-sync-build',
     'watch-src',
     'watch-json',
     'watch-views',
+    'watch-dotenv',
   ]
 );
 
@@ -146,6 +157,11 @@ gulp.task('watch-lib', () => {
       .pipe(gulp.dest(paths.build));
   });
 });
+
+gulp.task('watch-dotenv', () => {
+  gulp.watch(paths.envFile, ['build-dotenv']);
+});
+
 
 ///////////// builds
 
@@ -179,8 +195,7 @@ gulp.task('build-json', () => {
 
 gulp.task('build-dotenv', () => {
   return gulp.src(paths.envFile)
-    .pipe(changed(paths.lib))
-    .pipe(gulp.dest(paths.lib))
+    .pipe(gulp.dest(paths.build))
 
 })
 
