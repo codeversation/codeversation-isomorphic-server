@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { FormControl, FormGroup } from 'react-bootstrap';
+import { Grid, Row, Col, Button } from 'react-bootstrap';
+import FormFieldGroup from './FormFieldGroup';
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -19,17 +21,37 @@ class Login extends Component {
 
   render() {
     return (
-      <form>
-        <FormGroup>
-          <FormControl
-            type='email'
-            value={this.state.value}
-            placeholder='Enter username'
-            onChange={::this.handleUsernameChange}
-          />
-          <FormControl.Feedback />
-        </FormGroup>
-      </form> 
+      <Grid>
+        <form>
+          <Row>
+            <FormFieldGroup
+              label='Username'
+              type='email'
+              value={this.state.username}
+              onChange={this.handleUsernameChange.bind(this)}
+              feedback={true}
+            />
+          </Row>
+          <Row>
+            <FormFieldGroup
+              label='Password'
+              type='password'
+              value={this.state.password}
+              onChange={this.handlePasswordChange.bind(this)}
+              feedback={true}
+            />
+          </Row>
+          <Button 
+            type='submit'
+            bsSize='large'
+          >
+            Login
+          </Button>
+          <Button bsSize='large'>
+            Sign Up
+          </Button>
+        </form> 
+      </Grid>
     );
   }
 }
