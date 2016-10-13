@@ -7,5 +7,4 @@ mongoose.Promise = Promise;
 import { DB_URI } from 'server/config';
 mongoose.connect(DB_URI);
 
-
 export default mongoose;

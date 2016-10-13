@@ -20,6 +20,7 @@ var paths = {
   json: 'json',
   views: 'views',
   envFile: '.env',
+  vendor: 'vendor',
 };
 
 paths['app'] = path.join(paths.build, 'app.js');
@@ -27,8 +28,10 @@ paths['srcFiles'] = path.join(paths.src, '**', '*.js');
 paths['jsonFiles'] = path.join(paths.json, '**', '*.json');
 paths['viewFiles'] = path.join(paths.views, '**', '*.{jade,ejs}');
 paths['buildFiles'] = path.join(paths.build, '**', '*');
+paths['vendorFiles'] = path.join(paths.vendor, '**', '*');
 paths['lib'] = path.join(paths.build, 'lib', 'node_modules');
 paths['libFiles'] = path.join(paths.lib, '**', '*.js');
+paths['vendorDest'] = path.join(paths.lib, 'vendor');
 paths['jsonDest'] = path.join(paths.build, 'json');
 paths['viewsDest'] = path.join(paths.build, 'views');
 paths['clientEntry'] = path.join(paths.lib, 'client/index.js');
@@ -122,6 +125,7 @@ gulp.task('browser-sync-build',
     'build-views',
     'build-json',
     'build-dotenv',
+    'build-vendor',
   ]
 );
 
@@ -131,6 +135,7 @@ gulp.task('browser-sync-watch',
     'watch-json',
     'watch-views',
     'watch-dotenv',
+    'watch-vendor',
   ]
 );
 
@@ -145,6 +150,10 @@ gulp.task('watch-json', () => {
 
 gulp.task('watch-views', () => {
   gulp.watch(paths.viewFiles, ['build-views']);
+});
+
+gulp.task('watch-vendor', () => {
+  gulp.watch(paths.vendorFiles, ['build-vendor']);
 });
 
 // unused in favor of webpackMiddleware with browser-sync
@@ -198,6 +207,12 @@ gulp.task('build-dotenv', () => {
     .pipe(gulp.dest(paths.build))
 
 })
+
+gulp.task('build-vendor', () => {
+  return gulp.src(paths.vendorFiles)
+    .pipe(changed(paths.vendorDest))
+    .pipe(gulp.dest(paths.vendorDest));
+});
 
 // clean
 gulp.task('clean', () => {
