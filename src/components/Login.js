@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Grid, Row, Col, Button, Image } from 'react-bootstrap';
+import { Link } from 'react-router';
 import FormFieldGroup from './FormFieldGroup';
 
 class Login extends Component {
@@ -7,8 +8,10 @@ class Login extends Component {
     super(props);
     this.state = { 
       username:'',
-      password:''
-    }
+      password:'',
+      error: false,
+      isLoading: false
+    };
   }
 
   handleUsernameChange(e) {
@@ -19,10 +22,25 @@ class Login extends Component {
     this.setState({password: e.target.value});
   }
 
+  handleSubmit() { 
+    this.setState({isLoading: true});
+    setTimeout(function() { console.log('waiting...') }, 1000);
+    alert('Logged in');
+    this.setState({isLoading: false});
+    this.context.router.push('/profile/0001');
+  }
+
+
   render() {
+    const router = this.context.router;
     return (
       <Grid>
-        <form>
+        <Row>
+          <Col md={1} mdOffset={5}>
+            <h1>Login</h1>
+          </Col>
+        </Row>
+        <form onSubmit={this.handleSubmit.bind(this)}>
           <Row>
             <Col md={6} mdOffset={3}>
               <FormFieldGroup
@@ -51,15 +69,21 @@ class Login extends Component {
               </Button>
             </Col>
             <Col md={1} mdOffset={1}>
-              <Button bsSize='large'>
-                Sign Up
-              </Button>
+              <Link to='register'>
+                <Button bsSize='large'>
+                  Sign Up
+                </Button>
+              </Link>
             </Col>
           </Row>
         </form> 
       </Grid>
-    );
-  }
-}
+      );
+      }
+      }
 
-export default Login;
+      Login.contextTypes = {
+        router: PropTypes.object.isRequired
+      };
+
+      export default Login;

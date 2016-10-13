@@ -3,6 +3,7 @@ import { App, ItemList, Login, Codeversation, CodeversationForm } from 'componen
 export default {
   component: App,
   path: '/',
+  indexRoute: { component: Login },
   childRoutes: [
     {
       component: ItemList,
@@ -11,10 +12,6 @@ export default {
     {
       component: Codeversation,
       path: 'view',
-    },
-    {
-      component: Login,
-      path: 'login',
     },
     {
       component: CodeversationForm,
