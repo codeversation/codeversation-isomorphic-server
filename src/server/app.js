@@ -19,9 +19,12 @@ import userRouter from 'server/routes/user';
 import sessionRouter from 'server/routes/session'
 import jsRouter from 'server/routes/javascript';
 import isoRouter from 'server/routes/isomorphic';
+import compilerRouter from 'server/routes/compiler';
+
 
 app.use('/v1/user', userRouter);
 app.use('/v1/session', sessionRouter);
+app.use('/v1/compiler', compilerRouter);
 app.use('/js', jsRouter);
 app.use ('/', isoRouter);
 
