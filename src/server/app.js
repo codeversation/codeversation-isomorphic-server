@@ -1,9 +1,3 @@
-import { DB_URI } from 'server/config';
-
-// initialize mongoose - mongodb connection
-import mongoose from 'mongoose';
-mongoose.connect(DB_URI);
-
 import express from 'express';
 const app = express();
 

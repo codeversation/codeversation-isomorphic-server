@@ -19,6 +19,7 @@ router.post('/', (req, res) => {
       res.json({ err, message: 'User creation failed.'});
     });
   } catch (err) {
+    log(err);
     res.status(500).json({ err: 'Server Exception', message: 'User creation failed.' });
   }
 });
