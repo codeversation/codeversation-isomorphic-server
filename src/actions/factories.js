@@ -16,3 +16,15 @@ export const listActionFactory = (type) => {
         ({ ...action(...args), type: constJoin(verb, type) })
   );
 };
+
+export const userActionFactory = (type) => {
+  let actions = {
+    login: user => ({ user }),
+  };
+
+  return mapValues(actions,
+    (action, verb) =>
+      (...args) =>
+        ({ ...action(...args), type: constJoin(verb, type) })
+  );
+};
