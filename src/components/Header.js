@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 
-const Header = (props) => {
+const Header = ({username, ...props}) => {
   return (
     <Navbar>
       <Navbar.Header>
@@ -10,10 +10,15 @@ const Header = (props) => {
         </Navbar.Brand>
       </Navbar.Header>
       <Nav>
-        <NavItem href='create'>Create</NavItem>
+        <NavItem href='/profile'>{username}</NavItem>
+      <NavItem href='/create'>Create</NavItem>
       </Nav>
     </Navbar>
   );
 }
+
+Header.propTypes = {
+  username: PropTypes.string.isRequired
+};
 
 export default Header;

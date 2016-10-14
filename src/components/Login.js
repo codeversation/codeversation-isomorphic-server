@@ -25,7 +25,13 @@ class Login extends Component {
 
   handleLogin() { 
     alert(this.state.username +  ' logged in');
-    this.props.loginUser('Jeremy');
+    this.props.loginUser({
+      name: 'Jeremy',
+      posts: [
+        'hello',
+        'world'
+      ]
+    });
     this.context.router.push('/profile');
   }
 
