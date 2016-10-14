@@ -7,7 +7,7 @@ import PrettyError from 'pretty-error';
 
 const pe = new PrettyError();
 
-app.use(err => {
+app.use((err, req, res, next) => {
     log(pe.render(err));
     next();
 });
