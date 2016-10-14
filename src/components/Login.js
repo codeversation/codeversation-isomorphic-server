@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Image } from 'react-bootstrap';
 import { Link } from 'react-router';
 import FormFieldGroup from './FormFieldGroup';
@@ -25,11 +26,11 @@ class Login extends Component {
   handleSubmit() { 
     this.setState({isLoading: true});
     setTimeout(function() { console.log('waiting...') }, 1000);
-    alert('Logged in');
+    alert(this.state.username +  ' logged in');
     this.setState({isLoading: false});
+    this.props.loginUser('Jeremy');
     this.context.router.push('/profile/0001');
   }
-
 
   render() {
     const router = this.context.router;
@@ -78,12 +79,22 @@ class Login extends Component {
           </Row>
         </form> 
       </Grid>
-      );
-      }
-      }
+    );
+  }
+}
 
-      Login.contextTypes = {
-        router: PropTypes.object.isRequired
-      };
+Login.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 
-      export default Login;
+import { user } from 'actions';
+
+const mapDispatchToProps = dispatch => ({
+  loginUser(user) {
+    dispatch(user.login(user));
+  }
+});
+
+export default connect(
+  mapDispatchToProps
+)(Login);
