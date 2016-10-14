@@ -5,3 +5,4 @@ export Login from './Login';
 export Codeversation from './Codeversation';
 export CodeversationForm from './CodeversationForm';
 export Profile from './Profile';
+export Signup from './Signup';

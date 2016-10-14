@@ -4,17 +4,21 @@ import { Grid, Row, Col, Button, Image } from 'react-bootstrap';
 import { Link } from 'react-router';
 import FormFieldGroup from './FormFieldGroup';
 
-class Login extends Component {
+class Signup extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      username:'',
-      password:'',
+      username: '',
+      password: '',
+      name: '',
       error: false,
       isLoading: false
     };
   }
 
+  handleNameChange(e) {
+    this.setState({name: e.target.value});
+  }
   handleUsernameChange(e) {
     this.setState({username: e.target.value});
   }
@@ -23,8 +27,8 @@ class Login extends Component {
     this.setState({password: e.target.value});
   }
 
-  handleLogin() { 
-    fetch('http://localhost:3000/v1/session', {
+  handleSignup() { 
+    fetch('http://localhost:3000/v1/user', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -32,25 +36,19 @@ class Login extends Component {
       },
       body: JSON.stringify({
         user: {
+          name: this.state.name,
           email: this.state.username,
           password: this.state.password
         }
       })
-    })
-      .then((res) => {
-        this.props.loginUser({
-          name: 'Jeremy',
-          posts: [
-            'hello',
-            'world'
-          ]
-        });
-
-        this.context.router.push('/profile');
+    }) 
+      .then((data) => {
+        console.log(data)
+        this.context.router.push('/');
       })
       .catch((err) => {
-        console.error(err);
-        alert('Error signing in');
+        console.error(err)
+        alert('Error signing up');
       });
   }
 
@@ -60,12 +58,19 @@ class Login extends Component {
       <Grid>
         <Row>
           <Col md={1} mdOffset={5}>
-            <h1>Login</h1>
+            <h1>Signup</h1>
           </Col>
         </Row>
         <form>
           <Row>
             <Col md={6} mdOffset={3}>
+              <FormFieldGroup
+                label='Name'
+                type='text'
+                value={this.state.name}
+                onChange={this.handleNameChange.bind(this)}
+                feedback={true}
+              />
               <FormFieldGroup
                 label='Username'
                 type='email'
@@ -86,17 +91,10 @@ class Login extends Component {
             <Col md={1} mdOffset={4}>
               <Button 
                 bsSize='large'
-                onClick={this.handleLogin.bind(this)}
+                onClick={this.handleSignup.bind(this)}
               >
-                Login
+                Signup
               </Button>
-            </Col>
-            <Col md={1} mdOffset={1}>
-              <Link to='register'>
-                <Button bsSize='large'>
-                  Sign Up
-                </Button>
-              </Link>
             </Col>
           </Row>
         </form> 
@@ -105,7 +103,7 @@ class Login extends Component {
   }
 }
 
-Login.contextTypes = {
+Signup.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
@@ -120,4 +118,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Login);
+)(Signup);
