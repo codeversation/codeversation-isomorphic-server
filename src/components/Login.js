@@ -23,13 +23,10 @@ class Login extends Component {
     this.setState({password: e.target.value});
   }
 
-  handleSubmit() { 
-    this.setState({isLoading: true});
-    setTimeout(function() { console.log('waiting...') }, 1000);
+  handleLogin() { 
     alert(this.state.username +  ' logged in');
-    this.setState({isLoading: false});
     this.props.loginUser('Jeremy');
-    this.context.router.push('/profile/0001');
+    this.context.router.push('/profile');
   }
 
   render() {
@@ -41,7 +38,7 @@ class Login extends Component {
             <h1>Login</h1>
           </Col>
         </Row>
-        <form onSubmit={this.handleSubmit.bind(this)}>
+        <form>
           <Row>
             <Col md={6} mdOffset={3}>
               <FormFieldGroup
@@ -63,8 +60,8 @@ class Login extends Component {
           <Row>
             <Col md={1} mdOffset={4}>
               <Button 
-                type='submit'
                 bsSize='large'
+                onClick={this.handleLogin.bind(this)}
               >
                 Login
               </Button>
@@ -88,13 +85,14 @@ Login.contextTypes = {
 };
 
 import { user } from 'actions';
-
+const mapStateToProps = ({ user }) => ({ user });
 const mapDispatchToProps = dispatch => ({
-  loginUser(user) {
-    dispatch(user.login(user));
-  }
+  loginUser(userData) {
+    dispatch(user.login(userData));
+  },
 });
 
 export default connect(
+  mapStateToProps,
   mapDispatchToProps
 )(Login);
