@@ -1,4 +1,6 @@
 import express from 'express';
+import { V1_API_BASE } from 'config';
+
 const app = express();
 
 // set view engine and view folder
@@ -19,12 +21,12 @@ import userRouter from 'server/routes/user';
 import sessionRouter from 'server/routes/session'
 import jsRouter from 'server/routes/javascript';
 import isoRouter from 'server/routes/isomorphic';
-import compilerRouter from 'server/routes/compiler';
+import testRouter from 'server/routes/test';
 
 
-app.use('/v1/user', userRouter);
-app.use('/v1/session', sessionRouter);
-app.use('/v1/compiler', compilerRouter);
+app.use(`${V1_API_BASE}/user`, userRouter);
+app.use(`${V1_API_BASE}/session`, sessionRouter);
+app.use(`${V1_API_BASE}/test`, testRouter);
 app.use('/js', jsRouter);
 app.use ('/', isoRouter);
 

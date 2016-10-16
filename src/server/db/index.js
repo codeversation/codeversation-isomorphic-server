@@ -1,10 +1,11 @@
 import mongoose from 'mongoose';
+import { log } from 'utilities';
+log('running db index.');
 
 // set default mongoose promise lib.  could be bluebird.
 mongoose.Promise = Promise;
 
-// connect to mongodb.
 import { DB_URI } from 'server/config';
-mongoose.connect(DB_URI);
+let db = mongoose.createConnection(DB_URI);
 
-export default mongoose;
+export default db;

@@ -1,11 +1,11 @@
-import db from 'server/db';
+import { Schema } from 'mongoose';
 import { EMAIL_REGEX } from 'config';
 import { log } from 'utilities';
 import bcrypt from 'bcrypt';
 
-// var beautifyUnique = require('mongoose-beautiful-unique-validation');
+var beautifyUnique = require('mongoose-beautiful-unique-validation');
 
-const UserSchema = new db.Schema({
+const UserSchema = new Schema({
   name: {
     type: String,
     trim: true
@@ -24,7 +24,7 @@ const UserSchema = new db.Schema({
   },
 });
 
-// UserSchema.plugin(beautifyUnique);
+UserSchema.plugin(beautifyUnique);
 
 UserSchema.methods.authenticate = function(password){
   return new Promise((resolve, reject) => {
