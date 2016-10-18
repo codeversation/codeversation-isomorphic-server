@@ -38,6 +38,8 @@ export const mapReducerFactory = (type) => {
         return map.delete(key);
       case phrase('update'):
         return map.update(key, (v) => v);
+      case phrase('clear'):
+        return map.clear();
       default:
         return map;
     }
