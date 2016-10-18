@@ -17,6 +17,7 @@ app.use(headerMiddleware);
 app.use(authMiddleware);
 
 // set routes
+import codeversationRouter from 'server/routes/codeversation';
 import userRouter from 'server/routes/user';
 import sessionRouter from 'server/routes/session'
 import jsRouter from 'server/routes/javascript';
@@ -27,6 +28,7 @@ import testRouter from 'server/routes/test';
 app.use(`${V1_API_BASE}/user`, userRouter);
 app.use(`${V1_API_BASE}/session`, sessionRouter);
 app.use(`${V1_API_BASE}/test`, testRouter);
+
 app.use('/js', jsRouter);
 app.use ('/', isoRouter);
 
