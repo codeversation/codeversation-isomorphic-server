@@ -1,6 +1,6 @@
 import { List } from 'immutable';
 import { USER } from 'actionTypes';
 
-import { userReducerFactory } from './factories';
+import { mapReducerFactory } from './factories';
 
-export default userReducerFactory(USER);
+export default mapReducerFactory(USER);
