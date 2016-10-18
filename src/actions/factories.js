@@ -19,7 +19,9 @@ export const listActionFactory = (type) => {
 
 export const userActionFactory = (type) => {
   let actions = {
-    login: user => ({ user }),
+    insert: (key, value) => ({ key, value }),
+    delete: key => ({ key }),
+    update: (key, value) => ({ key, value }),
   };
 
   return mapValues(actions,
