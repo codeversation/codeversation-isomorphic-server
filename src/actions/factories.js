@@ -17,7 +17,7 @@ export const listActionFactory = (type) => {
   );
 };
 
-export const userActionFactory = (type) => {
+export const mapActionFactory = (type) => {
   let actions = {
     insert: (key, value) => ({ key, value }),
     delete: key => ({ key }),
