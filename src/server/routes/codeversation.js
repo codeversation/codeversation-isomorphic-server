@@ -4,24 +4,18 @@ const router = Router();
 
 import Codeversation from 'server/db/model/Codeversation';
 
-router.get('/codeversations', function(req, res) {
+router.get('/:id', function(req, res) {
   Codeversation.find(function(err, doc) {
     res.send(doc);
   })
-//  return Codeversation.getCodeversation(req, res);
-//});
 })
 
-router.post(function(req, res) {
-  console.log("adding codeversation", codeversations);
-  var codeversations = req.body;
+router.post('/', function(req, res) {
+  var codeversations = req.body.codeversation;
   var codeversation = new Codeversation(codeversations);
   codeversation.save(function(err, data) {
-    res.status(300).send();
+    res.json({codeversation, message: 'codeversation created successfully. '});
   })
 });
-  //return Codeversation.create(req, res);
-//});
-
 
 export default router;
