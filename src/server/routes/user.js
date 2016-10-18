@@ -44,25 +44,20 @@ router.delete('/', (req, res) => {
 
     let { password, email } = req.body.user;
 
-    User.find().then(users => log(users));
     User.findOne({ email })
       .then(user => {
         if(user) {
-          log(user);
           user.authenticate(password)
             .then(() => {
               user.remove()
                 .then(() => {
-                  log(user, 'deleted');
                   res.json({ message: 'User deleted.', user });
                 })
                 .catch(err => {
-                  log(err);
                   res.status(500).json({ message: 'User deletion failed.' });
                 });
             })
             .catch(err => {
-              log(err);
               res.status(500).json({ message: 'Authentication failed.' });
             });
         } else {
@@ -70,11 +65,9 @@ router.delete('/', (req, res) => {
         }
       })
       .catch(err => {
-        log(err);
         res.status(404).json({ message: 'User not found' });
       });
     } catch (err) {
-      log(err);
       res.status(500).json({ message: 'Server side exception.  User could not be deleted.'});
     }
 });
