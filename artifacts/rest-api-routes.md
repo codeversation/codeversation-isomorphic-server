@@ -22,7 +22,7 @@ Base route: `/api/v1/user`
 
 `/api/v1/user` DELETE
 
-```
+```javascript
 {
   user: {
     email: required,
@@ -36,7 +36,7 @@ Base route: `/api/v1/user`
 `/api/v1/user` PUT
 
 ***MUST HAVE Authentication header set to JWT***
-```
+```javascript
 {
   user: {
     name: optional,
@@ -50,7 +50,7 @@ Base route: `/api/v1/user`
 
 base route: `/api/v1/session` POST
 
-```
+```javascript
 {
   user: {
     email: required,
@@ -61,7 +61,7 @@ base route: `/api/v1/session` POST
 
 #### Returns
 
-```
+```javascript
 {
   token: String
 }
