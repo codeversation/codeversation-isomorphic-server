@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react'
+import { Button } from 'react-bootstrap';
 
 class SnippetOutput extends Component {
   render() {

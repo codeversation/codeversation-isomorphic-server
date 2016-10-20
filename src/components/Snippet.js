@@ -1,53 +1,40 @@
 import React, { PropTypes, Component } from 'react'
-import { SnippetOutput, SnippetForm } from 'components';
-import {
-	Grid,
-	Row,
-	Col,
-} from 'react-bootstrap';
-
-import { log, env } from 'utilities';
-
-
-const rowStyle = {
-	margin: '0 0 10px 0'
-}
+import { Button } from 'react-bootstrap';
+import SnippetOutput from './SnippetOutput';
+import { COMPILER } from '../config';
+import { Opal } from 'opal-npm-wrapper';
 
 class Snippet extends Component {
-	constructor(props) {
+  constructor(props) {
     super(props);
-
     this.state = {
-			code: '',
-    };
+      snippet: ''
+    }
   }
-
-
-	handleFormChange(newValue) {
-		this.setState({ code: newValue });
-	};
-
+  handleRunSnippet() {
+    fetch(COMPILER + 'api/v1/ruby', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        code: this.state.snippet
+      })
+    })
+      .then(res => res.json())
+      .then((json) => {
+        eval(json.js);
+      })
+      .catch(err => console.log(err));
+  }
   render() {
     return (
-      <Grid>
-        <Row style={rowStyle}>
-          <Col>
-            <h2> Compose a Code Snippet </h2>
-          </Col>
-	      </Row>
-        <Row style={rowStyle}>
-          <Col md={8}>
-						<SnippetForm
-							onChange={::this.handleFormChange}
-							code={this.state.code}
-						/>
-          </Col>
-
-          <Col md={4} >
-            <SnippetOutput code={this.state.code}/>
-          </Col>
-        </Row>
-      </Grid>
+      <div>
+        <h2> I am a snippet</h2>
+        <SnippetOutput />
+        <Button onClick={this.handleRunSnippet.bind(this)}>Run</Button>
+      </div> 
     );
   }
 };
