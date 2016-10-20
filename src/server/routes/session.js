@@ -24,7 +24,7 @@ router.post('/', (req, res) => {
             {},
             function(err, token) {
                 if (token) {
-                  res.json({ token, message: 'Token created successefully.' });
+                  res.json({ token, user, message: 'Token created successefully.' });
                 }
               res.status(501).json({ err, message: 'JWT creation failed.' });
             }
