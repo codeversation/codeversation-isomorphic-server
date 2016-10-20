@@ -66,3 +66,23 @@ base route: `/api/v1/session` POST
   token: String
 }
 ```
+
+## Compiler
+
+Comipler hosted at https://fathomless-ridge-25516.herokuapp.com
+
+### `/api/v1/ruby` POST
+
+```javascript
+{
+  code: requried
+}
+```
+
+#### Returns
+
+```javascript
+{
+  js: String
+}
+```
