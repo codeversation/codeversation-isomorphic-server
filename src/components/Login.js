@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Image } from 'react-bootstrap';
 import { Link } from 'react-router';
 import FormFieldGroup from './FormFieldGroup';
+import fetch from 'isomorphic-fetch';
 //redux
 import { user } from 'actions';
 
@@ -26,7 +27,7 @@ class Login extends Component {
   }
 
   handleLogin() { 
-    fetch('http://localhost:3000/v1/session', {
+    fetch('http://localhost:3000/api/v1/session', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -40,12 +41,12 @@ class Login extends Component {
       })
     })
       .then((res) => {
-        alert(res);
+        if (res.status >= 400) {
+          throw new Error("Bad response from server");
+        }
+        return res.json();
       })
-      .catch((err) => {
-        console.error(err);
-        alert('Error signing in');
-      });
+      .then((data) => console.log(data));
   }
 
   render() {
