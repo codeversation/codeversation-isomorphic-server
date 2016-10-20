@@ -14,6 +14,7 @@ export default {
       path: 'view',
     },
     {
+
       component: CodeversationForm,
       path:'new',
     },

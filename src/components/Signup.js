@@ -10,6 +10,7 @@ class Signup extends Component {
     this.state = { 
       username: '',
       password: '',
+      confirm: '',
       name: '',
       error: false,
       isLoading: false
@@ -27,7 +28,16 @@ class Signup extends Component {
     this.setState({password: e.target.value});
   }
 
-  handleSignup() { 
+  handleConfirmChange(e) {
+    this.setState({confirm: e.target.value});
+  }
+
+  handleSignup() {
+    if(this.state.password != this.state.confirm){
+      alert("Passwords do not match.");
+      return;
+    }
+
     fetch('http://localhost:3000/v1/user', {
       method: 'POST',
       headers: {
@@ -38,7 +48,8 @@ class Signup extends Component {
         user: {
           name: this.state.name,
           email: this.state.username,
-          password: this.state.password
+          password: this.state.password,
+          confirm: this.state.confirm
         }
       })
     }) 
@@ -83,6 +94,13 @@ class Signup extends Component {
                 type='password'
                 value={this.state.password}
                 onChange={this.handlePasswordChange.bind(this)}
+                feedback={true}
+              />
+              <FormFieldGroup
+                label='Confirm'
+                type='password'
+                value={this.state.confirm}
+                onChange={this.handleConfirmChange.bind(this)}
                 feedback={true}
               />
             </Col>
