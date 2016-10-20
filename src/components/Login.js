@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Image } from 'react-bootstrap';
 import { Link } from 'react-router';
 import FormFieldGroup from './FormFieldGroup';
-import fetch from 'isomorphic-fetch';
 //redux
 import { user } from 'actions';
 
@@ -41,12 +40,18 @@ class Login extends Component {
       })
     })
       .then((res) => {
-        if (res.status >= 400) {
-          throw new Error("Bad response from server");
-        }
         return res.json();
       })
-      .then((data) => console.log(data));
+      .then((resData) => {
+        const user = resData.user;
+        user.authToken = resData.token;
+        this.props.loginUser(user);
+        this.context.router.push('/profile')
+      })
+      .catch((err) => {
+        console.error(err);
+        alert('Error signing in');
+      });
   }
 
   render() {
