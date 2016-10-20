@@ -32,7 +32,12 @@ class Signup extends Component {
     this.setState({confirm: e.target.value});
   }
 
-  handleSignup() { 
+  handleSignup() {
+    if(this.state.password != this.state.confirm){
+      alert("Passwords do not match.");
+      return;
+    }
+
     fetch('http://localhost:3000/v1/user', {
       method: 'POST',
       headers: {
@@ -93,7 +98,7 @@ class Signup extends Component {
               />
               <FormFieldGroup
                 label='Confirm'
-                type='confirm'
+                type='password'
                 value={this.state.confirm}
                 onChange={this.handleConfirmChange.bind(this)}
                 feedback={true}

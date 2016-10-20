@@ -6,4 +6,3 @@ export Signup from './Signup';
 export Codeversation from './Codeversation';
 export CodeversationForm from './CodeversationForm';
 export Profile from './Profile';
-export Signup from './Signup';
