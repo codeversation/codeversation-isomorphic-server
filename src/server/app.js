@@ -1,55 +1,33 @@
-import { SERVER_ROOT } from 'config';
 import express from 'express';
-import React from 'react';
-import Router, { RouterContext, match } from  'react-router';
-import { renderToString } from 'react-dom/server';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import reducer from 'reducers';
-import { item } from 'actions';
-import { log } from 'utilities';
+import { V1_API_BASE } from 'config';
 
 const app = express();
 
+// set view engine and view folder
 app.set('views', './views');
 app.set('view engine', 'jade');
 
-import routes from '../routes';
+// set middleware
+import bodyParser from 'body-parser';
+import headerMiddleware from 'server/middleware/header';
+import authMiddleware from 'server/middleware/auth';
 
-app.get('/js/app.js', (req, res) => {
-  res.sendFile(SERVER_ROOT + '/app.js');
-});
+app.use(bodyParser.json());
+app.use(headerMiddleware);
+app.use(authMiddleware);
 
-app.get('/*', async (req, res) => {
-  match({ routes, location: req.url },
-    (err, redirectLocation, renderProps) => {
-      if (err) {
-        log(err);
-        res.status(500).json({ message: 'internal server error' });
-      } else if (redirectLocation){
-        res.redirect(302, redirectLocation.pathname + redirectLocation.search);
+// set routes
+import userRouter from 'server/routes/user';
+import sessionRouter from 'server/routes/session'
+import jsRouter from 'server/routes/javascript';
+import isoRouter from 'server/routes/isomorphic';
+import testRouter from 'server/routes/test';
 
-      } else if (renderProps){
-        const store = createStore(reducer);
 
-        store.dispatch(item.append('hi from the server'));
-
-        const appRoot = (
-          <Provider store={ store }>
-            <RouterContext { ...renderProps } />
-          </Provider>
-        );
-
-        const reactOutput = renderToString(appRoot);
-        const initialReduxStateJSON = JSON.stringify(store.getState());
-
-        res.render('index', { reactOutput, initialReduxStateJSON });
-
-      } else {
-        res.status(404).json({ message: 'page not found' });
-
-      }
-    })
-});
+app.use(`${V1_API_BASE}/user`, userRouter);
+app.use(`${V1_API_BASE}/session`, sessionRouter);
+app.use(`${V1_API_BASE}/test`, testRouter);
+app.use('/js', jsRouter);
+app.use ('/', isoRouter);
 
 export default app;

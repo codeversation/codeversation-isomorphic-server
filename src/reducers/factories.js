@@ -25,3 +25,17 @@ export const listReducerFactory = (type) => {
     }
   }
 };
+
+export const userReducerFactory = (type) => {
+  const phrase = verb => constJoin(verb, type);
+  return (list = new List(), action) => {
+    const { user } = action;
+
+    switch(action.type) {
+      case phrase('login'):
+        return list.concat(user);
+      default:
+        return list;
+    }
+  }
+};

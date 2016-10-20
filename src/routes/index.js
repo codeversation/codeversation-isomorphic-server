@@ -1,8 +1,9 @@
-import { App, ItemList, Login, Signup, Codeversation, CodeversationForm } from 'components';
+import { App, ItemList, Login, Codeversation, CodeversationForm, Profile, Signup } from 'components';
 
 export default {
   component: App,
   path: '/',
+  indexRoute: { component: Login },
   childRoutes: [
     {
       component: ItemList,
@@ -13,16 +14,17 @@ export default {
       path: 'view',
     },
     {
-      component: Signup,
-      path: 'signup',
-    },
-    {
-      component: Login,
-      path: 'login',
-    },
-    {
+
       component: CodeversationForm,
       path:'new',
     },
+    {
+      component: Profile,
+      path: 'profile'
+    },
+    {
+      component: Signup,
+      path: 'register'
+    }
   ]
 };
