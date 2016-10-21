@@ -6,6 +6,7 @@
   "scripts": {
     "start": "gulp server",
     "build": "gulp clean; gulp build",
+    "naked-server": "node build/lib/node_modules/server",
     "clean": "gulp clean",
     "doc": "esdoc -c esdoc.config.json",
     "test": "gulp clean; gulp build-lib; mocha build/lib/node_modules/test/"
