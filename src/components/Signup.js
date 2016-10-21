@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Image } from 'react-bootstrap';
 import { Link } from 'react-router';
 import FormFieldGroup from './FormFieldGroup';
@@ -10,6 +9,7 @@ class Signup extends Component {
     this.state = { 
       username: '',
       password: '',
+      confirm: '',
       name: '',
       error: false,
       isLoading: false
@@ -27,7 +27,16 @@ class Signup extends Component {
     this.setState({password: e.target.value});
   }
 
-  handleSignup() { 
+  handleConfirmChange(e) {
+    this.setState({confirm: e.target.value});
+  }
+
+  handleSignup() {
+    if(this.state.password != this.state.confirm){
+      alert("Passwords do not match.");
+      return;
+    }
+
     fetch('http://localhost:3000/v1/user', {
       method: 'POST',
       headers: {
@@ -38,7 +47,8 @@ class Signup extends Component {
         user: {
           name: this.state.name,
           email: this.state.username,
-          password: this.state.password
+          password: this.state.password,
+          confirm: this.state.confirm
         }
       })
     }) 
@@ -85,6 +95,13 @@ class Signup extends Component {
                 onChange={this.handlePasswordChange.bind(this)}
                 feedback={true}
               />
+              <FormFieldGroup
+                label='Confirm'
+                type='password'
+                value={this.state.confirm}
+                onChange={this.handleConfirmChange.bind(this)}
+                feedback={true}
+              />
             </Col>
           </Row>
           <Row>
@@ -107,15 +124,4 @@ Signup.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-import { user } from 'actions';
-const mapStateToProps = ({ user }) => ({ user });
-const mapDispatchToProps = dispatch => ({
-  loginUser(userData) {
-    dispatch(user.login(userData));
-  },
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Signup);
+export default Signup;

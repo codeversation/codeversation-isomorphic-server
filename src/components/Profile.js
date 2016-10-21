@@ -5,7 +5,8 @@ import Item from './Item';
 
 class Profile extends Component {
   render() {
-    const user = this.props.user.toJS()[0];
+    const user = this.props.user.toJS();
+    user.posts = ['hello', 'world'];
     console.log(user);
     return (
       <div>

@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Image } from 'react-bootstrap';
 import { Link } from 'react-router';
 import FormFieldGroup from './FormFieldGroup';
+//redux
+import { user } from 'actions';
 
 class Login extends Component {
   constructor(props) {
@@ -24,7 +26,7 @@ class Login extends Component {
   }
 
   handleLogin() { 
-    fetch('http://localhost:3000/v1/session', {
+    fetch('http://localhost:3000/api/v1/session', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -38,15 +40,13 @@ class Login extends Component {
       })
     })
       .then((res) => {
-        this.props.loginUser({
-          name: 'Jeremy',
-          posts: [
-            'hello',
-            'world'
-          ]
-        });
-
-        this.context.router.push('/profile');
+        return res.json();
+      })
+      .then((resData) => {
+        const user = resData.user;
+        user.authToken = resData.token;
+        this.props.loginUser(user);
+        this.context.router.push('/profile')
       })
       .catch((err) => {
         console.error(err);
@@ -105,15 +105,21 @@ class Login extends Component {
   }
 }
 
+Login.propTypes = {
+  // redux props
+  user: PropTypes.object.isRequired
+}
+
 Login.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-import { user } from 'actions';
 const mapStateToProps = ({ user }) => ({ user });
 const mapDispatchToProps = dispatch => ({
   loginUser(userData) {
-    dispatch(user.login(userData));
+    Object.keys(userData).map((key) => {
+      dispatch(user.insert(key, userData[key]));
+    })
   },
 });
 

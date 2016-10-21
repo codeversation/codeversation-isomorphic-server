@@ -1,4 +1,4 @@
 import { USER } from '../actionTypes';
-import { userActionFactory } from './factories';
+import { mapActionFactory } from './factories';
 
-export default userActionFactory(USER);
+export default mapActionFactory(USER);

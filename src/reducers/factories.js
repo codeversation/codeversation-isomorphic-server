@@ -1,4 +1,4 @@
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 import { constJoin } from 'utilities';
 
 export const listReducerFactory = (type) => {
@@ -26,16 +26,22 @@ export const listReducerFactory = (type) => {
   }
 };
 
-export const userReducerFactory = (type) => {
+export const mapReducerFactory = (type) => {
   const phrase = verb => constJoin(verb, type);
-  return (list = new List(), action) => {
-    const { user } = action;
+  return (map = new Map(), action) => {
+    const { key, value } = action;
 
     switch(action.type) {
-      case phrase('login'):
-        return list.concat(user);
+      case phrase('insert'):
+        return map.set(key, value);
+      case phrase('delete'):
+        return map.delete(key);
+      case phrase('update'):
+        return map.update(key, (v) => v);
+      case phrase('clear'):
+        return map.clear();
       default:
-        return list;
+        return map;
     }
   }
 };
