@@ -59,7 +59,8 @@
     "redux": "^3.5.2",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack": "^1.13.2"
+    "webpack": "^1.13.2",
+    "webpack-dotenv-plugin": "^1.4.0"
   },
   "devDependencies": {
     "babel-eslint": "^6.1.2",

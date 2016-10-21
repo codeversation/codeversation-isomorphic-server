@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var DotenvPlugin = require('webpack-dotenv-plugin');
 
 module.exports = {
   devtool: 'inline-source-map',
@@ -11,7 +12,10 @@ module.exports = {
     filename: 'app.js',
   },
   plugins: [
-    new webpack.NoErrorsPlugin(),
+    new DotenvPlugin({
+      sample: './.env.example',
+      path: './.env'
+    }),
   ],
   module: {
     loaders: [
