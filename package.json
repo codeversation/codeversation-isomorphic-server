@@ -77,7 +77,6 @@
     "gulp-nodemon": "^2.1.0",
     "gulp-util": "^3.0.7",
     "mocha": "^3.0.2",
-    "pretty-error": "^2.0.0",
     "source-map-support": "^0.4.2",
     "webpack-middleware": "^1.5.1"
   }

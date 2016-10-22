@@ -55,6 +55,14 @@ gulp.task('server', ['browser-sync', 'browser-sync-build-watch'], () => {
       gutil.log(`[srv]: ${line}`);
       if(line === '* LISTENING *') browserSync.reload();
     });
+  })
+  .on('stderr', data => {
+    var str = data.toString().trim();
+
+    str.split(/\r\n|\r|\n/g).forEach(line => {
+      gutil.log(`[srv stderr]: ${line}`);
+      if(line === '* LISTENING *') browserSync.reload();
+    });
   });
 });
 
