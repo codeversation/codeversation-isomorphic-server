@@ -3,7 +3,6 @@ import 'babel-polyfill';
 
 import app from 'server/app';
 import { log } from 'utilities';
-import PrettyError from 'pretty-error';
 import db from 'server/db';
 
 db.once('open', () => {
