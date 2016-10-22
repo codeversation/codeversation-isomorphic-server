@@ -13,6 +13,7 @@ var webpack = require('webpack');
 var webpackMiddleware = require('webpack-middleware');
 var gutil = require('gulp-util');
 var eslint = require('gulp-eslint');
+var plumber = require('gulp-plumber');
 
 var paths = {
   src: 'src',
@@ -193,6 +194,7 @@ gulp.task('build-app', ['build-lib'], () => {
 
 gulp.task('build-lib', () => {
   return gulp.src(paths.srcFiles)
+    .pipe(plumber())
     .pipe(changed(paths.lib))
     .pipe(babel())
     .pipe(gulp.dest(paths.lib));

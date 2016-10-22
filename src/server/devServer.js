@@ -1,5 +1,6 @@
 import 'source-map-support/register';
 import 'babel-polyfill';
+import 'ignore-styles';
 
 import app from 'server/app';
 import { log } from 'utilities';
