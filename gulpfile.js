@@ -13,6 +13,7 @@ var webpack = require('webpack');
 var webpackMiddleware = require('webpack-middleware');
 var gutil = require('gulp-util');
 var eslint = require('gulp-eslint');
+var plumber = require('gulp-plumber');
 
 var paths = {
   src: 'src',
@@ -34,12 +35,13 @@ paths['libFiles'] = path.join(paths.lib, '**', '*.js');
 paths['vendorDest'] = path.join(paths.lib, 'vendor');
 paths['jsonDest'] = path.join(paths.build, 'json');
 paths['viewsDest'] = path.join(paths.build, 'views');
-paths['clientEntry'] = path.join(paths.lib, 'client/index.js');
-paths['serverEntry'] = path.join(paths.lib, 'server/index.js');
-paths['devServerEntry'] = path.join(paths.lib, 'server/devServer.js');
+paths['server'] = path.join(paths.lib, 'server');
+paths['clientEntry'] = path.join(paths.lib, 'client', 'index.js');
+paths['serverEntry'] = path.join(paths.server, 'index.js');
+paths['devServerEntry'] = path.join(paths.server, 'devServer.js');
 
-nodemonConfig.watch = [paths.lib];
-gulp.task('default', ['server', 'eslint'])
+nodemonConfig.watch = [paths.server];
+gulp.task('default', ['server'])
 
 // start dev server
 gulp.task('server', ['browser-sync', 'browser-sync-build-watch'], () => {
@@ -55,17 +57,25 @@ gulp.task('server', ['browser-sync', 'browser-sync-build-watch'], () => {
       gutil.log(`[srv]: ${line}`);
       if(line === '* LISTENING *') browserSync.reload();
     });
+  })
+  .on('stderr', data => {
+    var str = data.toString().trim();
+
+    str.split(/\r\n|\r|\n/g).forEach(line => {
+      gutil.log(`[srv stderr]: ${line}`);
+      if(line === '* LISTENING *') browserSync.reload();
+    });
   });
 });
 
 gulp.task('eslint', () => {
-  return gulp.src(['**/*.js', '!node_modules/**'])
+  return gulp.src([paths.srcFiles])
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
 });
 
-gulp.task('browser-sync', () => {
+gulp.task('browser-sync', ['browser-sync-watch-lib'], () => {
 
   const wp = webpackMiddleware(
     webpack(webpackConfig),
@@ -89,6 +99,15 @@ gulp.task('browser-sync', () => {
     reloadDelay: 0,
     // files: ['lib/**/*'],
   });
+});
+
+// used to reload broser when lib and therefore app.js change.
+gulp.task('browser-sync-watch-lib', () => {
+  gulp.watch(paths.libFiles, ['browser-sync-reload']);
+});
+
+gulp.task('browser-sync-reload', () => {
+  browserSync.reload();
 });
 
 gulp.task('build-watch',
@@ -185,7 +204,20 @@ gulp.task('build-app', ['build-lib'], () => {
 
 gulp.task('build-lib', () => {
   return gulp.src(paths.srcFiles)
+    .pipe(plumber((err) => {
+
+      gutil.log('[babel] ' + gutil.colors.red('Babel failed to compile.'));
+      gutil.log(`[babel] ${gutil.colors.red(err.message)}`);
+
+      err.codeFrame.split(/\r\n|\r|\n/g).forEach(line => {
+        gutil.log(`[babel]: ${line}`);
+      });
+
+    }))
     .pipe(changed(paths.lib))
+    // .pipe(eslint())
+    // .pipe(eslint.format())
+    // .pipe(eslint.failAfterError())
     .pipe(babel())
     .pipe(gulp.dest(paths.lib));
 });

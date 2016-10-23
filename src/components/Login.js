@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Image } from 'react-bootstrap';
 import { Link } from 'react-router';
 import FormFieldGroup from './FormFieldGroup';
+
 //redux
 import { user } from 'actions';
 
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       username:'',
       password:'',
       error: false,
@@ -25,7 +26,7 @@ class Login extends Component {
     this.setState({password: e.target.value});
   }
 
-  handleLogin() { 
+  handleLogin() {
     fetch('http://localhost:3000/api/v1/session', {
       method: 'POST',
       headers: {
@@ -84,7 +85,7 @@ class Login extends Component {
           </Row>
           <Row>
             <Col md={1} mdOffset={4}>
-              <Button 
+              <Button
                 bsSize='large'
                 onClick={this.handleLogin.bind(this)}
               >
@@ -99,7 +100,7 @@ class Login extends Component {
               </Link>
             </Col>
           </Row>
-        </form> 
+        </form>
       </Grid>
     );
   }

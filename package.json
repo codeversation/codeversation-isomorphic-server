@@ -6,6 +6,7 @@
   "scripts": {
     "start": "gulp server",
     "build": "gulp clean; gulp build",
+    "naked-server": "node build/lib/node_modules/server",
     "clean": "gulp clean",
     "doc": "esdoc -c esdoc.config.json",
     "test": "gulp clean; gulp build-lib; mocha build/lib/node_modules/test/"
@@ -34,13 +35,15 @@
     "bluebird": "^3.4.1",
     "body-parser": "^1.15.2",
     "css-loader": "^0.25.0",
-    "dotenv": "^2.0.0",
+    "dotenv-safe": "^2.3.2",
     "express": "^4.14.0",
     "file-loader": "^0.9.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
+    "gulp-plumber": "^1.1.0",
     "gulp-webpack": "^1.5.0",
     "http-server": "^0.9.0",
+    "ignore-styles": "^5.0.1",
     "immutable": "^3.8.1",
     "isomorphic-fetch": "^2.2.1",
     "jade": "^1.11.0",
@@ -54,12 +57,14 @@
     "react": "^15.3.0",
     "react-bootstrap": "^0.30.5",
     "react-dom": "^15.3.0",
+    "react-highlight": "^0.9.0",
     "react-redux": "^4.4.5",
     "react-router": "^2.7.0",
     "redux": "^3.5.2",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack": "^1.13.2"
+    "webpack": "^1.13.2",
+    "webpack-dotenv-plugin": "^1.4.0"
   },
   "devDependencies": {
     "babel-eslint": "^6.1.2",
@@ -75,7 +80,6 @@
     "gulp-nodemon": "^2.1.0",
     "gulp-util": "^3.0.7",
     "mocha": "^3.0.2",
-    "pretty-error": "^2.0.0",
     "source-map-support": "^0.4.2",
     "webpack-middleware": "^1.5.1"
   }
