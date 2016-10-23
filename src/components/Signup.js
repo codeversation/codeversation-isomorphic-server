@@ -19,6 +19,7 @@ class Signup extends Component {
   handleNameChange(e) {
     this.setState({name: e.target.value});
   }
+
   handleUsernameChange(e) {
     this.setState({username: e.target.value});
   }
@@ -58,7 +59,7 @@ class Signup extends Component {
       })
       .catch((err) => {
         console.error(err)
-        alert('Error signing up');
+        alert('Error signing up.');
       });
   }
 
