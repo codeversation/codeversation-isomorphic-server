@@ -2,14 +2,33 @@ import React, { PropTypes, Component } from 'react'
 import SnippetOutput from './SnippetOutput';
 import { Grid, Row, Col, Button, Image } from 'react-bootstrap';
 
-import { log } from 'utilities';
+import { log, env } from 'utilities';
 
-import brace from 'brace';
-import AceEditor from 'react-ace';
+let brace;
+let AceEditor;
+let AceWrapper;
 
-import 'brace/mode/ruby';
-import 'brace/mode/java';
-import 'brace/theme/github';
+if(env() === 'browser') {
+  brace = require('brace');
+  AceEditor = require('react-ace').default;
+
+  require('brace/mode/ruby');
+  require('brace/mode/java');
+  require('brace/theme/kuroir');
+  
+  AceWrapper = () =>
+    <AceEditor
+      mode="ruby"
+      theme="kuroir"
+      name="code_form"
+      editorProps={{$blockScrolling: true}}
+    />
+  ;
+
+} else {
+  AceWrapper = 'div';
+}
+
 
 class Snippet extends Component {
   constructor(props) {
@@ -35,13 +54,8 @@ class Snippet extends Component {
         </Row>
 
         <Row>
-          <Col md={8} >
-            <AceEditor
-              mode="ruby"
-              theme="github"
-              name="UNIQUE_ID_OF_DIV"
-              editorProps={{$blockScrolling: true}}
-            />
+          <Col md={8}>
+            <AceWrapper />
           </Col>
           <Col md={4} >
             <SnippetOutput />
