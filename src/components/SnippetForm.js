@@ -1,7 +1,8 @@
 import React, { PropTypes, Component } from 'react'
 import SnippetOutput from './SnippetOutput';
 import { Grid, Row, Col, Button, Image } from 'react-bootstrap';
-import Highlight from 'react-highlight';
+import Highlighter from 'react-syntax-highlighter';
+import { docco } from 'react-syntax-highlighter/dist/styles';
 import { log } from 'utilities';
 
 class Snippet extends Component {
@@ -9,10 +10,10 @@ class Snippet extends Component {
     super(props);
 
     this.state = {
-      code: '"lksdf"',
+      code: 'puts "lksdf"',
     };
   }
-  
+
   handleKeyDown(ev) {
     this.setState({ code: this.state.code + 'a' });
     log(this.state.code);
@@ -29,11 +30,11 @@ class Snippet extends Component {
 
         <Row>
           <Col md={8} >
-            <Highlight className='ruby' >
-              <div onKeyDown={::this.handleKeyDown} tabIndex={0}>
+            <div onKeyDown={::this.handleKeyDown} tabIndex={0}>
+              <Highlighter language='ruby' style={docco}>
                 { this.state.code }
-              </div>
-            </Highlight>
+              </Highlighter>
+            </div>
           </Col>
           <Col md={4} >
             <SnippetOutput />
