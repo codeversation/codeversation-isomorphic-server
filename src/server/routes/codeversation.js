@@ -4,11 +4,14 @@ const router = Router();
 
 import Codeversation from 'server/db/model/Codeversation';
 
-router.get('/:id', function(req, res) {
-  Codeversation.find(function(err, doc) {
-    res.send(doc);
+
+
+router.get('/', function(req, res) {
+  Codeversation.findByID(req.params.id, function(err, data) {
+    res.json(data);
   })
 })
+
 
 router.post('/', function(req, res) {
   var codeversations;
@@ -36,5 +39,6 @@ router.post('/', function(req, res) {
     }
   })
 });
+
 
 export default router;
