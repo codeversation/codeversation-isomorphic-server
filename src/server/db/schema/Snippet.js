@@ -1,12 +1,40 @@
 import db from 'mongoose';
 
 const SnippetSchema = new db.Schema({
-  title: String,
-  content: String,
-  compiledSnippet: String,
-  output: String,
-  state: String,
-  correct: Boolean
+  title: {
+    type: String,
+    required: true
+  },
+  content: {
+    type: String,
+    required: true
+  },
+  compiledSnippet: {
+    type: String,
+    required: true
+  },
+  output: {
+    type: String,
+    required: true
+  },
+  state: {
+    type: String,
+    required: true
+  },
+  correct: {
+    type: Boolean,
+    required: true
+  }
 });
+
+
+if(!SnippetSchema.options.toJSON) SnippetSchema.options.toJSON = {};
+SnippetSchema.options.toJSON.transform = (doc, ret) => {
+  delete ret.__v;
+  ret.id = ret._id;
+  delete ret._id;
+
+  return ret;
+};
 
 export default SnippetSchema;
