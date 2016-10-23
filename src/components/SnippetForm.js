@@ -12,7 +12,7 @@ class Snippet extends Component {
       code: '"lksdf"',
     };
   }
-  sdlkjsdf==s=====
+  
   handleKeyDown(ev) {
     this.setState({ code: this.state.code + 'a' });
     log(this.state.code);

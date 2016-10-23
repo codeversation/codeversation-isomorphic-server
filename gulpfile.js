@@ -204,7 +204,16 @@ gulp.task('build-app', ['build-lib'], () => {
 
 gulp.task('build-lib', () => {
   return gulp.src(paths.srcFiles)
-    .pipe(plumber())
+    .pipe(plumber((err) => {
+
+      gutil.log('[babel] ' + gutil.colors.red('Babel failed to compile.'));
+      gutil.log(`[babel] ${gutil.colors.red(err.message)}`);
+
+      err.codeFrame.split(/\r\n|\r|\n/g).forEach(line => {
+        gutil.log(`[babel]: ${line}`);
+      });
+
+    }))
     .pipe(changed(paths.lib))
     // .pipe(eslint())
     // .pipe(eslint.format())
