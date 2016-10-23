@@ -1,9 +1,18 @@
 import db from 'mongoose';
 
 const CodeversationSchema = new db.Schema({
-  title: String,
-  content: String,
-  public: Boolean
+  title: {
+    type: String,
+    required: true
+  },
+  content: {
+    type: String,
+    required: true
+  },
+  public: {
+    type: Boolean,
+    required: true
+  }
 });
 
 
