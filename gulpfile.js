@@ -41,7 +41,7 @@ paths['serverEntry'] = path.join(paths.server, 'index.js');
 paths['devServerEntry'] = path.join(paths.server, 'devServer.js');
 
 nodemonConfig.watch = [paths.server];
-gulp.task('default', ['server', 'eslint'])
+gulp.task('default', ['server'])
 
 // start dev server
 gulp.task('server', ['browser-sync', 'browser-sync-build-watch'], () => {
@@ -69,7 +69,7 @@ gulp.task('server', ['browser-sync', 'browser-sync-build-watch'], () => {
 });
 
 gulp.task('eslint', () => {
-  return gulp.src(['**/*.js', '!node_modules/**'])
+  return gulp.src([paths.srcFiles])
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
@@ -101,13 +101,13 @@ gulp.task('browser-sync', ['browser-sync-watch-lib'], () => {
   });
 });
 
-gulp.task('browser-sync-reload', () => {
-  browserSync.reload();
-});
-
 // used to reload broser when lib and therefore app.js change.
 gulp.task('browser-sync-watch-lib', () => {
   gulp.watch(paths.libFiles, ['browser-sync-reload']);
+});
+
+gulp.task('browser-sync-reload', () => {
+  browserSync.reload();
 });
 
 gulp.task('build-watch',
@@ -206,6 +206,9 @@ gulp.task('build-lib', () => {
   return gulp.src(paths.srcFiles)
     .pipe(plumber())
     .pipe(changed(paths.lib))
+    // .pipe(eslint())
+    // .pipe(eslint.format())
+    // .pipe(eslint.failAfterError())
     .pipe(babel())
     .pipe(gulp.dest(paths.lib));
 });
