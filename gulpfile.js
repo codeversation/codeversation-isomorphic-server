@@ -35,11 +35,12 @@ paths['libFiles'] = path.join(paths.lib, '**', '*.js');
 paths['vendorDest'] = path.join(paths.lib, 'vendor');
 paths['jsonDest'] = path.join(paths.build, 'json');
 paths['viewsDest'] = path.join(paths.build, 'views');
-paths['clientEntry'] = path.join(paths.lib, 'client/index.js');
-paths['serverEntry'] = path.join(paths.lib, 'server/index.js');
-paths['devServerEntry'] = path.join(paths.lib, 'server/devServer.js');
+paths['server'] = path.join(paths.lib, 'server');
+paths['clientEntry'] = path.join(paths.lib, 'client', 'index.js');
+paths['serverEntry'] = path.join(paths.server, 'index.js');
+paths['devServerEntry'] = path.join(paths.server, 'devServer.js');
 
-nodemonConfig.watch = [paths.lib];
+nodemonConfig.watch = [paths.server];
 gulp.task('default', ['server', 'eslint'])
 
 // start dev server
@@ -74,7 +75,7 @@ gulp.task('eslint', () => {
     .pipe(eslint.failAfterError());
 });
 
-gulp.task('browser-sync', () => {
+gulp.task('browser-sync', ['browser-sync-watch-lib'], () => {
 
   const wp = webpackMiddleware(
     webpack(webpackConfig),
@@ -98,6 +99,15 @@ gulp.task('browser-sync', () => {
     reloadDelay: 0,
     // files: ['lib/**/*'],
   });
+});
+
+gulp.task('browser-sync-reload', () => {
+  browserSync.reload();
+});
+
+// used to reload broser when lib and therefore app.js change.
+gulp.task('browser-sync-watch-lib', () => {
+  gulp.watch(paths.libFiles, ['browser-sync-reload']);
 });
 
 gulp.task('build-watch',

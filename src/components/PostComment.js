@@ -5,7 +5,7 @@ class PostComment extends Component {
     return (
       <div>
         <h2>I am a comment</h2>
-      </div> 
+      </div>
     );
   }
 };
