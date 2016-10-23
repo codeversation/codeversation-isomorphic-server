@@ -1,9 +1,15 @@
 import React, { PropTypes, Component } from 'react'
 import SnippetOutput from './SnippetOutput';
 import { Grid, Row, Col, Button, Image } from 'react-bootstrap';
-import Highlighter from 'react-syntax-highlighter';
-import { docco } from 'react-syntax-highlighter/dist/styles';
+
 import { log } from 'utilities';
+
+import brace from 'brace';
+import AceEditor from 'react-ace';
+
+import 'brace/mode/ruby';
+import 'brace/mode/java';
+import 'brace/theme/github';
 
 class Snippet extends Component {
   constructor(props) {
@@ -30,11 +36,12 @@ class Snippet extends Component {
 
         <Row>
           <Col md={8} >
-            <div onKeyDown={::this.handleKeyDown} tabIndex={0}>
-              <Highlighter language='ruby' style={docco}>
-                { this.state.code }
-              </Highlighter>
-            </div>
+            <AceEditor
+              mode="ruby"
+              theme="github"
+              name="UNIQUE_ID_OF_DIV"
+              editorProps={{$blockScrolling: true}}
+            />
           </Col>
           <Col md={4} >
             <SnippetOutput />
