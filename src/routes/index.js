@@ -4,6 +4,7 @@ import {
   Login,
   Codeversation,
   CodeversationForm,
+  CommentForm,
   Profile,
   Signup,
   SnippetForm,
@@ -16,15 +17,19 @@ export default {
   childRoutes: [
     {
       component: ItemList,
-      path: 'list',
+      path: 'list'
     },
     {
       component: Codeversation,
-      path: 'view',
+      path: 'view'
+    },
+    {
+      component: CommentForm,
+      path: 'comment'
     },
     {
       component: CodeversationForm,
-      path:'new',
+      path:'new'
     },
     {
       component: Profile,

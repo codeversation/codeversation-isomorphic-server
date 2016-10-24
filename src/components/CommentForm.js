@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react'
+import FormFieldGroup from './FormFieldGroup';
 import { Grid, Row, Col, Button, Image } from 'react-bootstrap';
 import { Link } from 'react-router';
 
@@ -15,27 +16,25 @@ class CommentForm extends Component {
   }
 
   handleComment(){
-    fetch('http://localhost:3000/v1/user', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        user: {
-          comment = this.state.comment;
-        }
-      })
-    })
+    // fetch('http://localhost:3000/api/v1/user', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json'
+    //   },
+    // })
 
-    .then((data) => {
-        console.log(data)
-        this.context.router.push('/');
-    })
-    .catch((err) => {
-        console.error(err)
-        alert('Error posting your comment.');
-    });
+    // .then((data) => {
+    //     console.log(data)
+    //     this.context.router.push('/');
+    // })
+    // .catch((err) => {
+    //     console.error(err)
+    //     alert('Error posting your comment.');
+    // });
+	
+	return;
+
   }
 
   render() {
@@ -73,7 +72,6 @@ class CommentForm extends Component {
 	      </Grid>
 	    );
 	  }
-  }
 };
 
 export default CommentForm;
