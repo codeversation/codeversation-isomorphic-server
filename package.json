@@ -48,6 +48,7 @@
     "isomorphic-fetch": "^2.2.1",
     "jade": "^1.11.0",
     "jsonwebtoken": "^7.1.9",
+    "jwt-decode": "^2.1.0",
     "lodash": "^4.15.0",
     "mongoose": "^4.6.3",
     "mongoose-beautiful-unique-validation": "^5.1.1",
