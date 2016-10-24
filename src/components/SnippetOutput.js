@@ -4,9 +4,9 @@ class SnippetOutput extends Component {
   render() {
     return (
       <div>
-        <h2>I am a where the snippet output is</h2>
+        <h2>{this.props.code}</h2>
         <button>run</button>
-      </div> 
+      </div>
     );
   }
 };
