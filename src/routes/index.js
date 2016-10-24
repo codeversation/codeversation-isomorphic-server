@@ -6,7 +6,7 @@ import {
   CodeversationForm,
   Profile,
   Signup,
-  SnippetForm,
+  Snippet,
 } from 'components';
 
 export default {
@@ -35,8 +35,8 @@ export default {
       path: 'register'
     },
     {
-      component: SnippetForm,
-      path: 'snippet-form'
+      component: Snippet,
+      path: 'snippet'
     }
   ]
 };

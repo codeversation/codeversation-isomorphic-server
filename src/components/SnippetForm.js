@@ -1,91 +1,119 @@
 import React, { PropTypes, Component } from 'react'
-import SnippetOutput from './SnippetOutput';
-import { Grid, Row, Col, Button, ButtonToolbar, Well } from 'react-bootstrap';
+import { Editor } from 'components';
+import {
+	Grid,
+	Row,
+	Col,
+	Button,
+	ButtonToolbar,
+	Well,
+	FormGroup,
+	ControlLabel,
+	FormControl,
+	Form,
+} from 'react-bootstrap';
 
 import { log, env } from 'utilities';
 
-let brace;
-let AceEditor;
-let AceWrapper;
 
 const rowStyle = {
 	margin: '0 0 10px 0'
 }
 
-class Snippet extends Component {
+class SnippetForm extends Component {
 	constructor(props) {
     super(props);
 
     this.state = {
-      code: '',
+			language: 'javascript',
+			theme: 'monokai',
     };
-
-
-		if(env() === 'browser') {
-		  brace = require('brace');
-		  AceEditor = require('react-ace').default;
-
-		  require('brace/mode/ruby');
-		  require('brace/mode/java');
-		  require('brace/theme/kuroir');
-
-		  AceWrapper = () =>
-		    <AceEditor
-		      mode="javascript"
-		      theme="kuroir"
-		      name="code_form"
-		      width="100%"
-		      height="250px"
-					onChange={::this.handleEditorChange}
-		      editorProps={{$blockScrolling: true}}
-					value={this.state.code}
-					enableBasicAutocompletion={true}
-					enableLiveAutocompletion={true}
-		    />
-		  ;
-
-		} else {
-		  AceWrapper = 'div';
-		}
-
   }
 
+	handleLanguageChange(ev) {
+		this.setState({ language: ev.currentTarget.value });
+	}
 
-	handleEditorChange(newValue) {
-		log(newValue);
-		this.setState({ code: newValue });
-	};
+	handleThemeChange(ev) {
+		this.setState({ theme: ev.currentTarget.value });
+	}
 
+	createOptions(options) {
+		return options.map(
+			(value, idx) =>
+				<option value={value} key={idx} >
+					{
+						// replace _'s with spaces and capitalize each word
+						value
+							.split('_')
+							.map(word =>
+								[
+									word.slice(0, 1).toUpperCase(),
+									word.slice(1).toLowerCase(),
+								].join(''))
+							.join(' ')
+					}
+				</option>
+		);
+	}
   render() {
     return (
-      <Grid>
-        <Row style={rowStyle}>
-          <Col>
-            <h2> Write your snippet. </h2>
-          </Col>
-        </Row>
-				<Well>
-	        <Row style={rowStyle}>
-	          <Col md={8}>
-	            <AceWrapper/>
-	          </Col>
-	          <Col md={4} >
-	            <SnippetOutput code={this.state.code}/>
-	          </Col>
-	        </Row>
-					<Row style={rowStyle}>
-						<Col xs={12}>
-							<ButtonToolbar>
-								<Button bsStyle='primary'>
-									Post
-								</Button>
-							</ButtonToolbar>
-						</Col>
-					</Row>
-				</Well>
-      </Grid>
+			<Well>
+				<Row style={rowStyle}>
+					<Form inline>
+						<FormGroup controlId="formControlsSelect">
+							<FormControl
+								style={{ margin:"0 10px 0" }}
+								componentClass="select"
+								placeholder="eg. Ruby"
+								onChange={ ::this.handleLanguageChange }
+							>
+								{ this.createOptions([
+									'javascript',
+									'ruby',
+								]) }
+							</FormControl>
+
+							<FormControl
+								style={{ margin:"0 10px 0" }}
+								componentClass="select"
+								placeholder="eg. Ruby"
+								onChange={ ::this.handleThemeChange }
+							>
+								{ this.createOptions([
+										'monokai',
+										'github',
+										'tomorrow',
+										'kuroir',
+										'twilight',
+										'xcode',
+										'textmate',
+										'solarized_dark',
+										'solarized_light',
+										'terminal',
+									]) }
+							</FormControl>
+						</FormGroup>
+					</Form>
+				</Row>
+				<Row style={rowStyle}>
+					<Editor
+						code={this.props.code}
+						language={this.state.language}
+						theme={this.state.theme}
+						onChange={this.props.onChange}
+					/>
+				</Row>
+				<Row style={rowStyle}>
+					<ButtonToolbar>
+						<Button bsStyle='primary'>
+							Post
+						</Button>
+					</ButtonToolbar>
+				</Row>
+			</Well>
     );
   }
 };
 
-export default Snippet;
+export default SnippetForm;
