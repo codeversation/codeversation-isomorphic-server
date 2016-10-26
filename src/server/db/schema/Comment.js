@@ -1,33 +1,17 @@
 import db from 'mongoose';
 
 const CommentSchema = new db.Schema({
-  title: {
-    type: String,
-    required: true
-  },
   content: {
     type: String,
     required: true
   },
-  compiledSnippet: {
-    type: String,
-    required: true
-  },
-  output: {
-    type: String,
-    required: true
-  },
-  state: {
-    type: String,
-    required: true
-  },
-  correct: {
-    type: Boolean,
+  likes: {
+    type: Number,
     required: true
   }
 });
 
-
+/*
 if(!CommentSchema.options.toJSON) CommentSchema.options.toJSON = {};
 CommentSchema.options.toJSON.transform = (doc, ret) => {
   delete ret.__v;
@@ -36,5 +20,5 @@ CommentSchema.options.toJSON.transform = (doc, ret) => {
 
   return ret;
 };
-
+*/
 export default CommentSchema;
