@@ -10,10 +10,12 @@ var nodemon = require('gulp-nodemon');
 var nodemonConfig = require('./nodemon');
 var browserSync = require('browser-sync').create();
 var webpack = require('webpack');
-var webpackMiddleware = require('webpack-middleware');
+var webpackMiddleware = require('webpack-dev-middleware');
+var webpackHotMiddleware = require('webpack-hot-middleware');
 var gutil = require('gulp-util');
 var eslint = require('gulp-eslint');
 var plumber = require('gulp-plumber');
+var spawn = require('child_process').spawn;
 
 var paths = {
   src: 'src',
@@ -39,8 +41,9 @@ paths['server'] = path.join(paths.lib, 'server');
 paths['clientEntry'] = path.join(paths.lib, 'client', 'index.js');
 paths['serverEntry'] = path.join(paths.server, 'index.js');
 paths['devServerEntry'] = path.join(paths.server, 'devServer.js');
+paths['srcHotLoadDest'] = path.join(paths.build, 'src', 'node_modules');
 
-nodemonConfig.watch = [paths.lib];
+nodemonConfig.watch = [paths.server];
 gulp.task('default', ['server'])
 
 // start dev server
@@ -50,23 +53,22 @@ gulp.task('server', ['browser-sync'], () => {
 
 
   nodemon(nodemonConfig)
+	  .on('stdout', data => {
+	    var str = data.toString().trim();
 
-  .on('stdout', data => {
-    var str = data.toString().trim();
+	    str.split(/\r\n|\r|\n/g).forEach(line => {
+	      gutil.log(`[srv]: ${line}`);
+	      if(line === '* LISTENING *') browserSync.reload();
+	    });
+	  })
+	  .on('stderr', data => {
+	    var str = data.toString().trim();
 
-    str.split(/\r\n|\r|\n/g).forEach(line => {
-      gutil.log(`[srv]: ${line}`);
-      if(line === '* LISTENING *') browserSync.reload();
-    });
-  })
-  .on('stderr', data => {
-    var str = data.toString().trim();
-
-    str.split(/\r\n|\r|\n/g).forEach(line => {
-      gutil.log(`[srv stderr]: ${line}`);
-      if(line === '* LISTENING *') browserSync.reload();
-    });
-  });
+	    str.split(/\r\n|\r|\n/g).forEach(line => {
+	      gutil.log(`[srv stderr]: ${line}`);
+	      if(line === '* LISTENING *') browserSync.reload();
+	    });
+	  });
 });
 
 gulp.task('eslint', () => {
@@ -77,27 +79,28 @@ gulp.task('eslint', () => {
 });
 
 gulp.task('browser-sync', ['browser-sync-build-watch'], () => {
+	const compiler = webpack(webpackConfig);
 
-  const wp = webpackMiddleware(
-    webpack(webpackConfig),
+  const WPMW = webpackMiddleware(
+    compiler,
     {
-      publicPath: '/js/',
+      publicPath: '/',
       stats: false,
       progress: true,
-      watchOptions: {
-        aggregateTimeout: 300,
-      },
     }
   );
+
+	const HMRMW = webpackHotMiddleware(compiler);
 
   browserSync.init({
     proxy: {
       target: 'localhost:3030',
-      middleware: wp,
+      middleware: [HMRMW, WPMW],
     },
     open: false,
     reloadOnRestart: false,
     reloadDelay: 0,
+		ws: true,
     // files: ['lib/**/*'],
   });
 });
@@ -150,6 +153,7 @@ gulp.task('browser-sync-build',
     'build-json',
     'build-dotenv',
     'build-vendor',
+		'build-hmr',
   ]
 );
 
@@ -160,6 +164,7 @@ gulp.task('browser-sync-watch',
     'watch-views',
     'watch-dotenv',
     'watch-vendor',
+		'watch-hmr',
   ]
 );
 
@@ -195,6 +200,9 @@ gulp.task('watch-dotenv', () => {
   gulp.watch(paths.envFile, ['build-dotenv']);
 });
 
+gulp.task('watch-hmr', () => {
+	gulp.watch(paths.srcFiles, ['build-hmr']);
+});
 
 ///////////// builds
 
@@ -225,6 +233,12 @@ gulp.task('build-lib', () => {
     // .pipe(eslint.failAfterError())
     .pipe(babel())
     .pipe(gulp.dest(paths.lib));
+});
+
+gulp.task('build-hmr', () => {
+	return gulp.src(paths.srcFiles)
+		.pipe(changed(paths.srcHotLoadDest))
+		.pipe(gulp.dest(paths.srcHotLoadDest));
 });
 
 gulp.task('build-views', () => {

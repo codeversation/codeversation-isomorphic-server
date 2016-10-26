@@ -4,14 +4,19 @@ var DotenvPlugin = require('webpack-dotenv-plugin');
 module.exports = {
   devtool: 'inline-source-map',
   entry: [
+		'webpack-hot-middleware/client',
     'babel-polyfill',
-    './build/lib/node_modules/client',
+    './build/src/node_modules/client',
   ],
   output: {
     path: __dirname + '/build',
     filename: 'app.js',
+    // hotUpdateChunkFilename: 'hot/hot-update.js',
+    // hotUpdateMainFilename: 'hot/hot-update.json',
   },
   plugins: [
+		new webpack.optimize.OccurenceOrderPlugin(),
+		new webpack.HotModuleReplacementPlugin(),
     new DotenvPlugin({
       sample: './.env.example',
       path: './.env'
@@ -30,7 +35,19 @@ module.exports = {
           name: 'static/media/[name].[hash:8].[ext]'
         }
       },
-
+			{
+				test: /build\/src\/node_modules\/.*\.js$/,
+				loader: 'babel-loader',
+				query: {
+					babelrc: false,
+				  presets: [
+				    "react",
+				    "es2015",
+				    "stage-0",
+						'react-hmre',
+				  ],
+				}
+			},
     ]
   },
   resolve: {
