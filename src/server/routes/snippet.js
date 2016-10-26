@@ -8,7 +8,7 @@ router.post('/', function(req, res) {
   var snippets;
   if(!req.body) {
     res.status(400);
-    res.end("error undefined in posting. ");
+    res.end("error undefined in the snippet. ");
   }
   if (req.body.snippet) {
     snippets = req.body.snippet;

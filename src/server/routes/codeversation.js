@@ -17,7 +17,7 @@ router.post('/', function(req, res) {
   var codeversations;
   if(!req.body) {
     res.status(400);
-    res.end("error undefined in posting. ");
+    res.end("Invalid request.");
   }
   if (req.body.codeversation) {
     codeversations = req.body.codeversation;
