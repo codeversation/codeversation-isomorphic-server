@@ -2,31 +2,31 @@ import { Router } from 'express';
 
 const router = Router();
 
-import Snippet from 'server/db/model/Snippet';
+import Comment from 'server/db/model/Comment';
 
 router.post('/', function(req, res) {
   var snippets;
   if(!req.body) {
     res.status(400);
-    res.end("error undefined in the snippet. ");
+    res.end("error undefined in the comment. ");
   }
   if (req.body.snippet) {
-    snippets = req.body.snippet;
+    comments = req.body.comment;
   } else {
-    snippet = req.body;
+    comment = req.body;
   }
 
-  var snippet = new Snippet(snippets);
-  snippet.save(function(err, data) {
+  var comment = new Comment(comments);
+  comment.save(function(err, data) {
     if(err) {
       console.log("server controller :save contact error : ");
       console.log(err);
       res
           .status(400)
-          .json([{message: "error in saving data"}]);
+          .json([{ message: "error in saving data" }]);
     } else {
       res.status(200);
-      res.json({snippet, message: 'snippet created successfully! '});
+      res.json({snippet, message: 'comment created successfully! '});
     }
   })
 });
