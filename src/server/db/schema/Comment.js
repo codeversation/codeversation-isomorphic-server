@@ -1,6 +1,6 @@
 import db from 'mongoose';
 
-const SnippetSchema = new db.Schema({
+const CommentSchema = new db.Schema({
   title: {
     type: String,
     required: true
@@ -28,8 +28,8 @@ const SnippetSchema = new db.Schema({
 });
 
 
-if(!SnippetSchema.options.toJSON) SnippetSchema.options.toJSON = {};
-SnippetSchema.options.toJSON.transform = (doc, ret) => {
+if(!CommentSchema.options.toJSON) CommentSchema.options.toJSON = {};
+CommentSchema.options.toJSON.transform = (doc, ret) => {
   delete ret.__v;
   ret.id = ret._id;
   delete ret._id;
@@ -37,4 +37,4 @@ SnippetSchema.options.toJSON.transform = (doc, ret) => {
   return ret;
 };
 
-export default SnippetSchema;
+export default CommentSchema;
