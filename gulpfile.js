@@ -40,13 +40,14 @@ paths['clientEntry'] = path.join(paths.lib, 'client', 'index.js');
 paths['serverEntry'] = path.join(paths.server, 'index.js');
 paths['devServerEntry'] = path.join(paths.server, 'devServer.js');
 
-nodemonConfig.watch = [paths.server];
+nodemonConfig.watch = [paths.lib];
 gulp.task('default', ['server'])
 
 // start dev server
-gulp.task('server', ['browser-sync', 'browser-sync-build-watch'], () => {
+gulp.task('server', ['browser-sync'], () => {
   nodemonConfig.script = paths.devServerEntry;
   nodemonConfig.stdout = false;
+
 
   nodemon(nodemonConfig)
 
@@ -75,7 +76,7 @@ gulp.task('eslint', () => {
     .pipe(eslint.failAfterError());
 });
 
-gulp.task('browser-sync', ['browser-sync-watch-lib'], () => {
+gulp.task('browser-sync', ['browser-sync-build-watch'], () => {
 
   const wp = webpackMiddleware(
     webpack(webpackConfig),
@@ -102,6 +103,10 @@ gulp.task('browser-sync', ['browser-sync-watch-lib'], () => {
 });
 
 // used to reload broser when lib and therefore app.js change.
+// Not currently used because the server needs to be restarted after
+// EVERY change in order to stay up to date.
+//
+// This may become useful again after HMR.
 gulp.task('browser-sync-watch-lib', () => {
   gulp.watch(paths.libFiles, ['browser-sync-reload']);
 });

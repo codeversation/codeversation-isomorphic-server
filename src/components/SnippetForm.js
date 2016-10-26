@@ -1,47 +1,119 @@
 import React, { PropTypes, Component } from 'react'
-import SnippetOutput from './SnippetOutput';
-import { Grid, Row, Col, Button, Image } from 'react-bootstrap';
-import Highlight from 'react-highlight';
-import { log } from 'utilities';
+import { Editor } from 'components';
+import {
+	Grid,
+	Row,
+	Col,
+	Button,
+	ButtonToolbar,
+	Well,
+	FormGroup,
+	ControlLabel,
+	FormControl,
+	Form,
+} from 'react-bootstrap';
 
-class Snippet extends Component {
-  constructor(props) {
+import { log, env } from 'utilities';
+
+
+const rowStyle = {
+	margin: '0 0 10px 0'
+}
+
+class SnippetForm extends Component {
+	constructor(props) {
     super(props);
 
     this.state = {
-      code: '"lksdf"',
+			language: 'javascript',
+			theme: 'monokai',
     };
   }
-  
-  handleKeyDown(ev) {
-    this.setState({ code: this.state.code + 'a' });
-    log(this.state.code);
-  }
 
+	handleLanguageChange(ev) {
+		this.setState({ language: ev.currentTarget.value });
+	}
+
+	handleThemeChange(ev) {
+		this.setState({ theme: ev.currentTarget.value });
+	}
+
+	createOptions(options) {
+		return options.map(
+			(value, idx) =>
+				<option value={value} key={idx} >
+					{
+						// replace _'s with spaces and capitalize each word
+						value
+							.split('_')
+							.map(word =>
+								[
+									word.slice(0, 1).toUpperCase(),
+									word.slice(1).toLowerCase(),
+								].join(''))
+							.join(' ')
+					}
+				</option>
+		);
+	}
   render() {
     return (
-      <Grid>
-        <Row>
-          <Col>
-            <h2> I am a snippet </h2>
-          </Col>
-        </Row>
+			<Well>
+				<Row style={rowStyle}>
+					<Form inline>
+						<FormGroup controlId="formControlsSelect">
+							<FormControl
+								style={{ margin:"0 10px 0" }}
+								componentClass="select"
+								placeholder="eg. Ruby"
+								onChange={ ::this.handleLanguageChange }
+							>
+								{ this.createOptions([
+									'javascript',
+									'ruby',
+								]) }
+							</FormControl>
 
-        <Row>
-          <Col md={8} >
-            <Highlight className='ruby' >
-              <div onKeyDown={::this.handleKeyDown} tabIndex={0}>
-                { this.state.code }
-              </div>
-            </Highlight>
-          </Col>
-          <Col md={4} >
-            <SnippetOutput />
-          </Col>
-        </Row>
-      </Grid>
+							<FormControl
+								style={{ margin:"0 10px 0" }}
+								componentClass="select"
+								placeholder="eg. Ruby"
+								onChange={ ::this.handleThemeChange }
+							>
+								{ this.createOptions([
+										'monokai',
+										'github',
+										'tomorrow',
+										'kuroir',
+										'twilight',
+										'xcode',
+										'textmate',
+										'solarized_dark',
+										'solarized_light',
+										'terminal',
+									]) }
+							</FormControl>
+						</FormGroup>
+					</Form>
+				</Row>
+				<Row style={rowStyle}>
+					<Editor
+						code={this.props.code}
+						language={this.state.language}
+						theme={this.state.theme}
+						onChange={this.props.onChange}
+					/>
+				</Row>
+				<Row style={rowStyle}>
+					<ButtonToolbar>
+						<Button bsStyle='primary'>
+							Post
+						</Button>
+					</ButtonToolbar>
+				</Row>
+			</Well>
     );
   }
 };
 
-export default Snippet;
+export default SnippetForm;
