@@ -1,6 +1,9 @@
 import db from 'mongoose';
 
 const CodeversationSchema = new db.Schema({
+  _id: {
+    type: Number
+  },
   title: {
     type: String,
     required: true
@@ -12,6 +15,10 @@ const CodeversationSchema = new db.Schema({
   public: {
     type: Boolean,
     required: true
+  },
+  snippet: {
+    type: Number,
+    ref: 'Snippet'
   }
 });
 
