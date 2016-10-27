@@ -16,11 +16,11 @@ import eslint from 'gulp-eslint';
 import plumber from 'gulp-plumber';
 import { spawn } from 'child_process';
 
-browserSync = browserSync.create();
+// browserSync = browserSyncImport.create();
 
 // utility functions
 const projPath = (...postfix) => path.join(__dirname, ...postfix);
-const buildPath = (...postfix) => projectPath('build', ...postfix);
+const buildPath = (...postfix) => projPath('build', ...postfix);
 const libPath = (...postfix) => buildPath('lib', 'node_modules', ...postfix);
 const files = prefix => path.join(prefix, '**', '*');
 
@@ -113,11 +113,11 @@ export const watch =
 // pure tasks
 //////////////////////////////////////////////////////
 
-function devServer() {
+function devServer(done) {
 	  nodemonConfig.script = paths.server.dev;
 	  nodemonConfig.stdout = false;
 
-	  nodemon(nodemonConfig)
+	  return nodemon(nodemonConfig)
 		  .on('stdout', data => {
 		    var str = data.toString().trim();
 
@@ -133,11 +133,12 @@ function devServer() {
 		      gutil.log(`[srv stderr]: ${line}`);
 		      if(line === '* LISTENING *') browserSync.reload();
 		    });
-		  });
+		  })
+			.on('start', done);
 }
 
 
-function startBrowserSyncProxy() {
+function startBrowserSyncProxy(done) {
 	const compiler = webpack(webpackConfig);
 
 	const WPMW = webpackMiddleware(
@@ -161,30 +162,36 @@ function startBrowserSyncProxy() {
 		reloadDelay: 0,
 		ws: true,
 		// files: ['lib/**/*'],
-	});
+	},
+	done
+	);
 }
 
 
 // watches
-function watchSrc() {
+function watchSrc(done) {
 	gulp.watch(files(paths.src.src), buildLib);
+	done();
 }
 
 
-function watchJSON() {
+function watchJSON(done) {
 	gulp.watch(files(paths.json.src), buildJSON);
+	done();
 }
 
-function watchViews() {
+function watchViews(done) {
 	gulp.watch(files(paths.views.src), buildViews);
+	done();
 }
 
-function watchVendor() {
+function watchVendor(done) {
 	gulp.watch(files(paths.vendor.src), buildVendor);
+	done();
 }
 
 // unused in favor of webpackMiddleware with browser-sync
-function watchLib() {
+function watchLib(done) {
   webpackConfig.watch = true;
 
   gulp.watch(files(paths.lib.src), () => {
@@ -192,14 +199,18 @@ function watchLib() {
       .pipe(gulpWebpack(webpackConfig))
       .pipe(gulp.dest(buildPath()));
 	  });
+
+	done();
 }
 
-function watchDotenv() {
+function watchDotenv(done) {
   gulp.watch(paths.env.src, buildDotenv);
+	done();
 }
 
-function watchHMR() {
+function watchHMR(done) {
 	gulp.watch(files(paths.src.src), buildHMR);
+	done();
 }
 
 ///////////// builds
@@ -213,7 +224,7 @@ function buildApp() {
 }
 
 function buildLib() {
-  return gulp.src(files(paths.src.src))
+  return gulp.src(files(paths.src.src) + '.js')
     .pipe(plumber((err) => {
 
       gutil.log('[babel] ' + gutil.colors.red('Babel failed to compile.'));
@@ -223,18 +234,18 @@ function buildLib() {
         gutil.log(`[babel]: ${line}`);
       });
     }))
-    .pipe(changed(paths.lib.dest))
+    .pipe(changed(libPath()))
     // .pipe(eslint())
     // .pipe(eslint.format())
     // .pipe(eslint.failAfterError())
     .pipe(babel())
-    .pipe(gulp.dest(paths.lib.dest));
+    .pipe(gulp.dest(libPath()));
 }
 
 function buildHMR() {
 	return gulp.src(files(paths.src.src))
 		.pipe(changed(paths.src.dest.hmr))
-		.pipe(gulp.dest(aths.src.dest.hmr));
+		.pipe(gulp.dest(paths.src.dest.hmr));
 }
 
 function buildViews() {
@@ -252,7 +263,7 @@ function buildJSON() {
 
 function buildDotenv() {
   return gulp.src(paths.env.src)
-    .pipe(gulp.dest(paths.build.dest));
+    .pipe(gulp.dest(buildPath()));
 
 }
 
@@ -269,7 +280,7 @@ export function clean() {
 
 
 // lint [not used]
-function eslint() {
+function lint() {
   return gulp.src([paths.srcFiles])
     .pipe(eslint())
     .pipe(eslint.format())
