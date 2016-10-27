@@ -1,49 +1,92 @@
-var gulp = require('gulp');
-var babel = require('gulp-babel');
-var gulpWebpack = require('gulp-webpack');
-var browserSync = require('browser-sync');
-var path = require('path');
-var changed = require('gulp-changed');
-var del = require('del');
-var webpackConfig = require('./webpack.config.dev.js');
-var nodemon = require('gulp-nodemon');
-var nodemonConfig = require('./nodemon');
-var browserSync = require('browser-sync').create();
-var webpack = require('webpack');
-var webpackMiddleware = require('webpack-dev-middleware');
-var webpackHotMiddleware = require('webpack-hot-middleware');
-var gutil = require('gulp-util');
-var eslint = require('gulp-eslint');
-var plumber = require('gulp-plumber');
-var spawn = require('child_process').spawn;
+import gulp from 'gulp';
+import babel from 'gulp-babel';
+import gulpWebpack from 'gulp-webpack';
+import browserSync from 'browser-sync';
+import path from 'path';
+import changed from 'gulp-changed';
+import del from 'del';
+import webpackConfig from './webpack.config.dev.js';
+import nodemon from 'gulp-nodemon';
+import nodemonConfig from './nodemon';
+import webpack from 'webpack';
+import webpackMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
+import gutil from 'gulp-util';
+import eslint from 'gulp-eslint';
+import plumber from 'gulp-plumber';
+import { spawn } from 'child_process';
 
-var paths = {
-  src: 'src',
-  build: 'build',
-  json: 'json',
-  views: 'views',
-  envFile: '.env',
-  vendor: 'vendor',
-};
+browserSync = browserSync.create();
 
-paths['app'] = path.join(paths.build, 'app.js');
-paths['srcFiles'] = path.join(paths.src, '**', '*.js');
-paths['jsonFiles'] = path.join(paths.json, '**', '*.json');
-paths['viewFiles'] = path.join(paths.views, '**', '*.{jade,ejs}');
-paths['buildFiles'] = path.join(paths.build, '**', '*');
-paths['vendorFiles'] = path.join(paths.vendor, '**', '*');
-paths['lib'] = path.join(paths.build, 'lib', 'node_modules');
-paths['libFiles'] = path.join(paths.lib, '**', '*.js');
-paths['vendorDest'] = path.join(paths.lib, 'vendor');
-paths['jsonDest'] = path.join(paths.build, 'json');
-paths['viewsDest'] = path.join(paths.build, 'views');
-paths['server'] = path.join(paths.lib, 'server');
-paths['clientEntry'] = path.join(paths.lib, 'client', 'index.js');
-paths['serverEntry'] = path.join(paths.server, 'index.js');
-paths['devServerEntry'] = path.join(paths.server, 'devServer.js');
-paths['srcHotLoadDest'] = path.join(paths.build, 'src', 'node_modules');
+const projPath = (...postfix) => path.join(__dirname, ...postfix);
+const buildPath = (...postfix) => projectPath('build', ...postfix);
+const libPath = (...postfix) => buildPath('lib', 'node_modules', ...postfix);
+const files = prefix => path.join(prefix, '**', '*');
 
-nodemonConfig.watch = [paths.server];
+const paths =
+{
+	src: {
+		src: projPath('src'),
+		dest: {
+			babel: libPath(),
+			hmr: buildPath('src', 'node_modules'),
+		},
+	},
+	views: {
+		src: projPath('views'),
+		dest: buildPath('views'),
+	},
+	json: {
+		src: projPath('json'),
+		dest: buildPath('json'),
+	},
+	env: {
+		src: projPath('.env'),
+		dest: buildPath('.env'),
+	},
+	vendor: {
+		src: projPath('vendor'),
+		dest: libPath('vendor'),
+	},
+	server: {
+		dir: libPath('server'),
+		index: libPath('server', 'index.js'),
+		dev: libPath('server', 'devServer.js'),
+	},
+	client: {
+		dir: libPath('client'),
+		index: libPath('client', 'index.js'),
+	},
+	app: buildPath('app.js'),
+}
+
+// var paths = {
+//   src: 'src',
+//   build: 'build',
+//   json: 'json',
+//   views: 'views',
+//   envFile: '.env',
+//   vendor: 'vendor',
+// };
+//
+// paths['app'] = path.join(paths.build, 'app.js');
+// paths['srcFiles'] = path.join(paths.src, '**', '*.js');
+// paths['jsonFiles'] = path.join(paths.json, '**', '*.json');
+// paths['viewFiles'] = path.join(paths.views, '**', '*.{jade,ejs}');
+// paths['buildFiles'] = path.join(paths.build, '**', '*');
+// paths['vendorFiles'] = path.join(paths.vendor, '**', '*');
+// paths['lib'] = path.join(paths.build, 'lib', 'node_modules');
+// paths['libFiles'] = path.join(paths.lib, '**', '*.js');
+// paths['vendorDest'] = path.join(paths.lib, 'vendor');
+// paths['jsonDest'] = path.join(paths.build, 'json');
+// paths['viewsDest'] = path.join(paths.build, 'views');
+// paths['server'] = path.join(paths.lib, 'server');
+// paths['clientEntry'] = path.join(paths.lib, 'client', 'index.js');
+// paths['serverEntry'] = path.join(paths.server, 'index.js');
+// paths['devServerEntry'] = path.join(paths.server, 'devServer.js');
+// paths['srcHotLoadDest'] = path.join(paths.build, 'src', 'node_modules');
+
+nodemonConfig.watch = [paths.server.dir];
 gulp.task('default', ['server'])
 
 // start dev server
@@ -259,11 +302,11 @@ gulp.task('build-dotenv', () => {
 
 })
 
-gulp.task('build-vendor', () => {
+const buildVendor = () => {
   return gulp.src(paths.vendorFiles)
     .pipe(changed(paths.vendorDest))
     .pipe(gulp.dest(paths.vendorDest));
-});
+};
 
 // clean
 gulp.task('clean', () => {
