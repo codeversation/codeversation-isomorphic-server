@@ -18,248 +18,202 @@ import { spawn } from 'child_process';
 
 browserSync = browserSync.create();
 
+// utility functions
 const projPath = (...postfix) => path.join(__dirname, ...postfix);
 const buildPath = (...postfix) => projectPath('build', ...postfix);
 const libPath = (...postfix) => buildPath('lib', 'node_modules', ...postfix);
 const files = prefix => path.join(prefix, '**', '*');
 
-const paths =
-{
-	src: {
-		src: projPath('src'),
-		dest: {
-			babel: libPath(),
-			hmr: buildPath('src', 'node_modules'),
-		},
-	},
-	views: {
-		src: projPath('views'),
-		dest: buildPath('views'),
-	},
-	json: {
-		src: projPath('json'),
-		dest: buildPath('json'),
-	},
-	env: {
-		src: projPath('.env'),
-		dest: buildPath('.env'),
-	},
-	vendor: {
-		src: projPath('vendor'),
-		dest: libPath('vendor'),
-	},
-	server: {
-		dir: libPath('server'),
-		index: libPath('server', 'index.js'),
-		dev: libPath('server', 'devServer.js'),
-	},
-	client: {
-		dir: libPath('client'),
-		index: libPath('client', 'index.js'),
-	},
-	app: buildPath('app.js'),
-}
 
-// var paths = {
-//   src: 'src',
-//   build: 'build',
-//   json: 'json',
-//   views: 'views',
-//   envFile: '.env',
-//   vendor: 'vendor',
-// };
-//
-// paths['app'] = path.join(paths.build, 'app.js');
-// paths['srcFiles'] = path.join(paths.src, '**', '*.js');
-// paths['jsonFiles'] = path.join(paths.json, '**', '*.json');
-// paths['viewFiles'] = path.join(paths.views, '**', '*.{jade,ejs}');
-// paths['buildFiles'] = path.join(paths.build, '**', '*');
-// paths['vendorFiles'] = path.join(paths.vendor, '**', '*');
-// paths['lib'] = path.join(paths.build, 'lib', 'node_modules');
-// paths['libFiles'] = path.join(paths.lib, '**', '*.js');
-// paths['vendorDest'] = path.join(paths.lib, 'vendor');
-// paths['jsonDest'] = path.join(paths.build, 'json');
-// paths['viewsDest'] = path.join(paths.build, 'views');
-// paths['server'] = path.join(paths.lib, 'server');
-// paths['clientEntry'] = path.join(paths.lib, 'client', 'index.js');
-// paths['serverEntry'] = path.join(paths.server, 'index.js');
-// paths['devServerEntry'] = path.join(paths.server, 'devServer.js');
-// paths['srcHotLoadDest'] = path.join(paths.build, 'src', 'node_modules');
+//////////////////////////////////////////////////////
+// path config
+//////////////////////////////////////////////////////
+
+const paths =
+	{
+		src: {
+			src: projPath('src'),
+			dest: {
+				babel: libPath(),
+				hmr: buildPath('src', 'node_modules'),
+			},
+		},
+		views: {
+			src: projPath('views'),
+			dest: buildPath('views'),
+		},
+		json: {
+			src: projPath('json'),
+			dest: buildPath('json'),
+		},
+		env: {
+			src: projPath('.env'),
+			dest: buildPath('.env'),
+		},
+		vendor: {
+			src: projPath('vendor'),
+			dest: libPath('vendor'),
+		},
+		server: {
+			dir: libPath('server'),
+			index: libPath('server', 'index.js'),
+			dev: libPath('server', 'devServer.js'),
+		},
+		client: {
+			dir: libPath('client'),
+			index: libPath('client', 'index.js'),
+		},
+		app: buildPath('app.js'),
+	}
+;
 
 nodemonConfig.watch = [paths.server.dir];
-gulp.task('default', ['server'])
 
-// start dev server
-gulp.task('server', ['browser-sync'], () => {
-  nodemonConfig.script = paths.devServerEntry;
-  nodemonConfig.stdout = false;
+//////////////////////////////////////////////////////
+// composite tasks
+//////////////////////////////////////////////////////
+
+const browserSyncWatch =
+	gulp.parallel(
+		watchSrc,
+		watchJSON,
+		watchViews,
+		watchDotenv,
+		watchVendor,
+		watchHMR,
+	)
+;
+
+const browserSyncBuild =
+	gulp.parallel(
+		buildLib,
+		buildViews,
+		buildJSON,
+		buildDotenv,
+		buildVendor,
+		buildHMR,
+	)
+;
+
+export const build =
+	gulp.parallel(
+    browserSyncBuild,
+    buildApp,
+	)
+;
+
+export const watch =
+	gulp.parallel(
+		browserSyncWatch,
+		watchLib,
+	)
+;
+
+//////////////////////////////////////////////////////
+// pure tasks
+//////////////////////////////////////////////////////
+
+function devServer() {
+	  nodemonConfig.script = paths.server.dev;
+	  nodemonConfig.stdout = false;
+
+	  nodemon(nodemonConfig)
+		  .on('stdout', data => {
+		    var str = data.toString().trim();
+
+		    str.split(/\r\n|\r|\n/g).forEach(line => {
+		      gutil.log(`[srv]: ${line}`);
+		      if(line === '* LISTENING *') browserSync.reload();
+		    });
+		  })
+		  .on('stderr', data => {
+		    var str = data.toString().trim();
+
+		    str.split(/\r\n|\r|\n/g).forEach(line => {
+		      gutil.log(`[srv stderr]: ${line}`);
+		      if(line === '* LISTENING *') browserSync.reload();
+		    });
+		  });
+}
 
 
-  nodemon(nodemonConfig)
-	  .on('stdout', data => {
-	    var str = data.toString().trim();
-
-	    str.split(/\r\n|\r|\n/g).forEach(line => {
-	      gutil.log(`[srv]: ${line}`);
-	      if(line === '* LISTENING *') browserSync.reload();
-	    });
-	  })
-	  .on('stderr', data => {
-	    var str = data.toString().trim();
-
-	    str.split(/\r\n|\r|\n/g).forEach(line => {
-	      gutil.log(`[srv stderr]: ${line}`);
-	      if(line === '* LISTENING *') browserSync.reload();
-	    });
-	  });
-});
-
-gulp.task('eslint', () => {
-  return gulp.src([paths.srcFiles])
-    .pipe(eslint())
-    .pipe(eslint.format())
-    .pipe(eslint.failAfterError());
-});
-
-gulp.task('browser-sync', ['browser-sync-build-watch'], () => {
+function startBrowserSyncProxy() {
 	const compiler = webpack(webpackConfig);
 
-  const WPMW = webpackMiddleware(
-    compiler,
-    {
-      publicPath: '/',
-      stats: false,
-      progress: true,
-    }
-  );
+	const WPMW = webpackMiddleware(
+		compiler,
+		{
+			publicPath: '/',
+			stats: false,
+			progress: true,
+		}
+	);
 
 	const HMRMW = webpackHotMiddleware(compiler);
 
-  browserSync.init({
-    proxy: {
-      target: 'localhost:3030',
-      middleware: [HMRMW, WPMW],
-    },
-    open: false,
-    reloadOnRestart: false,
-    reloadDelay: 0,
+	browserSync.init({
+		proxy: {
+			target: 'localhost:3030',
+			middleware: [HMRMW, WPMW],
+		},
+		open: false,
+		reloadOnRestart: false,
+		reloadDelay: 0,
 		ws: true,
-    // files: ['lib/**/*'],
-  });
-});
+		// files: ['lib/**/*'],
+	});
+}
 
-// used to reload broser when lib and therefore app.js change.
-// Not currently used because the server needs to be restarted after
-// EVERY change in order to stay up to date.
-//
-// This may become useful again after HMR.
-gulp.task('browser-sync-watch-lib', () => {
-  gulp.watch(paths.libFiles, ['browser-sync-reload']);
-});
-
-gulp.task('browser-sync-reload', () => {
-  browserSync.reload();
-});
-
-gulp.task('build-watch',
-  [
-    'build',
-    'watch',
-  ]
-);
-
-gulp.task('build',
-  [
-    'browser-sync-build',
-    'build-app',
-  ]
-);
-
-gulp.task('watch',
-  [
-    'browser-sync-watch',
-    'watch-lib',
-  ]
-);
-
-gulp.task('browser-sync-build-watch',
-  [
-    'browser-sync-build',
-    'browser-sync-watch',
-  ]
-);
-
-gulp.task('browser-sync-build',
-  [
-    'build-lib',
-    'build-views',
-    'build-json',
-    'build-dotenv',
-    'build-vendor',
-		'build-hmr',
-  ]
-);
-
-gulp.task('browser-sync-watch',
-  [
-    'watch-src',
-    'watch-json',
-    'watch-views',
-    'watch-dotenv',
-    'watch-vendor',
-		'watch-hmr',
-  ]
-);
 
 // watches
-gulp.task('watch-src', () => {
-  gulp.watch(paths.srcFiles, ['build-lib']);
-});
+function watchSrc() {
+	gulp.watch(files(paths.src.src), buildLib);
+}
 
-gulp.task('watch-json', () => {
-  gulp.watch(paths.jsonFiles, ['build-json']);
-});
 
-gulp.task('watch-views', () => {
-  gulp.watch(paths.viewFiles, ['build-views']);
-});
+function watchJSON() {
+	gulp.watch(files(paths.json.src), buildJSON);
+}
 
-gulp.task('watch-vendor', () => {
-  gulp.watch(paths.vendorFiles, ['build-vendor']);
-});
+function watchViews() {
+	gulp.watch(files(paths.views.src), buildViews);
+}
+
+function watchVendor() {
+	gulp.watch(files(paths.vendor.src), buildVendor);
+}
 
 // unused in favor of webpackMiddleware with browser-sync
-gulp.task('watch-lib', () => {
+function watchLib() {
   webpackConfig.watch = true;
 
-  gulp.watch(paths.libFiles, {}, () => {
-    return gulp.src(paths.clientEntry)
+  gulp.watch(files(paths.lib.src), () => {
+    return gulp.src(paths.client.index)
       .pipe(gulpWebpack(webpackConfig))
-      .pipe(gulp.dest(paths.build));
-  });
-});
+      .pipe(gulp.dest(buildPath()));
+	  });
+}
 
-gulp.task('watch-dotenv', () => {
-  gulp.watch(paths.envFile, ['build-dotenv']);
-});
+function watchDotenv() {
+  gulp.watch(paths.env.src, buildDotenv);
+}
 
-gulp.task('watch-hmr', () => {
-	gulp.watch(paths.srcFiles, ['build-hmr']);
-});
+function watchHMR() {
+	gulp.watch(files(paths.src.src), buildHMR);
+}
 
 ///////////// builds
 
-gulp.task('build-app', ['build-lib'], () => {
+function buildApp() {
   webpackConfig.watch = false;
 
   return gulp.src(paths.clientEntry)
     .pipe(gulpWebpack(webpackConfig))
     .pipe(gulp.dest(paths.build));
+}
 
-});
-
-gulp.task('build-lib', () => {
-  return gulp.src(paths.srcFiles)
+function buildLib() {
+  return gulp.src(files(paths.src.src))
     .pipe(plumber((err) => {
 
       gutil.log('[babel] ' + gutil.colors.red('Babel failed to compile.'));
@@ -268,47 +222,74 @@ gulp.task('build-lib', () => {
       err.codeFrame.split(/\r\n|\r|\n/g).forEach(line => {
         gutil.log(`[babel]: ${line}`);
       });
-
     }))
-    .pipe(changed(paths.lib))
+    .pipe(changed(paths.lib.dest))
     // .pipe(eslint())
     // .pipe(eslint.format())
     // .pipe(eslint.failAfterError())
     .pipe(babel())
-    .pipe(gulp.dest(paths.lib));
-});
+    .pipe(gulp.dest(paths.lib.dest));
+}
 
-gulp.task('build-hmr', () => {
-	return gulp.src(paths.srcFiles)
-		.pipe(changed(paths.srcHotLoadDest))
-		.pipe(gulp.dest(paths.srcHotLoadDest));
-});
+function buildHMR() {
+	return gulp.src(files(paths.src.src))
+		.pipe(changed(paths.src.dest.hmr))
+		.pipe(gulp.dest(aths.src.dest.hmr));
+}
 
-gulp.task('build-views', () => {
-  return gulp.src(paths.viewFiles)
-    .pipe(changed(paths.viewsDest))
-    .pipe(gulp.dest(paths.viewsDest));
-});
+function buildViews() {
+  return gulp.src(files(paths.views.src))
+    .pipe(changed(paths.views.dest))
+    .pipe(gulp.dest(paths.views.dest));
+};
 
-gulp.task('build-json', () => {
-  return gulp.src(paths.jsonFiles)
-    .pipe(changed(paths.jsonDest))
-    .pipe(gulp.dest(paths.jsonDest));
-});
 
-gulp.task('build-dotenv', () => {
-  return gulp.src(paths.envFile)
-    .pipe(gulp.dest(paths.build))
+function buildJSON() {
+  return gulp.src(files(paths.json.src))
+    .pipe(changed(paths.json.dest))
+    .pipe(gulp.dest(paths.json.dest));
+}
 
-})
+function buildDotenv() {
+  return gulp.src(paths.env.src)
+    .pipe(gulp.dest(paths.build.dest));
 
-const buildVendor = () => {
-  return gulp.src(paths.vendorFiles)
-    .pipe(changed(paths.vendorDest))
-    .pipe(gulp.dest(paths.vendorDest));
+}
+
+function buildVendor() {
+  return gulp.src(files(paths.vendor.src))
+    .pipe(changed(paths.vendor.dest))
+    .pipe(gulp.dest(paths.vendor.dest));
 };
 
 // clean
-gulp.task('clean', () => {
-  return del(paths.build);
-});
+export function clean() {
+  return del(buildPath());
+}
+
+
+// lint [not used]
+function eslint() {
+  return gulp.src([paths.srcFiles])
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
+}
+
+
+//////////////////////////////////////////////////////
+// default task
+//////////////////////////////////////////////////////
+
+// start dev server
+export default
+	gulp.series(
+		clean,
+		browserSyncBuild,
+		gulp.parallel(
+			browserSyncWatch,
+			devServer,
+			startBrowserSyncProxy,
+		),
+	)
+;
