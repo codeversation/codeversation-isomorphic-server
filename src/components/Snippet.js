@@ -7,14 +7,16 @@ class Snippet extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      snippet: 'return "hello'
+      snippet: `def add(x, y)\n\treturn x + y\nend`
     }
   }
 
   render() {
     return (
       <Grid>
-        <h2> I am a snippet</h2>
+        <pre><code>
+            {this.state.snippet}
+        </code></pre>
         <SnippetOutput snippet={this.state.snippet}/>
       </Grid>
     );
