@@ -25,13 +25,15 @@ import jsRouter from 'server/routes/javascript';
 import isoRouter from 'server/routes/isomorphic';
 import testRouter from 'server/routes/test';
 
+
 app.use(`${V1_API_BASE}/codeversation`, codeversationRouter);
 app.use(`${V1_API_BASE}/snippet`, snippetRouter);
+
 app.use(`${V1_API_BASE}/user`, userRouter);
 app.use(`${V1_API_BASE}/session`, sessionRouter);
 app.use(`${V1_API_BASE}/test`, testRouter);
 
-app.use('/js', jsRouter);
-app.use ('/', isoRouter);
+app.use('/', jsRouter);
+app.use('/', isoRouter);
 
 export default app;
