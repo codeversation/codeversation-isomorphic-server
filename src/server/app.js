@@ -33,7 +33,7 @@ app.use(`${V1_API_BASE}/user`, userRouter);
 app.use(`${V1_API_BASE}/session`, sessionRouter);
 app.use(`${V1_API_BASE}/test`, testRouter);
 
-app.use('/js', jsRouter);
-app.use ('/', isoRouter);
+app.use('/', jsRouter);
+app.use('/', isoRouter);
 
 export default app;
