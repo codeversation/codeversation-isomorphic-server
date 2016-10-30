@@ -4,8 +4,8 @@
   "description": "This is a basic isomorphic react server with using router and redux.",
   "main": "build/lib/node_modules/server.js",
   "scripts": {
-    "start": "gulp server",
-    "build": "gulp clean; gulp build",
+    "start": "gulp",
+    "build": "gulp build",
     "naked-server": "node build/lib/node_modules/server",
     "clean": "gulp clean",
     "doc": "esdoc -c esdoc.config.json",
@@ -53,6 +53,7 @@
     "lodash": "^4.15.0",
     "mongoose": "^4.6.3",
     "mongoose-beautiful-unique-validation": "^5.1.1",
+    "mongoose-deep-populate": "^3.0.0",
     "nodemon": "^1.10.2",
     "opal-npm-wrapper": "^0.9.2",
     "react": "^15.3.0",
