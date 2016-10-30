@@ -4,7 +4,6 @@ import mongooseDeepPopulate from 'mongoose-deep-populate';
 const deepPopulate = mongooseDeepPopulate(db);
 
 const CodeversationSchema = new db.Schema({
-
   title: {
     type: String,
     required: true
@@ -17,10 +16,8 @@ const CodeversationSchema = new db.Schema({
     type: Boolean,
     required: true
   },
-
   //snippets: [{type:mongoose.Schema.Types.Objectid, ref: 'Snippet'}],
-//  comments:[{type:mongoose.Schema.Types.ObjectId, ref: 'Comment'}]
-
+  //comments:[{type:mongoose.Schema.Types.ObjectId, ref: 'Comment'}]
 });
 
 CodeversationSchema.plugin(deepPopulate);

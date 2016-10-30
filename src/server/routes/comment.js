@@ -1,7 +1,5 @@
 import { Router } from 'express';
-
 const router = Router();
-
 import Comment from 'server/db/model/Comment';
 
 router.post('/', function(req, res) {
