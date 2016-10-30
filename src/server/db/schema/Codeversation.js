@@ -1,9 +1,10 @@
+import mongoose, { Schema } from 'mongoose';
 import db from 'mongoose';
+import mongooseDeepPopulate from 'mongoose-deep-populate';
+const deepPopulate = mongooseDeepPopulate(db);
 
 const CodeversationSchema = new db.Schema({
-  _id: {
-    type: Number
-  },
+
   title: {
     type: String,
     required: true
@@ -16,12 +17,13 @@ const CodeversationSchema = new db.Schema({
     type: Boolean,
     required: true
   },
-  snippet: {
-    type: Number,
-    ref: 'Snippet'
-  }
+
+  //snippets: [{type:mongoose.Schema.Types.Objectid, ref: 'Snippet'}],
+//  comments:[{type:mongoose.Schema.Types.ObjectId, ref: 'Comment'}]
+
 });
 
+CodeversationSchema.plugin(deepPopulate);
 
 if(!CodeversationSchema.options.toJSON) CodeversationSchema.options.toJSON = {};
 CodeversationSchema.options.toJSON.transform = (doc, ret) => {

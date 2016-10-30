@@ -1,3 +1,5 @@
+
+import mongoose, { Schema } from 'mongoose';
 import db from 'mongoose';
 
 const SnippetSchema = new db.Schema({
@@ -24,7 +26,9 @@ const SnippetSchema = new db.Schema({
   correct: {
     type: Boolean,
     required: true
-  }
+  },
+  _codeversation: {
+    type:mongoose.Schema.Types.ObjectId, ref:'Codeversation'}
 });
 
 

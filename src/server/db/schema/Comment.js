@@ -1,3 +1,5 @@
+
+import mongoose, { Schema } from 'mongoose';
 import db from 'mongoose';
 
 const CommentSchema = new db.Schema({
@@ -7,11 +9,15 @@ const CommentSchema = new db.Schema({
   },
   likes: {
     type: Number,
-    required: true
-  }
+    required: true,
+    default: "0"
+  },
+  _codeversation: {
+    type:mongoose.Schema.Types.ObjectId, ref:'Codeversation'}
 });
 
-/*
+
+
 if(!CommentSchema.options.toJSON) CommentSchema.options.toJSON = {};
 CommentSchema.options.toJSON.transform = (doc, ret) => {
   delete ret.__v;
@@ -20,5 +26,5 @@ CommentSchema.options.toJSON.transform = (doc, ret) => {
 
   return ret;
 };
-*/
+
 export default CommentSchema;
