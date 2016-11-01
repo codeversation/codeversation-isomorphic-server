@@ -4446,6 +4446,10 @@ mongoose-beautiful-unique-validation@^5.1.1:
   dependencies:
     promise "^7.1.1"
 
+mongoose-deep-populate@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/mongoose-deep-populate/-/mongoose-deep-populate-3.0.0.tgz#8100d0698b2211c646a6e92441a666d444171fa0"
+
 mongoose@^4.6.3:
   version "4.6.5"
   resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-4.6.5.tgz#74eed37312e557c391d428c0cf3c8b8eb8959515"
