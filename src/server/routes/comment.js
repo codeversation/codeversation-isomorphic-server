@@ -2,6 +2,27 @@ import { Router } from 'express';
 const router = Router();
 import Comment from 'server/db/model/Comment';
 
+
+//GET all comments
+router.get('/', function(req, res) {
+  Comment
+  .find()
+  .then(function(comments) {
+    res.json(comments);
+  });
+});
+
+// GET one comment
+router.get('/:id', function(req, res) {
+  Comment
+    .findOne({
+      _id: req.params.id
+    })
+    .then(function(comment) {
+      res.json(comment);
+    });
+});
+
 router.post('/', function(req, res) {
   var comments;
   if(!req.body) {

@@ -1,8 +1,26 @@
 import { Router } from 'express';
-
 const router = Router();
-
 import Snippet from 'server/db/model/Snippet';
+
+//GET all comments
+router.get('/', function(req, res) {
+  Snippet
+  .find()
+  .then(function(snippets) {
+    res.json(snippets);
+  });
+});
+
+// GET one comment
+router.get('/:id', function(req, res) {
+  Snippet
+    .findOne({
+      _id: req.params.id
+    })
+    .then(function(snippet) {
+      res.json(snippet);
+    });
+});
 
 router.post('/', function(req, res) {
   var snippets;
