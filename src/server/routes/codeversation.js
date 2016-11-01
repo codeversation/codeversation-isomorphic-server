@@ -5,12 +5,25 @@ const router = Router();
 import Codeversation from 'server/db/model/Codeversation';
 
 
-//display posts
+// GET all posts
 router.get('/', function(req, res) {
-  Codeversation.findByID(req.params.id, function(err, data) {
-    res.json(data);
-  })
-})
+  Codeversation
+  .find()
+  .then(function(codeversations) {
+    res.json(codeversations);
+  });
+});
+
+// GET one post
+router.get('/:id', function(req, res) {
+  Codeversation
+    .findOne({
+      _id: req.params.id
+    })
+    .then(function(codeversation) {
+      res.json(codeversation);
+    });
+});
 
 //display all posts along with CommentSchema
 router.get('/',function(req, res){
