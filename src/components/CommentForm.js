@@ -16,22 +16,29 @@ class CommentForm extends Component {
   }
 
   handleComment(){
-    // fetch('http://localhost:3000/api/v1/user', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json'
-    //   },
-    // })
+    fetch('http://localhost:3000/api/v1/comment', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify( {
+      	comment: {
+      		content: this.state.comment,
+      		likes: 0,
+      		_codeversation: this.props.codeversationId
+      	}
+      })
+    })
 
-    // .then((data) => {
-    //     console.log(data)
-    //     this.context.router.push('/');
-    // })
-    // .catch((err) => {
-    //     console.error(err)
-    //     alert('Error posting your comment.');
-    // });
+    .then((data) => {
+        console.log(data)
+        this.context.router.push('/');
+    })
+    .catch((err) => {
+        console.error(err)
+        alert('Error posting your comment.');
+    });
 	
 	return;
 
