@@ -40,7 +40,15 @@ export const decodeStore =
  * @function
  * @param {string} messages - variable arg list of strings
  */
-export const log = ::console.log;
+
+
+// export log function
+const log = ::console.log;
+log.err = ::console.error;
+
+export { log };
+
+
 
 /**
  * A promised delay function.  The promise returned can be canceled to

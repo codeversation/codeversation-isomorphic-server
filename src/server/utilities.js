@@ -22,7 +22,6 @@ export const prawn =
   });
 
 export const spawnemon = config => new Promise(
-
   (resolve, reject) => {
     const timeout =
     pelay(5)
@@ -37,4 +36,27 @@ export const spawnemon = config => new Promise(
       resolve(nodemon);
     });
 
-  });
+  }
+);
+
+// a wrapper for async express routes
+export const errLink = fn => (res, req, next) => {
+	try {
+		fn(res, req, next).catch(err => next(err));
+	} catch (err) {
+		next(err);
+	}
+};
+
+// a wrapper for async express routes
+export const reactErrLink = fn => (res, req, next) => {
+	try {
+		fn(res, req, next).catch(err => {
+			err.isReact = true;
+			next(err);
+		});
+	} catch (err) {
+		err.isReact = true;
+		next(err);
+	}
+};

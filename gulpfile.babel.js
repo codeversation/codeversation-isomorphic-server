@@ -5,7 +5,8 @@ import browserSync from 'browser-sync';
 import path from 'path';
 import changed from 'gulp-changed';
 import del from 'del';
-import webpackConfig from './webpack.config.dev.js';
+import webpackDevConfig from './webpack.config.dev.js';
+import webpackProdConfig from './webpack.config.prod.js';
 import nodemon from 'gulp-nodemon';
 import nodemonConfig from './nodemon';
 import webpack from 'webpack';
@@ -68,6 +69,8 @@ const paths =
 ;
 
 nodemonConfig.watch = [paths.server.dir];
+var nodemonStream;
+var nodemonState = 'down';
 
 //////////////////////////////////////////////////////
 // composite tasks
@@ -81,6 +84,7 @@ const browserSyncWatch =
 		watchDotenv,
 		watchVendor,
 		watchHMR,
+		watchNodemon,
 	)
 ;
 
@@ -96,12 +100,27 @@ const browserSyncBuild =
 ;
 
 export const build =
-	gulp.parallel(
-    browserSyncBuild,
-    buildApp,
+	gulp.series(
+		clean,
+		gulp.parallel(
+			gulp.series(
+				buildLib,
+				buildApp,
+			),
+			buildViews,
+			buildJSON,
+			buildDotenv,
+			buildVendor,
+		)
 	)
 ;
 
+export const prod =
+	gulp.series(
+		build,
+		server
+	)
+;
 export const watch =
 	gulp.parallel(
 		browserSyncWatch,
@@ -113,11 +132,31 @@ export const watch =
 // pure tasks
 //////////////////////////////////////////////////////
 
+export function server(done) {
+	spawn('node', [paths.server.index]);
+
+	done();
+}
+
 function devServer(done) {
 	  nodemonConfig.script = paths.server.dev;
 	  nodemonConfig.stdout = false;
 
-	  return nodemon(nodemonConfig)
+		nodemonStream = nodemon(nodemonConfig);
+
+	  return nodemonStream
+			.on('start', () => {
+				nodemonState = 'up';
+			})
+			.on('restart', () => {
+				nodemonState = 'up';
+			})
+			.on('crash', () => {
+				nodemonState = 'down';
+			})
+			.on('exit', () => {
+				nodemonState = 'down';
+			})
 		  .on('stdout', data => {
 		    var str = data.toString().trim();
 
@@ -139,7 +178,7 @@ function devServer(done) {
 
 
 function startBrowserSyncProxy(done) {
-	const compiler = webpack(webpackConfig);
+	const compiler = webpack(webpackDevConfig);
 
 	const WPMW = webpackMiddleware(
 		compiler,
@@ -192,11 +231,11 @@ function watchVendor(done) {
 
 // unused in favor of webpackMiddleware with browser-sync
 function watchLib(done) {
-  webpackConfig.watch = true;
+  webpackDevConfig.watch = true;
 
-  gulp.watch(files(paths.lib.src), () => {
+  gulp.watch(files(paths.src.src), () => {
     return gulp.src(paths.client.index)
-      .pipe(gulpWebpack(webpackConfig))
+      .pipe(gulpWebpack(webpackDevConfig))
       .pipe(gulp.dest(buildPath()));
 	  });
 
@@ -213,14 +252,26 @@ function watchHMR(done) {
 	done();
 }
 
+// this watch will cause nodemon to start again after an error in the
+// react code caused it to exit the restart loop.
+function watchNodemon(done) {
+	gulp.watch(files(paths.src.dest.babel), () => {
+		if(nodemonState === 'down'){
+			nodemonStream.emit('restart');
+		}
+	});
+
+	done();
+}
+
 ///////////// builds
 
 function buildApp() {
-  webpackConfig.watch = false;
+  webpackProdConfig.watch = false;
 
-  return gulp.src(paths.clientEntry)
-    .pipe(gulpWebpack(webpackConfig))
-    .pipe(gulp.dest(paths.build));
+  return gulp.src(paths.client.index)
+    .pipe(gulpWebpack(webpackProdConfig))
+    .pipe(gulp.dest(buildPath()));
 }
 
 function buildLib() {

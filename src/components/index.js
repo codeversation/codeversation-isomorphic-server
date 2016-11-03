@@ -10,5 +10,4 @@ export Profile from './Profile';
 // snippet stuff
 export Editor from './Editor';
 export SnippetOutput from './SnippetOutput'
-export SnippetForm from './SnippetForm';
 export Snippet from './Snippet';

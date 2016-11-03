@@ -1,5 +1,5 @@
 import { env } from 'utilities';
-import React from 'react';
+import React, { Component } from 'react';
 
 if(env() === 'browser') {
   var brace = require('brace');
@@ -19,23 +19,31 @@ if(env() === 'browser') {
 	require('brace/theme/terminal');
 	require('brace/theme/monokai');
 
+	//console.log(<AceEditor/>);
+	// AceEditor.editor.setReadOnly(true);
 }
 
-export default
-	({onChange=() => {}, language='javascript', theme='kuroir', code}) =>
-		env() === 'browser' ?
-			<AceEditor
-				mode={language}
-				theme={theme}
-				name="code_form"
-				width="100%"
-				height="250px"
-				onChange={onChange}
-				editorProps={{$blockScrolling: true}}
-				value={code}
-				enableBasicAutocompletion={true}
-				enableLiveAutocompletion={true}
-			/>
-		:
-			<div />
-;
+class Editor extends Component {
+	render() {
+		return (
+			env() === 'browser' ?
+				(<AceEditor
+					mode={this.props.language}
+					theme={this.props.theme}
+					name="code_form"
+					width="100%"
+					height="250px"
+					onChange={this.props.onChange}
+					editorProps={{$blockScrolling: true}}
+					readOnly={true}
+					value={this.props.code}
+					enableBasicAutocompletion={true}
+					enableLiveAutocompletion={true}
+				/>)
+			:
+				<div/>
+		);
+	}
+}
+
+export default Editor;
