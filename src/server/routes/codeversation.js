@@ -48,6 +48,7 @@ router.post('/', function(req, res) {
   if (!codeversations.snippets) {
     codeversations.snippets = []
   }
+  codeversations.dateCreated = new Date();
 
   var codeversation = new Codeversation(codeversations);
   codeversation.save(function(err, data) {

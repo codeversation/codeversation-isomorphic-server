@@ -12,7 +12,11 @@ const CommentSchema = new db.Schema({
     default: "0"
   },
   _codeversation: {
-    type:mongoose.Schema.Types.ObjectId, ref:'Codeversation'}
+    type:mongoose.Schema.Types.ObjectId, ref:'Codeversation'},
+  dateCreated: {
+    type: Date,
+    required: true
+  }
 });
 
 if(!CommentSchema.options.toJSON) CommentSchema.options.toJSON = {};

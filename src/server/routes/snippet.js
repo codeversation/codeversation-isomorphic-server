@@ -31,9 +31,9 @@ router.post('/', function(req, res) {
   if (req.body.snippet) {
     snippets = req.body.snippet;
   } else {
-    snippet = req.body;
+    snippets = req.body;
   }
-
+  snippets.dateCreated = new Date();
   var snippet = new Snippet(snippets);
   snippet.save(function(err, data) {
     if(err) {

@@ -32,9 +32,10 @@ router.post('/', function(req, res) {
   if (req.body.comment) {
     comments = req.body.comment;
   } else {
-    comment = req.body;
+    comments = req.body;
   }
 
+  comments.dateCreated = new Date();
   var comment = new Comment(comments);
   comment.save(function(err, data) {
     if(err) {

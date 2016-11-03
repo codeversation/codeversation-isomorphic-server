@@ -6,19 +6,7 @@ const SnippetSchema = new db.Schema({
     type: String,
     required: true
   },
-  content: {
-    type: String,
-    required: true
-  },
-  compiledSnippet: {
-    type: String,
-    required: true
-  },
-  output: {
-    type: String,
-    required: true
-  },
-  state: {
+  code: {
     type: String,
     required: true
   },
@@ -27,7 +15,11 @@ const SnippetSchema = new db.Schema({
     required: true
   },
   _codeversation: {
-    type:mongoose.Schema.Types.ObjectId, ref:'Codeversation'}
+    type:mongoose.Schema.Types.ObjectId, ref:'Codeversation'},
+  dateCreated: {
+    type: Date,
+    required: true
+  }
 });
 
 if(!SnippetSchema.options.toJSON) SnippetSchema.options.toJSON = {};
