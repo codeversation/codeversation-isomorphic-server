@@ -27,7 +27,11 @@ const SnippetSchema = new db.Schema({
     required: true
   },
   _codeversation: {
-    type:mongoose.Schema.Types.ObjectId, ref:'Codeversation'}
+    type:mongoose.Schema.Types.ObjectId, ref:'Codeversation'},
+  dateCreated: {
+    type: Date,
+    required: true
+  }
 });
 
 if(!SnippetSchema.options.toJSON) SnippetSchema.options.toJSON = {};

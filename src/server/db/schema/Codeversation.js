@@ -16,7 +16,11 @@ const CodeversationSchema = new db.Schema({
     type: Boolean,
     required: true
   },
-  snippets: [{type:Schema.Types.ObjectId, ref: 'Snippet'}]
+  snippets: [{type:Schema.Types.ObjectId, ref: 'Snippet'}],
+  dateCreated: {
+    type: Date,
+    required: true
+  }
 });
 
 CodeversationSchema.plugin(deepPopulate);
