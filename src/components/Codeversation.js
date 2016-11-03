@@ -3,6 +3,7 @@ import PostTitle from './PostTitle';
 import Snippet from './Snippet';
 import CommentList from './CommentList';
 import Loading from './Loading';
+import { Grid, Col, Row, Well, PageHeader } from 'react-bootstrap';
 
 class Codeversation extends Component {
   constructor(props) {
@@ -34,12 +35,14 @@ class Codeversation extends Component {
     if (this.state.isLoading) {
       return <Loading />
     }
+    const { codeversation } = this.state;
     return (
-      <div>
-        <h1>{this.state.codeversation.title}</h1>
+      <Grid>
+        <PageHeader>{codeversation.title}</PageHeader>
+        <Well>{codeversation.content}</Well>
         <Snippet />
         <CommentList />
-      </div> 
+      </Grid>
     );
   }
 };
