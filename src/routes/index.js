@@ -23,7 +23,7 @@ export default {
     {
       component: Login,
       path: 'login'
-    }
+    },
     {
       component: Codeversation,
       path: 'view/:id',
