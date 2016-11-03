@@ -3,13 +3,15 @@ import PostTitle from './PostTitle';
 import Snippet from './Snippet';
 import CommentList from './CommentList';
 import Loading from './Loading';
+import { Grid, Col, Row, Well, PageHeader } from 'react-bootstrap';
 
 class Codeversation extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: true,
-      codeversation: {}
+      codeversation: {},
+      curSnippet: 0
     }
   }
   componentDidMount() {
@@ -33,12 +35,14 @@ class Codeversation extends Component {
     if (this.state.isLoading) {
       return <Loading />
     }
+    const { codeversation } = this.state;
     return (
-      <div>
-        <PostTitle title={this.state.codeversation.title}/>                 
+      <Grid>
+        <PageHeader>{codeversation.title}</PageHeader>
+        <Well>{codeversation.content}</Well>
         <Snippet />
         <CommentList />
-      </div> 
+      </Grid>
     );
   }
 };
