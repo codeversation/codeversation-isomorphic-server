@@ -9,7 +9,8 @@ class Codeversation extends Component {
     super(props);
     this.state = {
       isLoading: true,
-      codeversation: {}
+      codeversation: {},
+      curSnippet: 0
     }
   }
   componentDidMount() {
@@ -35,7 +36,7 @@ class Codeversation extends Component {
     }
     return (
       <div>
-        <PostTitle title={this.state.codeversation.title}/>                 
+        <h1>{this.state.codeversation.title}</h1>
         <Snippet />
         <CommentList />
       </div> 
