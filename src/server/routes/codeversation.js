@@ -40,13 +40,17 @@ router.post('/', function(req, res) {
     res.status(400);
     res.end("Invalid request.");
   }
+
   if (req.body.codeversation) {
     codeversations = req.body.codeversation;
   } else {
-    codeversation = req.body;
+    codeversations = req.body;
   }
 
-  var codeversation = new Codeversation(codeversations);
+  if (!codeversations.snippets) {
+    codeversations.snippets = []
+  } 
+
   codeversation.save(function(err, data) {
     if(err) {
       console.log("server controller :save contact error : ");

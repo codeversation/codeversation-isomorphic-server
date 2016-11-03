@@ -16,8 +16,7 @@ const CodeversationSchema = new db.Schema({
     type: Boolean,
     required: true
   },
-  //snippets: [{type:mongoose.Schema.Types.Objectid, ref: 'Snippet'}],
-  //comments:[{type:mongoose.Schema.Types.ObjectId, ref: 'Comment'}]
+  snippets: [{type:Schema.Types.ObjectId, ref: 'Snippet'}]
 });
 
 CodeversationSchema.plugin(deepPopulate);
