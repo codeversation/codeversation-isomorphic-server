@@ -1,5 +1,5 @@
 import { env } from 'utilities';
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 if(env() === 'browser') {
   var brace = require('brace');
@@ -30,12 +30,12 @@ class Editor extends Component {
 				(<AceEditor
 					mode={this.props.language}
 					theme={this.props.theme}
-					name="code_form"
+					name={this.props.editorName}
 					width="100%"
 					height="250px"
 					onChange={this.props.onChange}
 					editorProps={{$blockScrolling: true}}
-					readOnly={true}
+					readOnly={this.props.readOnly}
 					value={this.props.code}
 					enableBasicAutocompletion={true}
 					enableLiveAutocompletion={true}
@@ -45,5 +45,22 @@ class Editor extends Component {
 		);
 	}
 }
+
+Editor.defaultProps = {
+	language: 'javascript',
+	theme: 'github',
+	onChange: () => {},
+	value: '',
+	readOnly: false,
+};
+
+Editor.propTypes = {
+	editorName: PropTypes.string.isRequired,
+	language: PropTypes.string,
+	theme: PropTypes.string,
+	onChange: PropTypes.func,
+	value: PropTypes.string,
+	readOnly: PropTypes.bool,
+};
 
 export default Editor;

@@ -103,6 +103,8 @@ class Snippet extends Component {
 						language={this.state.language}
 						theme={this.state.theme}
 						onChange={this.props.onChange}
+						readOnly={this.props.readOnly}
+						editorName={'placeholder'}
 					/>
 				</Row>
 				<Row style={rowStyle}>
@@ -115,6 +117,10 @@ class Snippet extends Component {
 			</Well>
     );
   }
+};
+
+Snippet.defaultProps = {
+	readOnly: true,
 };
 
 export default Snippet;
