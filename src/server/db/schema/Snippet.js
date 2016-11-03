@@ -6,19 +6,7 @@ const SnippetSchema = new db.Schema({
     type: String,
     required: true
   },
-  content: {
-    type: String,
-    required: true
-  },
-  compiledSnippet: {
-    type: String,
-    required: true
-  },
-  output: {
-    type: String,
-    required: true
-  },
-  state: {
+  code: {
     type: String,
     required: true
   },

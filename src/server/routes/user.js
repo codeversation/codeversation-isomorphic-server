@@ -28,6 +28,7 @@ router.post('/', (req, res) => {
 
   hash(req.body.user.password)
     .then(passwordDigest => {
+      req.body.user.dateCreated = new Date();
       (new User({ ...req.body.user, passwordDigest })).save()
         .then(user => {
           res.json({ user, message: 'User created successfully.' });
