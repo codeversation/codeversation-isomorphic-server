@@ -20,6 +20,10 @@ const CodeversationSchema = new db.Schema({
   dateCreated: {
     type: Date,
     required: true
+  },
+  creator: {
+    type: Schema.Types.ObjectId,
+    required: true
   }
 });
 
