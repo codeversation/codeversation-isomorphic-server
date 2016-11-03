@@ -7,6 +7,7 @@ import {
   Profile,
   Signup,
   Snippet,
+	Post,
 } from 'components';
 
 export default {
@@ -37,6 +38,10 @@ export default {
     {
       component: Snippet,
       path: 'snippet'
+    },
+    {
+      component: Post,
+      path: 'post'
     }
   ]
 };

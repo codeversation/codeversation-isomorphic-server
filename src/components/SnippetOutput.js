@@ -36,7 +36,7 @@ class SnippetOutput extends Component {
         if (json.js) {
           this.setState({
             output: eval(json.js),
-            isCompiling: false  
+            isCompiling: false
           });
         } else {
           this.setState({
@@ -53,9 +53,12 @@ class SnippetOutput extends Component {
   render() {
     return (
       <Grid>
+				<div>
+					{this.props.snippet}
+				</div>
         <Row>
           <Col md={1}>
-            <Button 
+            <Button
               style={{marginBottom: '10px'}}
               disabled={this.state.isCompiling}
               onClick={!this.state.isCompiling ? this.handleRunSnippet.bind(this) : null}>
@@ -65,7 +68,7 @@ class SnippetOutput extends Component {
         </Row>
         <Row>
           <Col md={4}>
-            <textarea 
+            <textarea
               value={this.state.output}
               cols={50}
               rows={5}
@@ -74,7 +77,7 @@ class SnippetOutput extends Component {
           </Col>
         </Row>
       </Grid>
-    ); } } 
+    ); } }
 SnippetOutput.propTypes = {
   snippet: PropTypes.string.isRequired
 }

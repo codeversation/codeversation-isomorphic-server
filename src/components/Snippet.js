@@ -59,7 +59,7 @@ class Snippet extends Component {
   render() {
     return (
 			<Well>
-				<h1> sdslkfjds </h1>
+				<h2> Snippet </h2>
 				<Row style={rowStyle}>
 					<Form inline>
 						<FormGroup controlId="formControlsSelect">
@@ -120,7 +120,15 @@ class Snippet extends Component {
 };
 
 Snippet.defaultProps = {
-	readOnly: true,
+	readOnly: false,
 };
+
+Snippet.propTypes = {
+	readOnly: PropTypes.bool,
+	onChange: PropTypes.func,
+	theme: PropTypes.string,
+	code: PropTypes.string,
+	language: PropTypes.string,
+}
 
 export default Snippet;

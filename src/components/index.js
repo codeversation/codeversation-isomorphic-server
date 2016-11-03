@@ -7,7 +7,8 @@ export Codeversation from './Codeversation';
 export CodeversationForm from './CodeversationForm';
 export Profile from './Profile';
 
-// snippet stuff
+// post stuff
 export Editor from './Editor';
 export SnippetOutput from './SnippetOutput'
 export Snippet from './Snippet';
+export Post from './Post';
