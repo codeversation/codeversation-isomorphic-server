@@ -9,6 +9,7 @@ import Codeversation from 'server/db/model/Codeversation';
 router.get('/', function(req, res) {
   Codeversation
   .find()
+  .populate('_creator')
   .then(function(codeversations) {
     res.json(codeversations);
   });
@@ -20,10 +21,8 @@ router.get('/:id', function(req, res) {
     .findOne({
       _id: req.params.id
     })
-    .then(function(codeversation) {
-      return codeversation.deepPopulate('_creator');
-    })
-    .then((codeversation) => console.log(codeversation))
+    .populate('_creator')
+    .then((codeversation) => res.json(codeversation))
     .catch((err) => {
       console.error(err);
     })

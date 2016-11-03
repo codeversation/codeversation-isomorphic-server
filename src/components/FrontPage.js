@@ -42,7 +42,7 @@ class FrontPage extends Component {
                   header={codeversation.title}
                   style={style}
                 >
-                  {codeversation.creator.username}
+                  {codeversation._creator.email}
                 </ListGroupItem>
               );
             })}
