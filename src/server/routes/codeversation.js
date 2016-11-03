@@ -21,8 +21,13 @@ router.get('/:id', function(req, res) {
       _id: req.params.id
     })
     .then(function(codeversation) {
-      res.json(codeversation);
-    });
+      return codeversation.deepPopulate('_creator');
+    })
+    .then((codeversation) => console.log(codeversation))
+    .catch((err) => {
+      console.error(err);
+    })
+
 });
 
 //display all posts along with CommentSchema

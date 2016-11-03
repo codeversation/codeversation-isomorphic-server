@@ -34,9 +34,16 @@ class FrontPage extends Component {
           FrontPage
         </h1>
         <ListGroup>
-            {codeversations.map((codeversation) => {
+            {codeversations.map((codeversation, ind) => {
+              const style = ind % 2 ? {background: 'grey'} : null;
               return (
-                <ListGroupItem header={codeversation.title}>author</ListGroupItem>
+                <ListGroupItem 
+                  key={ind} 
+                  header={codeversation.title}
+                  style={style}
+                >
+                  {codeversation.creator.username}
+                </ListGroupItem>
               );
             })}
           </ListGroup>

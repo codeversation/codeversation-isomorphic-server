@@ -16,14 +16,15 @@ const CodeversationSchema = new db.Schema({
     type: Boolean,
     required: true
   },
-  snippets: [{type:Schema.Types.ObjectId, ref: 'Snippet'}],
+  _snippets: [{type:Schema.Types.ObjectId, ref: 'Snippet'}],
   dateCreated: {
     type: Date,
     required: true
   },
-  creator: {
+  _creator: {
     type: Schema.Types.ObjectId,
-    required: true
+    required: true,
+    ref: 'User'
   }
 });
 
