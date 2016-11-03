@@ -20,7 +20,7 @@ export default {
     },
     {
       component: Codeversation,
-      path: 'view',
+      path: 'view/:id',
     },
     {
       component: CodeversationForm,
