@@ -8,17 +8,22 @@ import {
   Signup,
   Snippet,
 	Post,
+  FrontPage
 } from 'components';
 
 export default {
   component: App,
   path: '/',
-  indexRoute: { component: Login },
+  indexRoute: { component: FrontPage },
   childRoutes: [
     {
       component: ItemList,
       path: 'list',
     },
+    {
+      component: Login,
+      path: 'login'
+    }
     {
       component: Codeversation,
       path: 'view/:id',
