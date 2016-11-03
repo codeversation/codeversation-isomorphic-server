@@ -3,6 +3,7 @@ import PostTitle from './PostTitle';
 import Snippet from './Snippet';
 import CommentList from './CommentList';
 import Loading from './Loading';
+import Post from './Post';
 import { Grid, Col, Row, Well, PageHeader } from 'react-bootstrap';
 
 class Codeversation extends Component {
@@ -40,8 +41,7 @@ class Codeversation extends Component {
       <Grid>
         <PageHeader>{codeversation.title}</PageHeader>
         <Well>{codeversation.content}</Well>
-        <Snippet />
-        <CommentList />
+				<Post snippetId={'sklsdjflkdf'} readOnly={false} />
       </Grid>
     );
   }

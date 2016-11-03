@@ -11,8 +11,9 @@ module.exports = {
   output: {
     path: __dirname + '/build',
     filename: 'app.js',
-    // hotUpdateChunkFilename: 'hot/hot-update.js',
-    // hotUpdateMainFilename: 'hot/hot-update.json',
+    hotUpdateChunkFilename: 'hot/hot-update.js',
+    hotUpdateMainFilename: 'hot/hot-update.json',
+		publicPath: '/',
   },
   plugins: [
 		new webpack.optimize.OccurenceOrderPlugin(),

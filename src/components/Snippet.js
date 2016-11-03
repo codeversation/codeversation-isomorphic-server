@@ -4,8 +4,6 @@ import {
 	Grid,
 	Row,
 	Col,
-	Button,
-	ButtonToolbar,
 	Well,
 	FormGroup,
 	ControlLabel,
@@ -14,7 +12,6 @@ import {
 } from 'react-bootstrap';
 
 import { log, env } from 'utilities';
-
 
 const rowStyle = {
 	margin: '0 0 10px 0'
@@ -56,6 +53,7 @@ class Snippet extends Component {
 				</option>
 		);
 	}
+
   render() {
     return (
 			<Well>
@@ -106,13 +104,6 @@ class Snippet extends Component {
 						readOnly={this.props.readOnly}
 						editorName={'placeholder'}
 					/>
-				</Row>
-				<Row style={rowStyle}>
-					<ButtonToolbar>
-						<Button bsStyle='primary'>
-							Post
-						</Button>
-					</ButtonToolbar>
 				</Row>
 			</Well>
     );

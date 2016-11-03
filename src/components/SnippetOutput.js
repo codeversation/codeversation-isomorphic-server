@@ -70,8 +70,6 @@ class SnippetOutput extends Component {
           <Col md={4}>
             <textarea
               value={this.state.output}
-              cols={50}
-              rows={5}
               readOnly
             />
           </Col>

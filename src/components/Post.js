@@ -4,9 +4,13 @@ import SnippetOutput from './SnippetOutput';
 import CommentList from './CommentList';
 import { Grid, Row, Col, ButtonToolbar, Button } from 'react-bootstrap';
 
+const rowStyle = {
+	margin: '0 0 10px 0'
+}
+
 class Post extends Component {
 	constructor(...args) {
-		super(args);
+		super(...args);
 
 		this.state = {
 			code: '',

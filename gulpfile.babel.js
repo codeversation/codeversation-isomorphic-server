@@ -255,16 +255,20 @@ function watchHMR(done) {
 // this watch will cause nodemon to start again after an error in the
 // react code caused it to exit the restart loop.
 function watchNodemon(done) {
-	gulp.watch(files(paths.src.dest.babel), () => {
-		if(nodemonState === 'down'){
-			nodemonStream.emit('restart');
-		}
-	});
+	gulp.watch(files(paths.src.dest.babel), setServerUp);
 
 	done();
 }
 
 ///////////// builds
+
+export function setServerUp(done) {
+	if(nodemonState === 'down'){
+		nodemonStream.emit('restart');
+	}
+
+	done();
+}
 
 function buildApp() {
   webpackProdConfig.watch = false;
