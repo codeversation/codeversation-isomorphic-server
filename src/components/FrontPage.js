@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import Loading from './Loading';
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Link } from 'react-router';
 
 class FrontPage extends Component {
   constructor(props) {
@@ -30,19 +31,16 @@ class FrontPage extends Component {
     const { codeversations } = this.state;
     return (
       <div>
-        <h1>
-          FrontPage
-        </h1>
         <ListGroup>
             {codeversations.map((codeversation, ind) => {
-              const style = ind % 2 ? {background: 'grey'} : null;
+              const style = ind % 2 ? {background: '#f2f2f2'} : null;
               return (
                 <ListGroupItem 
                   key={ind} 
-                  header={codeversation.title}
                   style={style}
                 >
-                  {codeversation._creator.email}
+                  <Link to={`view/${codeversation.id}`}><h3>{codeversation.title}</h3></Link>
+                  <p>{codeversation._creator.email}</p>
                 </ListGroupItem>
               );
             })}
