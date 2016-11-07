@@ -45,7 +45,6 @@ class Login extends Component {
       })
       .then((resData) => {
         const userData = decode(resData.token);
-        console.log(userData);
         this.props.loginUser(userData);
         this.props.close();
       })

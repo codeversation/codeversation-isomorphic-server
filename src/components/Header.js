@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 import UserStateButton from './UserStateButton';
 
 const Header = ({ user, ...props }) => {
+  console.log(user);
   const loggedIn = user.size !== 0;
   return (
     <Navbar inverse fluid>
@@ -23,6 +24,7 @@ const Header = ({ user, ...props }) => {
         </NavItem>
         <UserStateButton
           user={user}
+          loggedIn={loggedIn}
         />
       </Nav>
     </Navbar>

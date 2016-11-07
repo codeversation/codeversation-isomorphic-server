@@ -9,12 +9,11 @@ class UserStateButton extends Component {
       showModal: false
     }
   }
-  handleOpen() {
-    console.log('here');
+  handleOpenModal() {
     this.setState({ showModal: true});
   }
 
-  handleClose() {
+  handleCloseModal() {
     this.setState({ showModal: false});
   }
 
@@ -22,11 +21,12 @@ class UserStateButton extends Component {
     const userJS = this.props.user.toJS();
     return (
       <NavItem
-        onClick={!this.props.loggedIn ? this.handleOpen.bind(this) : this.context.router.push(`profile/${userJS.id}`) }
+        onClick={!this.props.loggedIn ? this.handleOpenModal.bind(this) : null}
+        href={!this.props.loggedIn ? null: `/profile/${userJS.id}`}
       >
         {!this.props.loggedIn ? 'login/signup' : userJS.name}
       <Login
-        close={this.handleClose.bind(this)}
+        close={this.handleCloseModal.bind(this)}
         show={this.state.showModal}
       />
       </NavItem>
