@@ -2,13 +2,10 @@ import React, { PropTypes } from 'react';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { connect } from 'react-redux'
 import { Link } from 'react-router';
+import UserStateButton from './UserStateButton';
 
-const Header = ({username, user, ...props}) => {
-  const jsUser = user.toJS();
-  const rightNavItem = user.size === 0 ?
-    <NavItem eventKey={2} href='/login'>login/signup</NavItem>
-    :
-    <NavItem eventKey={1} href={`profile/${jsUser.id}`}>{jsUser.name}</NavItem>
+const Header = ({ user, ...props }) => {
+  const loggedIn = user.size !== 0;
   return (
     <Navbar inverse fluid>
       <Navbar.Header >
@@ -24,7 +21,9 @@ const Header = ({username, user, ...props}) => {
         >
           Create Codeversation
         </NavItem>
-        {rightNavItem}
+        <UserStateButton
+          user={user}
+        />
       </Nav>
     </Navbar>
   );
