@@ -2,30 +2,33 @@ import React, { PropTypes } from 'react';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { connect } from 'react-redux'
 import { Link } from 'react-router';
+import { LinkContainer } from 'react-router-bootstrap';
 import UserStateButton from './UserStateButton';
 
 const Header = ({ user, ...props }) => {
-  console.log(user);
   const loggedIn = user.size !== 0;
   return (
     <Navbar inverse fluid>
       <Navbar.Header >
-        <Navbar.Brand href='/'>
+        <Navbar.Brand>
           <Link to='/'>Codeversation</Link>
         </Navbar.Brand>
       </Navbar.Header>
       <Nav pullRight>
-        <NavItem 
-          eventKey={1} 
-          href='/new'
-          style={{}}
-        >
-          Create Codeversation
+        <LinkContainer to='/new'>
+          <NavItem 
+            eventKey={1} 
+            style={{}}
+          >
+            Create Codeversation
+          </NavItem>
+        </LinkContainer>
+        <NavItem>
+          <UserStateButton
+            user={user}
+            loggedIn={loggedIn}
+          />
         </NavItem>
-        <UserStateButton
-          user={user}
-          loggedIn={loggedIn}
-        />
       </Nav>
     </Navbar>
   );
