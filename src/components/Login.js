@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Modal } from 'react-bootstrap';
 import { Link } from 'react-router';
 import FormFieldGroup from './FormFieldGroup';
-import decode from 'jwt-decode';
 //redux
 import { user } from 'actions';
 
@@ -11,15 +10,15 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username:'',
+      email:'',
       password:'',
       error: false,
       showModal: false,
     };
   }
 
-  handleUsernameChange(e) {
-    this.setState({username: e.target.value});
+  handleEmailChange(e) {
+    this.setState({email: e.target.value});
   }
 
   handlePasswordChange(e) {
@@ -27,25 +26,10 @@ class Login extends Component {
   }
 
   handleLogin() {
-    fetch('http://localhost:3000/api/v1/session', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        user: {
-          email: this.state.username,
-          password: this.state.password
-        }
-      })
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((resData) => {
-        const userData = decode(resData.token);
-        this.props.loginUser(userData);
+		let { email, password } = this.state;
+
+    this.props.loginUser({ email, password })
+      .then(() => {
         this.props.close();
       })
       .catch((err) => {
@@ -61,7 +45,7 @@ class Login extends Component {
         onHide={this.props.close}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Login</Modal.Title>  
+          <Modal.Title>Login</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Grid>
@@ -69,17 +53,17 @@ class Login extends Component {
               <Row>
                 <Col md={6}>
                   <FormFieldGroup
-                    label='Username'
+                    label='Email'
                     type='email'
-                    value={this.state.username}
-                    onChange={this.handleUsernameChange.bind(this)}
+                    value={this.state.email}
+                    onChange={::this.handleEmailChange}
                     feedback={true}
                   />
                   <FormFieldGroup
                     label='Password'
                     type='password'
                     value={this.state.password}
-                    onChange={this.handlePasswordChange.bind(this)}
+                    onChange={::this.handlePasswordChange}
                     feedback={true}
                   />
                 </Col>
@@ -95,7 +79,7 @@ class Login extends Component {
                 </Col>
                 <Col md={1} mdOffset={1}>
                   <Link to='register'>
-                    <Button 
+                    <Button
                       onClick={this.props.close}
                       bsSize='large'
                     >
@@ -119,11 +103,7 @@ Login.propTypes = {
 
 const mapStateToProps = ({ user }) => ({ user });
 const mapDispatchToProps = dispatch => ({
-  loginUser(userData) {
-    Object.keys(userData).map((key) => {
-      dispatch(user.insert(key, userData[key]));
-    })
-  },
+  loginUser: userData => dispatch(user.login(userData)),
 });
 
 export default connect(

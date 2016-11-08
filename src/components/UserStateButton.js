@@ -44,9 +44,10 @@ class UserStateButton extends Component {
 
   render() {
     const userJS = this.props.user.toJS();
+
     return (
       <div>
-      {this.props.loggedIn ? 
+      {this.props.loggedIn ?
         <ProfileButton userName={userJS.name} /> :
         <LoginButton openModal={this.handleOpenModal.bind(this)} />
       }

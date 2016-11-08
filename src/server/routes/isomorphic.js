@@ -5,7 +5,8 @@ import React from 'react';
 import { RouterContext, match } from  'react-router';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import reducer from 'reducers';
 import { item } from 'actions';
 import { log } from 'utilities';
@@ -22,7 +23,10 @@ router.get('/*', reactErrLink(async (req, res, next) => {
         res.redirect(302, redirectLocation.pathname + redirectLocation.search);
 
       } else if (renderProps){
-        const store = createStore(reducer);
+        const store = createStore(
+					reducer,
+					applyMiddleware(thunk),
+				);
 
         store.dispatch(item.append('hi from the server'));
 
@@ -31,7 +35,7 @@ router.get('/*', reactErrLink(async (req, res, next) => {
             <RouterContext { ...renderProps } />
           </Provider>
         );
-				
+
         const reactOutput = renderToString(appRoot);
         const initialReduxStateJSON = JSON.stringify(store.getState());
 

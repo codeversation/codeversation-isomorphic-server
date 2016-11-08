@@ -22,6 +22,7 @@ export const mapActionFactory = (type) => {
     insert: (key, value) => ({ key, value }),
     delete: key => ({ key }),
     update: (key, value) => ({ key, value }),
+		merge: keyValuePairs => ({ keyValuePairs }),
   };
 
   return mapValues(actions,

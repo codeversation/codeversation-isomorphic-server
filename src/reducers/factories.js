@@ -29,7 +29,7 @@ export const listReducerFactory = (type) => {
 export const mapReducerFactory = (type) => {
   const phrase = verb => constJoin(verb, type);
   return (map = new Map(), action) => {
-    const { key, value } = action;
+    const { key, value, keyValuePairs } = action;
 
     switch(action.type) {
       case phrase('insert'):
@@ -38,6 +38,8 @@ export const mapReducerFactory = (type) => {
         return map.delete(key);
       case phrase('update'):
         return map.update(key, (v) => v);
+			case phrase('merge'):
+				return map.merge(keyValuePairs);
       case phrase('clear'):
         return map.clear();
       default:

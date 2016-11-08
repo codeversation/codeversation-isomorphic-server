@@ -3,7 +3,7 @@ import { EMAIL_REGEX } from 'config';
 import { log } from 'utilities';
 import bcrypt from 'bcrypt';
 
-var beautifyUnique = require('mongoose-beautiful-unique-validation');
+// var beautifyUnique = require('mongoose-beautiful-unique-validation');
 
 const UserSchema = new Schema({
   name: {
@@ -28,7 +28,7 @@ const UserSchema = new Schema({
   }
 });
 
-UserSchema.plugin(beautifyUnique);
+// UserSchema.plugin(beautifyUnique);
 
 UserSchema.methods.authenticate = function(password){
   return new Promise((resolve, reject) => {
