@@ -16,8 +16,8 @@ const Header = ({ user, ...props }) => {
       </Navbar.Header>
       <Nav pullRight>
         <LinkContainer to='/new'>
-          <NavItem 
-            eventKey={1} 
+          <NavItem
+            eventKey={1}
             style={{}}
           >
             Create Codeversation

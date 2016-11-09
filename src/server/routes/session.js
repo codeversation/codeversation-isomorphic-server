@@ -26,12 +26,12 @@ router.post('/', (req, res) => {
                 if (token) {
                   res.json({ token, user, message: 'Token created successefully.' });
                 }
-              res.status(501).json({ err, message: 'JWT creation failed.' });
+              res.status(401).json({ err, message: 'JWT creation failed.' });
             }
           );
         })
         .catch(err => {
-          res.status(501).json({ err, message: 'Authentication failure.' });
+          res.status(401).json({ err, message: 'Authentication failure.' });
         });
     })
     .catch(err => {

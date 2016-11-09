@@ -7,7 +7,7 @@ export default
 	mapReducerFactory(
 		USER,
 		{
-			save: user => localStorage.setItem("user", JSON.stringify(user.toJS)),
+			save: user => localStorage.setItem("user", JSON.stringify(user)),
 			load: user => user.merge(JSON.parse(localStorage.getItem("user"))),
 		}
 	);
