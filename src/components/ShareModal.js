@@ -16,10 +16,12 @@ class ShareModal extends Component {
             <InputGroup>
               <InputGroup.Button>
                 <Button>>
-                  {`www.codeversation.com${this.props.location.pathname}`}
+                  Copy
                 </Button>
               </InputGroup.Button>
-              <FormControl type='textarea' />
+              <FormControl type='textarea'>
+                {`www.codeversation.com${this.props.location.pathname}`}
+              </FormControl>
             </FormControl.Static>
           </FormGroup>
         </Modal.Body>
