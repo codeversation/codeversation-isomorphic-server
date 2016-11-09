@@ -1,23 +1,20 @@
 import { List, Map } from 'immutable';
 import { constJoin } from 'utilities';
 
-const evalCaseObjFactory = (type, caseObj) =>
-	{
-		phrase = verb => constJoin(verb, type);
-
-		return (cur, action) => {
+const evalCaseObjFactory =
+	(type, caseObj) =>
+		(cur, action) => {
 			let [ next ] = Object.keys(caseObj)
-				.filter(key => phrase(key) === action.type)
+				.filter(key => constJoin(key, type) === action.type)
 				.map(key => caseObj[key](cur, action))
 			;
 
 			return next || cur;
 		}
-	}
 ;
 
 export const reducerFactoryFactory =
-	(DefualtClass, defaultCases) =>
+	(DefaultClass, defaultCases) =>
 		(type, customCases) => {
 			const evalCaseObj = evalCaseObjFactory(type,
 				{

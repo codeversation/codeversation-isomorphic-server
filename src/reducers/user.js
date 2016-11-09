@@ -3,4 +3,11 @@ import { USER } from 'actionTypes';
 
 import { mapReducerFactory } from './factories';
 
-export default mapReducerFactory(USER);
+export default
+	mapReducerFactory(
+		USER,
+		{
+			save: user => localStorage.setItem("user", JSON.stringify(user.toJS)),
+			load: user => user.merge(JSON.parse(localStorage.getItem("user"))),
+		}
+	);
