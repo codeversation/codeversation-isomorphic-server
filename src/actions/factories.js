@@ -5,27 +5,27 @@ const actionFactoryFactory =
 	(defaultActions) =>
 		(type, customActions) =>
 			mapValues({ ...defualtActions, ...customActions },
-				(action, verb) =>
+				(action, verb, actions) =>
 					(...args) =>
-						({ ...action(...args), type: constJoin(verb, type) })
+						({ ...action.call(actions, ...args), type: constJoin(verb, type) })
 		)
 ;
 
 export const listActionFactory =
 	actionFactoryFactory({
-    append: data => ({ data }),
-    insert: (id, data) => ({ id, data }),
-    delete: id => ({ id }),
-    update: (id, data) => ({ id, data }),
-    sort: comparator => ({comparator }),
+    append(data) { return { data } },
+    insert(id, data){ return { id, data } },
+    delete(id) { return { id } },
+    update(id, data) { return { id, data } },
+    sort(comparator) { return {comparator } },
   })
 ;
 
 export const mapActionFactory =
 	actionFactoryFactory({
-	    insert: (key, value) => ({ key, value }),
-	    delete: key => ({ key }),
-	    update: (key, value) => ({ key, value }),
-			merge: keyValuePairs => ({ keyValuePairs }),
+	    insert(key, value) { return ({ key, value }) },
+	    delete(key) { return { key } },
+	    update(key, value) { return { key, value} },
+			merge(keyValuePairs) { return { keyValuePairs } },
 	})
 ;
