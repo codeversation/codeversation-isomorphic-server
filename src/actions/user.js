@@ -22,7 +22,17 @@ export default {
 				})
 				.then((res) => res.json())
 				.then((resData) => {
-					dispatch(actions.merge(decode(resData.token)));
+					let user = decode(resData.token);
+					dispatch(actions.merge(user));
+					dispatch(actions.save(user));
 					return resData;
 				}),
+
+		load() {
+			return actions.merge(JSON.parse(localStorage.getItem("user")));
+		},
+
+		save(user) {
+			localStorage.setItem("user", JSON.stringify(user));
+		}
 };

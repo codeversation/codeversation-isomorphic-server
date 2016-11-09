@@ -1,49 +1,58 @@
 import { List, Map } from 'immutable';
 import { constJoin } from 'utilities';
 
-export const listReducerFactory = (type) => {
-  const phrase = verb => constJoin(verb, type);
+const evalCaseObjFactory = (type, caseObj) =>
+	{
+		phrase = verb => constJoin(verb, type);
 
-  return (list = new List(), action) => {
-    const { data, id, comparator } = action;
+		return (cur, action) => {
+			let [ next ] = Object.keys(caseObj)
+				.filter(key => phrase(key) === action.type)
+				.map(key => caseObj[key](cur, action))
+			;
 
-    switch (action.type) {
-      case phrase('append'):
-        return list.concat(data);
-      case phrase('delete'):
-        return list.delete(id);
-      case phrase('insert'):
-        return list.insert(id, data);
-      case phrase('update'):
-        return list.update(id, old => ({ ...old, data }));
-      case phrase('clear'):
-        return list.clear();
-      case phrase('sort'):
-        return list.sort(comparator);
-      default:
-        return list;
-    }
-  }
-};
+			return next || cur;
+		}
+	}
+;
 
-export const mapReducerFactory = (type) => {
-  const phrase = verb => constJoin(verb, type);
-  return (map = new Map(), action) => {
-    const { key, value, keyValuePairs } = action;
+export const reducerFactoryFactory =
+	(DefualtClass, defaultCases) =>
+		(type, customCases) => {
+			const evalCaseObj = evalCaseObjFactory(type,
+				{
+					...defaultCases,
+					...customCases,
+				}
+			);
 
-    switch(action.type) {
-      case phrase('insert'):
-        return map.set(key, value);
-      case phrase('delete'):
-        return map.delete(key);
-      case phrase('update'):
-        return map.update(key, (v) => v);
-			case phrase('merge'):
-				return map.merge(keyValuePairs);
-      case phrase('clear'):
-        return map.clear();
-      default:
-        return map;
-    }
-  }
-};
+		  return (store = new DefaultClass(), action) => evalCaseObj(store, action);
+		}
+;
+
+export const listReducerFactory =
+	reducerFactoryFactory(
+		List,
+		{
+			append: (list, { data }) => list.concat(data),
+			'delete': (list, { id }) => list.delete(id),
+			insert: (list, { id, data }) => list.delete(id, data),
+			update: (list, { id, data }) =>
+				list.update(id, old => ({ ...old, data })),
+			clear: (list, { comparator }) => list.sort(comparator),
+		}
+	)
+;
+
+export const mapReducerFactory =
+	reducerFactoryFactory(
+		Map,
+		{
+			insert: (map, { key, value }) => map.set(key, value),
+			'delete': (map, { key }) => map.delete(key),
+			update: (map, { key }) => map.update(key, v => v),
+			merge: (map, { keyValuePairs }) => map.merge(keyValuePairs),
+			clear: (map) => map.clear(),
+		}
+	)
+;
