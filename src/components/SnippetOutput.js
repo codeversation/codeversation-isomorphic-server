@@ -17,7 +17,7 @@ class SnippetOutput extends Component {
       isCompiling: true
     });
 
-    fetch(`${COMPILER}${V1_API_BASE}/ruby`, {
+    fetch(`${COMPILER}v1/api/ruby`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -46,6 +46,10 @@ class SnippetOutput extends Component {
         }
       })
       .catch((err) => {
+        this.setState({
+          isCompiling: false,
+          output: 'Error'
+        });
         console.log(err);
       });
   }
@@ -53,9 +57,6 @@ class SnippetOutput extends Component {
   render() {
     return (
       <Grid>
-				<div>
-					{this.props.snippet}
-				</div>
         <Row>
           <Col md={1}>
             <Button
