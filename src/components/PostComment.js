@@ -4,7 +4,7 @@ class PostComment extends Component {
   render() {
     return (
       <div>
-        <h2>I am a comment</h2>
+        <h2>{this.props.content}</h2>
       </div>
     );
   }

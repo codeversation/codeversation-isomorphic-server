@@ -24,7 +24,7 @@ class CommentList extends Component {
       <div>
         <h2>Comments</h2>
         {this.state.comments.map((comment) => {
-            return <PostComment />;
+            return <PostComment content={comment.content}/>;
         })}
         <CommentForm codeversationId={this.props.id}/>
       </div> 
