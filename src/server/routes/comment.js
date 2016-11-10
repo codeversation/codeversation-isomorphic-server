@@ -18,6 +18,7 @@ router.get('/:id', function(req, res) {
     .find({
       _codeversation: req.params.id
     })
+    .populate('_creator')
     .then(function(comment) {
       res.json(comment);
     });
