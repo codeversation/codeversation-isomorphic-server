@@ -22,7 +22,7 @@ class CommentList extends Component {
         })
       })
       .catch(err => console.error(err));
-  }  
+  }
 
   handleCommentChange(e) {
     this.setState({comment: e.target.value});
@@ -74,20 +74,20 @@ class CommentList extends Component {
         <h2>Comments</h2>
         {this.state.comments.map((comment, ind) => {
           return (
-            <PostComment 
-              poster={comment._creator.email} 
+            <PostComment
+              poster={comment._creator.email}
               content={comment.content}
               key={ind}
             />
           );
         })}
-        <CommentForm 
+        <CommentForm
           postComment={this.handleComment.bind(this)}
           comment={this.state.comment}
           codeversationId={this.props.id}
           onCommentChange={this.handleCommentChange.bind(this)}
         />
-      </div> 
+      </div>
     );
   }
 };

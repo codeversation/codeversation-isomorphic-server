@@ -141,6 +141,7 @@ class Profile extends Component {
 	handleSaveClick(ev) {
 		ev.preventDefault();
 
+
 		this.props.updateUser({
 			...this.state.newUser,
 			token: this.props.user.token,
@@ -160,6 +161,10 @@ class Profile extends Component {
   render() {
 
     const user = this.props.user;
+
+		log(user);
+		log(this.state.newUser);
+
     return (
       <div>
 				<PageHeader>
