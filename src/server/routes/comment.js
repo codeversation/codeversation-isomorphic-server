@@ -12,11 +12,11 @@ router.get('/', function(req, res) {
   });
 });
 
-// GET one comment
+// GET comments from codeversation id
 router.get('/:id', function(req, res) {
   Comment
-    .findOne({
-      _id: req.params.id
+    .find({
+      _codeversation: req.params.id
     })
     .then(function(comment) {
       res.json(comment);
