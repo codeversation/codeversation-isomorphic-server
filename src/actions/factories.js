@@ -29,5 +29,6 @@ export const mapActionFactory =
     delete(key) { return { key } },
     update(key, value) { return { key, value} },
 		merge(keyValuePairs) { return { keyValuePairs } },
+		clear() {}
 	})
 ;

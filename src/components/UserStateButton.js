@@ -18,7 +18,7 @@ class LoginButton extends Component {
 class ProfileButton extends Component {
   render() {
     return(
-      <LinkContainer to={`/profile/${this.props.user.id}`}>
+      <LinkContainer to={`/profile`}>
         <p>
           {this.props.user.name}
         </p>

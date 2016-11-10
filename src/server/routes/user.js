@@ -89,7 +89,8 @@ router.delete('/', (req, res) => {
 router.put('/', (req, res) => {
   try {
     if(!req.user){
-      res.status(501).json({ message: 'Authentication Required'});
+			log(res.body)
+      res.status(401).json({ message: 'Authentication Required'});
       return;
     }
 

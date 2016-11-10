@@ -1,5 +1,6 @@
 import { List } from 'immutable';
 import { USER } from 'actionTypes';
+import { log  } from 'utilities';
 
 import { mapReducerFactory } from './factories';
 
@@ -9,5 +10,10 @@ export default
 		{
 			save: user => localStorage.setItem("user", JSON.stringify(user)),
 			load: user => user.merge(JSON.parse(localStorage.getItem("user"))),
+			clear: user => {
+				log(user);
+				localStorage.removeItem('user');
+				return user.clear();
+			}
 		}
 	);
