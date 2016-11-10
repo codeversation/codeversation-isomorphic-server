@@ -58,8 +58,6 @@ class Profile extends Component {
 	}
 
 	displayButtons() {
-		log(!isEmpty(this.props.user))
-		log(this.props.user)
 		return !isEmpty(this.props.user) ?
 			<div>
 				{this.displaySaveOrLoadButton()}
@@ -160,10 +158,6 @@ class Profile extends Component {
 		}
 	}
   render() {
-		log(this.state.newUser);
-		log(this.displayButtons());
-		log(this.props.user);
-		log(isEmpty(this.state.user));
 
     const user = this.props.user;
     return (
