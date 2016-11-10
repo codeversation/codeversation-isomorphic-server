@@ -10,7 +10,7 @@ class CommentList extends Component {
     }
   }
   componentDidMount() {
-    fetch(`http://localhost:3000/comment/${this.props.id}`)
+    fetch(`http://localhost:3000/api/v1/comment/${this.props.id}`)
       .then(res => res.json())
       .then((json) => {
         this.setState({
@@ -22,9 +22,11 @@ class CommentList extends Component {
   render() {
     return (
       <div>
-        <h2>I am a comment list</h2>
-        <PostComment />
-        <CommentForm />
+        <h2>Comments</h2>
+        {this.state.comments.map((comment) => {
+            return <PostComment />;
+        })}
+        <CommentForm codeversationId={this.props.id}/>
       </div> 
     );
   }

@@ -51,7 +51,7 @@ class Codeversation extends Component {
           </Row>
         </PageHeader>
         <Well>{codeversation.content}</Well>
-				<Post snippetId={'sklsdjflkdf'} readOnly={false} />
+				<Post {...this.props } snippetId={'sklsdjflkdf'} readOnly={false} />
       </Grid>
     );
   }

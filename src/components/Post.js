@@ -33,7 +33,7 @@ class Post extends Component {
 						<SnippetOutput snippet={this.state.code}/>
 					</Col>
 				</Row>
-        <CommentList snippetId={this.props.snippetId}/>
+        <CommentList id={this.props.params.id} snippetId={this.props.snippetId}/>
 
 				<Row style={rowStyle}>
 					<ButtonToolbar>
