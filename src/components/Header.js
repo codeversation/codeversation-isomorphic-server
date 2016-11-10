@@ -1,24 +1,49 @@
 import React, { PropTypes } from 'react';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
+import { connect } from 'react-redux'
+import { Link } from 'react-router';
+import { LinkContainer } from 'react-router-bootstrap';
+import UserStateButton from './UserStateButton';
 
-const Header = ({username, ...props}) => {
+const Header = ({ user, ...props }) => {
+  const loggedIn = user.size !== 0;
+
+	console.log(user.toJS());
+
   return (
-    <Navbar>
-      <Navbar.Header>
+    <Navbar inverse fluid>
+      <Navbar.Header >
         <Navbar.Brand>
-          Codeversation
+          <Link to='/'>Codeversation</Link>
         </Navbar.Brand>
       </Navbar.Header>
-      <Nav>
-        <NavItem href='/profile'>{username}</NavItem>
-      <NavItem href='/create'>Create</NavItem>
+      <Nav pullRight>
+        <LinkContainer to='/new'>
+          <NavItem
+            eventKey={1}
+            style={{}}
+          >
+            Create Codeversation
+          </NavItem>
+        </LinkContainer>
+        <NavItem>
+          <UserStateButton
+            user={user.toJS()}
+            loggedIn={loggedIn}
+          />
+        </NavItem>
       </Nav>
     </Navbar>
   );
 }
 
 Header.propTypes = {
-  username: PropTypes.string.isRequired
+  // redux props
+  user: PropTypes.object.isRequired
 };
 
-export default Header;
+const mapStateToProps = ({ user }) => ({ user });
+
+export default connect(
+  mapStateToProps
+)(Header);

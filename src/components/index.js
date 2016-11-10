@@ -3,7 +3,14 @@ export Item from './Item';
 export ItemList from './ItemList';
 export Login from './Login';
 export Signup from './Signup';
+export CommentForm from './CommentForm'
 export Codeversation from './Codeversation';
 export CodeversationForm from './CodeversationForm';
 export Profile from './Profile';
-export SnippetForm from './SnippetForm';
+export FrontPage from './FrontPage';
+
+// post stuff
+export Editor from './Editor';
+export SnippetOutput from './SnippetOutput'
+export Snippet from './Snippet';
+export Post from './Post';

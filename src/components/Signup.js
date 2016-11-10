@@ -6,8 +6,8 @@ import FormFieldGroup from './FormFieldGroup';
 class Signup extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
-      username: '',
+    this.state = {
+      email: '',
       password: '',
       confirm: '',
       name: '',
@@ -19,8 +19,9 @@ class Signup extends Component {
   handleNameChange(e) {
     this.setState({name: e.target.value});
   }
-  handleUsernameChange(e) {
-    this.setState({username: e.target.value});
+
+  handleEmailChange(e) {
+    this.setState({email: e.target.value});
   }
 
   handlePasswordChange(e) {
@@ -37,7 +38,7 @@ class Signup extends Component {
       return;
     }
 
-    fetch('http://localhost:3000/v1/user', {
+    fetch('http://localhost:3000/api/v1/user', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -46,19 +47,19 @@ class Signup extends Component {
       body: JSON.stringify({
         user: {
           name: this.state.name,
-          email: this.state.username,
+          email: this.state.email,
           password: this.state.password,
           confirm: this.state.confirm
         }
       })
-    }) 
+    })
       .then((data) => {
         console.log(data)
         this.context.router.push('/');
       })
       .catch((err) => {
         console.error(err)
-        alert('Error signing up');
+        alert('Error signing up.');
       });
   }
 
@@ -82,10 +83,10 @@ class Signup extends Component {
                 feedback={true}
               />
               <FormFieldGroup
-                label='Username'
+                label='Email'
                 type='email'
-                value={this.state.username}
-                onChange={this.handleUsernameChange.bind(this)}
+                value={this.state.email}
+                onChange={this.handleEmailChange.bind(this)}
                 feedback={true}
               />
               <FormFieldGroup
@@ -106,7 +107,7 @@ class Signup extends Component {
           </Row>
           <Row>
             <Col md={1} mdOffset={4}>
-              <Button 
+              <Button
                 bsSize='large'
                 onClick={this.handleSignup.bind(this)}
               >
@@ -114,7 +115,7 @@ class Signup extends Component {
               </Button>
             </Col>
           </Row>
-        </form> 
+        </form>
       </Grid>
     );
   }

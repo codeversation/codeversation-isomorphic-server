@@ -2,18 +2,13 @@ var webpack = require('webpack');
 var DotenvPlugin = require('webpack-dotenv-plugin');
 
 module.exports = {
-  devtool: 'inline-source-map',
   entry: [
-		'webpack-hot-middleware/client',
     'babel-polyfill',
-    './build/src/node_modules/client',
+    './build/lib/node_modules/client',
   ],
   output: {
     path: __dirname + '/build',
     filename: 'app.js',
-    hotUpdateChunkFilename: 'hot/hot-update.js',
-    hotUpdateMainFilename: 'hot/hot-update.json',
-		publicPath: '/',
   },
   plugins: [
 		new webpack.optimize.OccurenceOrderPlugin(),
@@ -35,20 +30,7 @@ module.exports = {
         query: {
           name: 'static/media/[name].[hash:8].[ext]'
         }
-      },
-			{
-				test: /build\/src\/node_modules\/.*\.js$/,
-				loader: 'babel-loader',
-				query: {
-					babelrc: false,
-				  presets: [
-				    "react",
-				    "es2015",
-				    "stage-0",
-						'react-hmre',
-				  ],
-				}
-			},
+      }
     ]
   },
   resolve: {

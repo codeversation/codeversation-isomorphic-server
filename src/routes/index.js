@@ -4,27 +4,38 @@ import {
   Login,
   Codeversation,
   CodeversationForm,
+  CommentForm,
   Profile,
   Signup,
-  SnippetForm,
+  Snippet,
+	Post,
+  FrontPage
 } from 'components';
 
 export default {
   component: App,
   path: '/',
-  indexRoute: { component: Login },
+  indexRoute: { component: FrontPage },
   childRoutes: [
     {
       component: ItemList,
-      path: 'list',
+      path: 'list'
+    },
+    {
+      component: Login,
+      path: 'login'
     },
     {
       component: Codeversation,
-      path: 'view',
+      path: 'view/:id',
+    },
+    {
+      component: CommentForm,
+      path: 'comment'
     },
     {
       component: CodeversationForm,
-      path:'new',
+      path:'new'
     },
     {
       component: Profile,
@@ -35,8 +46,12 @@ export default {
       path: 'register'
     },
     {
-      component: SnippetForm,
-      path: 'snippet-form'
+      component: Snippet,
+      path: 'snippet'
+    },
+    {
+      component: Post,
+      path: 'post'
     }
   ]
 };

@@ -28,6 +28,7 @@ router.post('/', (req, res) => {
 
   hash(req.body.user.password)
     .then(passwordDigest => {
+      req.body.user.dateCreated = new Date();
       (new User({ ...req.body.user, passwordDigest })).save()
         .then(user => {
           res.json({ user, message: 'User created successfully.' });
@@ -88,7 +89,8 @@ router.delete('/', (req, res) => {
 router.put('/', (req, res) => {
   try {
     if(!req.user){
-      res.status(501).json({ message: 'Authentication Required'});
+			log(res.body)
+      res.status(401).json({ message: 'Authentication Required'});
       return;
     }
 

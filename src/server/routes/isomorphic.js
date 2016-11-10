@@ -5,23 +5,28 @@ import React from 'react';
 import { RouterContext, match } from  'react-router';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import reducer from 'reducers';
 import { item } from 'actions';
 import { log } from 'utilities';
+import { reactErrLink } from 'server/utilities';
 import routes from 'routes';
 
-router.get('/*', async (req, res) => {
+router.get('/*', reactErrLink(async (req, res, next) => {
   match({ routes, location: req.url },
     (err, redirectLocation, renderProps) => {
       if (err) {
-        log(err);
-        res.status(500).json({ message: 'internal server error' });
+				next(err);
+        // res.status(500).json({ message: 'internal server error' });
       } else if (redirectLocation){
         res.redirect(302, redirectLocation.pathname + redirectLocation.search);
 
       } else if (renderProps){
-        const store = createStore(reducer);
+        const store = createStore(
+					reducer,
+					applyMiddleware(thunk),
+				);
 
         store.dispatch(item.append('hi from the server'));
 
@@ -41,6 +46,6 @@ router.get('/*', async (req, res) => {
 
       }
     })
-});
+}));
 
 export default router;

@@ -7,6 +7,10 @@ import { fromJS } from 'immutable';
 import mapValues from 'lodash/mapValues';
 import Promise from 'bluebird';
 
+// for checking if the current code is running in the node or browser
+// environment.
+export const env = () => typeof window === 'undefined' ? 'node' : 'browser';
+
 Promise.config({
   cancellation: true,
 });
@@ -36,7 +40,15 @@ export const decodeStore =
  * @function
  * @param {string} messages - variable arg list of strings
  */
-export const log = ::console.log;
+
+
+// export log function
+const log = ::console.log;
+log.err = ::console.error;
+
+export { log };
+
+
 
 /**
  * A promised delay function.  The promise returned can be canceled to
