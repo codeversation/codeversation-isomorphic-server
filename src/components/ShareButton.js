@@ -3,12 +3,33 @@ import { Button } from 'react-bootstrap';
 import ShareModal from './ShareModal';
 
 class ShareButton extends Component {
-  handle
+  constructor(props) {
+    super(props);
+    this.state = {
+      showModal: false
+    }
+  }
+  handleOpenModal() {
+    this.setState({ showModal: true});
+  }
+  handleCloseModal() {
+    this.setState({ showModal: false});
+  }
   render() {
     return (
-      <Button>
-        Share
-      </Button>
+      <div>
+        <Button 
+          bsStyle='primary'
+          onClick={this.handleOpenModal.bind(this)}
+        >
+          Share
+        </Button>
+        <ShareModal 
+          close={this.handleCloseModal.bind(this)}
+          show={this.state.showModal}
+          location={this.props.location}
+        />
+      </div>
     );
   }
 }

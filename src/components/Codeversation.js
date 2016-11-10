@@ -4,6 +4,7 @@ import Snippet from './Snippet';
 import CommentList from './CommentList';
 import Loading from './Loading';
 import Post from './Post';
+import ShareButton from './ShareButton';
 import { Grid, Col, Row, Well, PageHeader } from 'react-bootstrap';
 
 class Codeversation extends Component {
@@ -39,7 +40,16 @@ class Codeversation extends Component {
     const { codeversation } = this.state;
     return (
       <Grid>
-        <PageHeader>{codeversation.title}</PageHeader>
+        <PageHeader>
+          <Row>
+            <Col md={6}>
+              {codeversation.title}
+            </Col>
+            <Col mdOffset={11}>
+              <ShareButton {...this.props} />
+            </Col>
+          </Row>
+        </PageHeader>
         <Well>{codeversation.content}</Well>
 				<Post snippetId={'sklsdjflkdf'} readOnly={false} />
       </Grid>

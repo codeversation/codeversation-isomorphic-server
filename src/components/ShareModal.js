@@ -1,29 +1,18 @@
 import React, { PropTypes, Component } from 'react';
-import { Button, FormGroup, InputGroup, Modal } from 'react-bootstrap';
+import { Row, Col, Button, FormGroup, FormControl, InputGroup, Modal } from 'react-bootstrap';
 
 class ShareModal extends Component {
   render() {
     return (
-      <Modal>
-        <Modal.Header>
-          Share!
+      <Modal
+        show={this.props.show}
+        onHide={this.props.close}
+      >
+        <Modal.Header closeButton>
+          Share this link with a friend!
         </Modal.Header>
         <Modal.Body>
-          <Button>
-            Copy
-          </Button>
-          <FormGroup>
-            <InputGroup>
-              <InputGroup.Button>
-                <Button>>
-                  Copy
-                </Button>
-              </InputGroup.Button>
-              <FormControl type='textarea'>
-                {`www.codeversation.com${this.props.location.pathname}`}
-              </FormControl>
-            </FormControl.Static>
-          </FormGroup>
+          {`www.codeversation.com${this.props.location.pathname}`}
         </Modal.Body>
       </Modal>
     );
