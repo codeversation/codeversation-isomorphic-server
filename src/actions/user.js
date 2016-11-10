@@ -28,7 +28,7 @@ export default
 					})
 				})
 				.then(res => res.json())
-				.then(resData => decode(resData.token))
+				.then(resData => ({ ...decode(resData.token), token: resData.token }))
 				.then(user => {
 					dispatch(actions.merge(user));
 					dispatch(actions.save());
