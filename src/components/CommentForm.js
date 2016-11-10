@@ -1,7 +1,10 @@
 import React, { PropTypes, Component } from 'react'
 import FormFieldGroup from './FormFieldGroup';
 import { Grid, Row, Col, Button, Image } from 'react-bootstrap';
+import { connect } from 'react-redux';
 import { Link } from 'react-router';
+//redux
+import { user } from 'actions';
 
 class CommentForm extends Component {
   constructor(props) {
@@ -24,6 +27,7 @@ class CommentForm extends Component {
       },
       body: JSON.stringify( {
         comment: {
+          _creator: this.props.user.toJS().id,
           content: this.state.comment,
           likes: 0,
           _codeversation: this.props.codeversationId
@@ -32,8 +36,9 @@ class CommentForm extends Component {
     })
 
       .then((data) => {
-        console.log(data)
-        this.context.router.push('/');
+        this.setState({
+          comment: ''
+        });
       })
       .catch((err) => {
         console.error(err)
@@ -48,16 +53,11 @@ class CommentForm extends Component {
     const router = this.context.router;
     return (
       <Grid>
-        <Row>
-          <Col md={1} mdOffset={5}>
-            <h1>Comment Form</h1>
-          </Col>
-        </Row>
         <form>
           <Row>
-            <Col md={6} mdOffset={3}>
+            <Col md={6}>
               <FormFieldGroup
-                label='Comment'
+                label='Post a Comment'
                 type='text'
                 value={this.state.comment}
                 onChange={this.handleCommentChange.bind(this)}
@@ -66,12 +66,12 @@ class CommentForm extends Component {
             </Col>
           </Row>
           <Row>
-            <Col md={1} mdOffset={4}>
+            <Col md={1}>
               <Button 
                 bsSize='large'
                 onClick={this.handleComment.bind(this)}
               >
-                Submit
+                Post Comment
               </Button>
             </Col>
           </Row>
@@ -81,4 +81,10 @@ class CommentForm extends Component {
   }
 };
 
-export default CommentForm;
+const mapStateToProps = ({ user }) => ({user});
+const mapDispatchToProps = dispatch => ({});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CommentForm);

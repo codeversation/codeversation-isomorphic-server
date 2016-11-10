@@ -2,6 +2,10 @@ import mongoose, { Schema } from 'mongoose';
 import db from 'mongoose';
 
 const CommentSchema = new db.Schema({
+  _creator: {
+    type: Schema.Types.ObjectId, ref: 'User',
+    required: true
+  },
   content: {
     type: String,
     required: true
