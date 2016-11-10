@@ -18,9 +18,9 @@ class LoginButton extends Component {
 class ProfileButton extends Component {
   render() {
     return(
-      <LinkContainer to={`profile/${this.props.userId}`}>
+      <LinkContainer to={`/profile/${this.props.user.id}`}>
         <p>
-          {this.props.userName}
+          {this.props.user.name}
         </p>
       </LinkContainer>
     );
@@ -43,12 +43,12 @@ class UserStateButton extends Component {
   }
 
   render() {
-    const userJS = this.props.user.toJS();
+		let { user } = this.props;
 
     return (
       <div>
       {this.props.loggedIn ?
-        <ProfileButton userName={userJS.name} /> :
+        <ProfileButton user={ user } /> :
         <LoginButton openModal={this.handleOpenModal.bind(this)} />
       }
       <Login

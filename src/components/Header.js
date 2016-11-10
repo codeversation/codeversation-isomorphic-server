@@ -7,6 +7,9 @@ import UserStateButton from './UserStateButton';
 
 const Header = ({ user, ...props }) => {
   const loggedIn = user.size !== 0;
+
+	console.log(user.toJS());
+
   return (
     <Navbar inverse fluid>
       <Navbar.Header >
@@ -25,7 +28,7 @@ const Header = ({ user, ...props }) => {
         </LinkContainer>
         <NavItem>
           <UserStateButton
-            user={user}
+            user={user.toJS()}
             loggedIn={loggedIn}
           />
         </NavItem>
