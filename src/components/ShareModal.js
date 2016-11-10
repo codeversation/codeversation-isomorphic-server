@@ -12,7 +12,7 @@ class ShareModal extends Component {
           Share this link with a friend!
         </Modal.Header>
         <Modal.Body>
-          {`www.codeversation.com${this.props.location.pathname}`}
+          {`www.codeversation.com/${this.props.location.pathname}`}
         </Modal.Body>
       </Modal>
     );
