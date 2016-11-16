@@ -82,5 +82,19 @@ router.post('/', function(req, res) {
   })
 });
 
+// delete post
+router.delete('/:id', function(req, res) {
+  Codeversation
+    .remove({
+      _id: req.params.id
+    })
+    .then(() => res.status(200).json({
+      message: "Codeversations deleted."
+    }))
+    .catch((err) => {
+      res.status(400).json({message: "Error deleteing Codeversation.", err: err})
+    })
+
+});
 
 export default router;
