@@ -7,6 +7,7 @@ import Comment from 'server/db/model/Comment';
 router.get('/', function(req, res) {
   Comment
   .find()
+  .populate('_creator')
   .then(function(comments) {
     res.json(comments);
   });
@@ -19,6 +20,7 @@ router.get('/:id', function(req, res) {
       _codeversation: req.params.id
     })
     .populate('_creator')
+    .populate('_codeversation')
     .then(function(comment) {
       res.json(comment);
     });
@@ -50,6 +52,21 @@ router.post('/', function(req, res) {
       res.json({comment, message: 'comment created successfully! '});
     }
   })
+});
+
+// delete comment
+router.delete('/:id', function(req, res) {
+  Comment
+    .remove({
+      _id: req.params.id
+    })
+    .then(() => res.status(200).json({
+      message: "Comment deleted."
+    }))
+    .catch((err) => {
+      res.status(400).json({message: "Error deleteing Comment.", err: err})
+    })
+
 });
 
 export default router;

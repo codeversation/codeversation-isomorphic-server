@@ -16,7 +16,9 @@ const CommentSchema = new db.Schema({
     default: "0"
   },
   _codeversation: {
-    type:mongoose.Schema.Types.ObjectId, ref:'Codeversation'},
+    type:mongoose.Schema.Types.ObjectId, ref:'Codeversation',
+    required: true
+  },
   dateCreated: {
     type: Date,
     required: true

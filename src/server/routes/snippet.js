@@ -49,4 +49,19 @@ router.post('/', function(req, res) {
   })
 });
 
+// delete comment
+router.delete('/:id', function(req, res) {
+  Snippet
+    .remove({
+      _id: req.params.id
+    })
+    .then(() => res.status(200).json({
+      message: "Snippet deleted."
+    }))
+    .catch((err) => {
+      res.status(400).json({message: "Error deleteing Snippet.", err: err})
+    })
+
+});
+
 export default router;
