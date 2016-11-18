@@ -347,6 +347,14 @@ function lint() {
 // default task
 //////////////////////////////////////////////////////
 
+function printDevMessage(done) {
+	gutil.log(gutil.colors.red(
+		'DEV SERVER RUNNING ON >>> http://localhost:3000 <<<'
+	));
+
+	done();
+}
+
 // start dev server
 export default
 	gulp.series(
@@ -357,5 +365,6 @@ export default
 			devServer,
 			startBrowserSyncProxy,
 		),
+		printDevMessage,
 	)
 ;
