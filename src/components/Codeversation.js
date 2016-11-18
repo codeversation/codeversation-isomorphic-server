@@ -17,7 +17,7 @@ class Codeversation extends Component {
     }
   }
   componentDidMount() {
-    fetch(`http://localhost:3000/api/v1/codeversation/${this.props.params.id}`, {
+    fetch(`/api/v1/codeversation/${this.props.params.id}`, {
       method: 'GET'
     })
       .then(res => res.json())

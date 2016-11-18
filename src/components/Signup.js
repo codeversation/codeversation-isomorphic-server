@@ -38,7 +38,7 @@ class Signup extends Component {
       return;
     }
 
-    fetch('http://localhost:3000/api/v1/user', {
+    fetch('/api/v1/user', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

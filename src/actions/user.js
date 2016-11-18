@@ -15,7 +15,7 @@ export default
 	{
 		...actions,
 		login({ email, password }) {
-			return (dispatch) => fetch('http://localhost:3000/api/v1/session',
+			return (dispatch) => fetch('/api/v1/session',
 				{
 					method: 'POST',
 					headers: {
@@ -37,7 +37,7 @@ export default
 		},
 		update: ({ email, password, name, token }) =>
 			dispatch =>
-				fetch('http://localhost:3000/api/v1/user',
+				fetch('/api/v1/user',
 					{
 						method: 'PUT',
 						headers: {

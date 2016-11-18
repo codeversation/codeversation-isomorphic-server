@@ -41,7 +41,7 @@ class CodeversationForm extends Component {
         }
 
     }
-    fetch('http://localhost:3000/api/v1/codeversation', {
+    fetch('/api/v1/codeversation', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -56,7 +56,7 @@ class CodeversationForm extends Component {
         console.log(json);
         console.log(this);
         this.context.router.push(`/view/${json.codeversation.id}`);
-        
+
       })
       .catch(err => console.error(err));
   }
@@ -70,22 +70,22 @@ class CodeversationForm extends Component {
             type='text'
             value={this.state.title}
             onChange={this.handleTitleChange.bind(this)}
-          /> 
+          />
           <FormFieldGroup
             label='Codeversation Body'
             type='text'
             value={this.state.body}
             onChange={this.handleBodyChange.bind(this)}
-          /> 
+          />
         </form>
-        <Snippet 
+        <Snippet
           code={this.state.code}
           readOnly={false}
           onChange={code => this.setState({code})}
         />
         <SnippetOutput snippet={this.state.code}/>
 
-        <Button 
+        <Button
           bsStyle='primary'
           style={{margin: 20}}
           onClick={this.handlePostCodeversation.bind(this)}

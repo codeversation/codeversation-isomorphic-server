@@ -14,7 +14,7 @@ class CommentList extends Component {
     }
   }
   componentDidMount() {
-    fetch(`http://localhost:3000/api/v1/comment/${this.props.id}`)
+    fetch(`/api/v1/comment/${this.props.id}`)
       .then(res => res.json())
       .then((json) => {
         this.setState({
@@ -29,7 +29,7 @@ class CommentList extends Component {
   }
 
   handleComment(commentTxt){
-    fetch('http://localhost:3000/api/v1/comment', {
+    fetch('/api/v1/comment', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

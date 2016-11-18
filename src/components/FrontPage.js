@@ -12,7 +12,7 @@ class FrontPage extends Component {
     }
   }
   componentDidMount() {
-    fetch('http://localhost:3000/api/v1/codeversation')
+    fetch('/api/v1/codeversation')
       .then((res) => res.json())
       .then((json) => {
         console.log(json);
@@ -35,8 +35,8 @@ class FrontPage extends Component {
             {codeversations.map((codeversation, ind) => {
               const style = ind % 2 ? {background: '#f2f2f2'} : null;
               return (
-                <ListGroupItem 
-                  key={ind} 
+                <ListGroupItem
+                  key={ind}
                   style={style}
                 >
                   <Link to={`view/${codeversation.id}`}><h3>{codeversation.title}</h3></Link>
