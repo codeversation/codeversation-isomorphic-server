@@ -15,7 +15,7 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import gutil from 'gulp-util';
 import eslint from 'gulp-eslint';
 import plumber from 'gulp-plumber';
-import { spawn } from 'child_process';
+import { spawn, spawnSync } from 'child_process';
 
 // browserSync = browserSyncImport.create();
 
@@ -133,7 +133,8 @@ export const watch =
 //////////////////////////////////////////////////////
 
 export function server(done) {
-	spawn('node', [paths.server.index]);
+	// { stdio: [0,1,2] }
+	spawnSync('node', [paths.server.index], { stdio: [0,1,2] });
 
 	done();
 }
@@ -341,7 +342,6 @@ function lint() {
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
 }
-
 
 //////////////////////////////////////////////////////
 // default task
