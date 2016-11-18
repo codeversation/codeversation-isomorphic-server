@@ -55,6 +55,10 @@ const paths =
 			src: projPath('package.json'),
 			dest: buildPath(),
 		},
+		procfile: {
+			src: projPath('Procfile'),
+			dest: buildPath(),
+		},
 		vendor: {
 			src: projPath('vendor'),
 			dest: libPath('vendor'),
@@ -116,6 +120,7 @@ export const build =
 			buildDotenv,
 			buildVendor,
 			buildPackage,
+			buildProcfile,
 		)
 	)
 ;
@@ -330,6 +335,11 @@ function buildDotenv() {
 function buildPackage() {
   return gulp.src(paths.package.src)
     .pipe(gulp.dest(paths.package.dest));
+}
+
+function buildProcfile() {
+  return gulp.src(paths.procfile.src)
+    .pipe(gulp.dest(paths.procfile.dest));
 }
 
 function buildVendor() {
