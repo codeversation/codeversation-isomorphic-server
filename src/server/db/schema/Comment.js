@@ -8,6 +8,7 @@ const CommentSchema = new db.Schema({
   },
   content: {
     type: String,
+    trim: true,
     required: true
   },
   likes: {
@@ -16,13 +17,17 @@ const CommentSchema = new db.Schema({
     default: "0"
   },
   _codeversation: {
-    type:mongoose.Schema.Types.ObjectId, ref:'Codeversation',
+    type: mongoose.Schema.Types.ObjectId, ref:'Codeversation',
     required: true
   },
   dateCreated: {
     type: Date,
     required: true
-  }
+  },
+  childs:[{
+    type: mongoose.Schema.Types.ObjectId, ref: 'Comment', default: null
+  }]
+
 });
 
 if(!CommentSchema.options.toJSON) CommentSchema.options.toJSON = {};
