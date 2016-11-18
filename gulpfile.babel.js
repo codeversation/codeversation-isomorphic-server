@@ -48,12 +48,12 @@ const paths =
 			dest: buildPath('json'),
 		},
 		env: {
-			src: projPath('.env'),
-			dest: buildPath('.env'),
+			src: projPath('.env*'),
+			dest: buildPath(),
 		},
 		package: {
 			src: projPath('package.json'),
-			dest: buildPath('package.json'),
+			dest: buildPath(),
 		},
 		vendor: {
 			src: projPath('vendor'),
@@ -324,12 +324,12 @@ function buildJSON() {
 
 function buildDotenv() {
   return gulp.src(paths.env.src)
-    .pipe(gulp.dest(buildPath()));
+    .pipe(gulp.dest(paths.env.dest));
 }
 
 function buildPackage() {
   return gulp.src(paths.package.src)
-    .pipe(gulp.dest(buildPath()));
+    .pipe(gulp.dest(paths.package.dest));
 }
 
 function buildVendor() {
