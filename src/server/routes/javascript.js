@@ -4,7 +4,7 @@ import { SERVER_ROOT } from 'server/config';
 const router = Router();
 
 router.get('/app.js', (req, res) => {
-  res.sendFile(SERVER_ROOT + '/app.js');
+  res.sendFile('app.js');
 });
 
 export default router;
