@@ -10,7 +10,7 @@ npm run build && \
 git add -f build && \
 git commit -m 'commit the build dir' && \
 git subtree split --prefix=build -b tmp-deploy && \
-git push heroku tmp-deploy:master
+git push heroku +tmp-deploy:master
 
 git checkout $CUR_BRANCH
 git branch -D tmp-deploy
