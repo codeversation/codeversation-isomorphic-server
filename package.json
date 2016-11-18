@@ -4,7 +4,7 @@
   "description": "This is a basic isomorphic react server with using router and redux.",
   "main": "build/lib/node_modules/server.js",
   "scripts": {
-    "start": "gulp prod",
+    "start": "node lib/node_modules/server/index.js",
     "build": "gulp build",
     "naked-server": "node build/lib/node_modules/server",
     "clean": "gulp clean",
