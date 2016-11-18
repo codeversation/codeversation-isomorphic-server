@@ -71,9 +71,7 @@
     "webpack": "^1.13.2",
     "webpack-dev-middleware": "^1.8.4",
     "webpack-dotenv-plugin": "^1.4.0",
-    "webpack-hot-middleware": "^2.13.0"
-  },
-  "devDependencies": {
+    "webpack-hot-middleware": "^2.13.0",
     "babel-eslint": "^6.1.2",
     "babel-register": "^6.18.0",
     "browser-sync": "^2.14.0",
@@ -90,5 +88,7 @@
     "mocha": "^3.0.2",
     "source-map-support": "^0.4.2",
     "webpack-middleware": "^1.5.1"
+  },
+  "devDependencies": {
   }
 }
