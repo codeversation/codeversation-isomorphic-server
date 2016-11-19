@@ -17,7 +17,7 @@ class SnippetOutput extends Component {
       isCompiling: true
     });
 
-    fetch(`${COMPILER}v1/api/ruby`, {
+    fetch(`${COMPILER}api/v1/ruby`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
