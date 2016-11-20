@@ -17,15 +17,23 @@ const CommentSchema = new db.Schema({
     default: "0"
   },
   _codeversation: {
-    type: mongoose.Schema.Types.ObjectId, ref:'Codeversation',
-    required: true
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref:'Codeversation'
   },
   dateCreated: {
     type: Date,
     required: true
   },
+  _creator: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: 'User'
+  },
   childs:[{
-    type: mongoose.Schema.Types.ObjectId, ref: 'Comment', default: null
+    type: Schema.Types.ObjectId,
+    ref: 'Comment',
+    default: null
   }]
 
 });

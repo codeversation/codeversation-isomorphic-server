@@ -24,6 +24,16 @@ const CodeversationSchema = new db.Schema({
     type: Schema.Types.ObjectId,
     required: true,
     ref: 'User'
+  },
+  snippet: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: 'Snippet'
+  }
+  ,
+  comment: {
+    type: Schema.Types.ObjectId,
+    ref: 'Comment'
   }
 });
 

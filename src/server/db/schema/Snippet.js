@@ -15,11 +15,18 @@ const SnippetSchema = new db.Schema({
     required: true
   },
   _codeversation: {
-    type:mongoose.Schema.Types.ObjectId, ref:'Codeversation'
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref:'Codeversation'
   },
   dateCreated: {
     type: Date,
     required: true
+  },
+  _creator: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: 'User'
   }
 });
 
