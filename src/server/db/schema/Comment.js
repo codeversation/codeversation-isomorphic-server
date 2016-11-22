@@ -3,8 +3,12 @@ import db from 'mongoose';
 
 const CommentSchema = new db.Schema({
   _creator: {
-    type: Schema.Types.ObjectId, ref: 'User',
-    required: true
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  _codeversation: {
+    type: Schema.Types.ObjectId,
+    ref:'Codeversation'
   },
   content: {
     type: String,
@@ -16,26 +20,13 @@ const CommentSchema = new db.Schema({
     required: true,
     default: "0"
   },
-  _codeversation: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref:'Codeversation'
-  },
   dateCreated: {
     type: Date,
-    required: true
   },
-  _creator: {
+  comments: [{
     type: Schema.Types.ObjectId,
-    required: true,
-    ref: 'User'
-  },
-  childs:[{
-    type: Schema.Types.ObjectId,
-    ref: 'Comment',
-    default: null
+    ref:'Comment'
   }]
-
 });
 
 if(!CommentSchema.options.toJSON) CommentSchema.options.toJSON = {};

@@ -2,6 +2,10 @@ import mongoose, { Schema } from 'mongoose';
 import db from 'mongoose';
 
 const SnippetSchema = new db.Schema({
+  _creator: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
   title: {
     type: String,
     required: true
@@ -14,20 +18,15 @@ const SnippetSchema = new db.Schema({
     type: Boolean,
     required: true
   },
-  _codeversation: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref:'Codeversation'
-  },
   dateCreated: {
     type: Date,
     required: true
   },
-  _creator: {
+  _codeversation: {
     type: Schema.Types.ObjectId,
-    required: true,
-    ref: 'User'
+    ref:'Codeversation'
   }
+
 });
 
 if(!SnippetSchema.options.toJSON) SnippetSchema.options.toJSON = {};

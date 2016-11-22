@@ -4,6 +4,10 @@ import mongooseDeepPopulate from 'mongoose-deep-populate';
 const deepPopulate = mongooseDeepPopulate(db);
 
 const CodeversationSchema = new db.Schema({
+  _creator: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
   title: {
     type: String,
     required: true
@@ -20,21 +24,14 @@ const CodeversationSchema = new db.Schema({
     type: Date,
     required: true
   },
-  _creator: {
+  snippet: [{
     type: Schema.Types.ObjectId,
-    required: true,
-    ref: 'User'
-  },
-  snippet: {
-    type: Schema.Types.ObjectId,
-    required: true,
     ref: 'Snippet'
-  }
-  ,
-  comment: {
+  }],
+  comment: [{
     type: Schema.Types.ObjectId,
     ref: 'Comment'
-  }
+  }]
 });
 
 CodeversationSchema.plugin(deepPopulate);
