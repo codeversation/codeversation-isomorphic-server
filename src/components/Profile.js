@@ -16,6 +16,7 @@ import {
 import { log } from 'utilities';
 import { user as userActions } from 'actions';
 import isEmpty from 'lodash/isEmpty';
+import PostHistory from './PostHistory';
 
 class Profile extends Component {
 	constructor(...args) {
@@ -123,7 +124,8 @@ class Profile extends Component {
 					 {
 						 this.displayButtons()
 					 }
-					</Form>)
+           <PostHistory userId={user.id}/>
+         </Form>)
 		;
 	}
 
