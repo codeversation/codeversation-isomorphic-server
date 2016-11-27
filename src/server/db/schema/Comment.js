@@ -1,5 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import db from 'mongoose';
+import mongooseDeepPopulate from 'mongoose-deep-populate';
+const deepPopulate = mongooseDeepPopulate(db);
 
 const CommentSchema = new db.Schema({
   _creator: {
@@ -28,6 +30,8 @@ const CommentSchema = new db.Schema({
     ref:'Comment'
   }]
 });
+
+CommentSchema.plugin(deepPopulate);
 
 if(!CommentSchema.options.toJSON) CommentSchema.options.toJSON = {};
 CommentSchema.options.toJSON.transform = (doc, ret) => {

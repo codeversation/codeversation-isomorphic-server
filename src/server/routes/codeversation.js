@@ -11,9 +11,12 @@ router.get('/', function(req, res) {
   Codeversation
     .find()
     .populate('_creator')
-    .then(function(codeversations) {
+    .populate('snippet')
+    .deepPopulate('comment.comments')
+    .exec(function(error, codeversations) {
       res.json(codeversations);
     });
+
 });
 
 // GET one post
@@ -23,21 +26,14 @@ router.get('/:id', function(req, res) {
       _id: req.params.id
     })
     .populate('_creator')
+    .populate('snippet')
+    .deepPopulate('comment.comments')
     .then((codeversation) => res.json(codeversation))
     .catch((err) => {
       console.error(err);
     })
 
 });
-
-//display all posts along with CommentSchema
-router.get('/',function(req, res){
-  Codeversation.find({})
-    .populate('comments')
-    .exec(function(err, codeversations){
-      res.render('index',{codeversations:codeversations});
-    })
-})
 
 router.post('/', function(req, res) {
   var codeversations;
@@ -65,7 +61,7 @@ router.post('/', function(req, res) {
         console.log(err);
       } else {
         console.log('Snippet saved successfully');
-      } 
+      }
     })
   }
   codeversation.save(function(err, data) {
