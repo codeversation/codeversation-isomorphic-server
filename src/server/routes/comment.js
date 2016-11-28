@@ -8,6 +8,8 @@ router.get('/', function(req, res) {
   Comment
   .find()
   .populate('_creator')
+  .populate('_codeversation')
+  .populate('comments')
   .then(function(comments) {
     res.json(comments);
   });
@@ -21,6 +23,7 @@ router.get('/:id', function(req, res) {
   })
   .populate('_creator')
   .populate('_codeversation')
+  .populate('comments')
   .then(function(comment) {
     res.json(comment);
   });

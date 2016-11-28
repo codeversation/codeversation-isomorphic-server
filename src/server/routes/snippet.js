@@ -2,21 +2,25 @@ import { Router } from 'express';
 const router = Router();
 import Snippet from 'server/db/model/Snippet';
 
-//GET all comments
+//GET all snippets
 router.get('/', function(req, res) {
   Snippet
   .find()
+  .populate('_creator')
+  .populate('_codeversation')
   .then(function(snippets) {
     res.json(snippets);
   });
 });
 
-// GET one comment
+// GET one snippet
 router.get('/:id', function(req, res) {
   Snippet
     .findOne({
       _id: req.params.id
     })
+    .populate('_creator')
+    .populate('_codeversation')
     .then(function(snippet) {
       res.json(snippet);
     });
@@ -49,7 +53,7 @@ router.post('/', function(req, res) {
   })
 });
 
-// delete comment
+// delete snippet
 router.delete('/:id', function(req, res) {
   Snippet
     .remove({
