@@ -39,7 +39,7 @@ export default {
     },
     {
       component: Profile,
-      path: 'profile'
+      path: 'profile/:id'
     },
     {
       component: Signup,

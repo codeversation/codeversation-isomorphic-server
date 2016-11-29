@@ -42,6 +42,29 @@ router.post('/', (req, res) => {
     });
 });
 
+// get user info, no auth needed
+router.get('/:id', (req, res) => {
+	try {
+		if(!req.params || !req.params.id) {
+			res.status(400).json({ message: 'Parameter :id must be provided.' });
+			return;
+		}
+
+		log('user get recieved');
+		log(req.params.id);
+
+		User.findOne({ _id: req.params.id })
+		.then(user => {
+			res.json({ user });
+		})
+		.catch(err => {
+			res.status(404).json( { err, message: 'User not found.'});
+		});
+	} catch (err) {
+		res.status(500).json({ message: 'Server side exception.  User could not be found.'});
+	}
+	});
+
 // delete user route
 router.delete('/', (req, res) => {
   try {

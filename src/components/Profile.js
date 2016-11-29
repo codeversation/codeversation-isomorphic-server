@@ -13,179 +13,79 @@ import {
 	Button,
 	PageHeader,
 } from 'react-bootstrap';
-import { log } from 'utilities';
+import { log, error } from 'utilities';
+import { ISO_BASE_URL } from 'config';
 import { user as userActions } from 'actions';
 import isEmpty from 'lodash/isEmpty';
 import PostHistory from './PostHistory';
+import Loading from './Loading';
+import ProfileForm from './ProfileForm';
 
 class Profile extends Component {
-	constructor(...args) {
+	constructor(...args){
 		super(...args);
 
 		this.state = {
-			editable: false,
+			fetching: false,
 		};
 	}
 
-	displaySaveOrLoadButton() {
-		return this.state.editable ?
-			(<FormGroup>
-				<Col smOffset={2} sm={10}>
-					<Button type="submit" onClick={::this.handleSaveClick}>
-						Save
-					</Button>
-				</Col>
-			</FormGroup>)
-		 :
-			(<FormGroup>
-				<Col smOffset={2} sm={10}>
-					<Button type="submit" onClick={::this.handleEditClick}>
-						Edit
-					</Button>
-				</Col>
-			</FormGroup>)
-		;
+	isValid(){
+		return (this.state.user && this.props.params.id === this.state.user.id);
 	}
 
-	displayLogoutButton() {
-		return <FormGroup>
-				<Col smOffset={2} sm={10}>
-					<Button type="submit" onClick={::this.handleLogoutClick}>
-						Logout
-					</Button>
-				</Col>
-			</FormGroup>
-		;
+	componentWillMount() {
+		this.tryFetching();
 	}
 
-	displayButtons() {
-		return !isEmpty(this.props.user) ?
-			<div>
-				{this.displaySaveOrLoadButton()}
-				{this.displayLogoutButton()}
-			</div>
-		:
-			undefined
-		;
+	componentDidUpdate() {
+		this.tryFetching();
 	}
 
-	displayUser() {
-		let user = this.props.user;
+	tryFetching(){
+		if(!this.state.fetching && !this.isValid()){
+			fetch(`${ISO_BASE_URL}/api/v1/user/${this.props.params.id}`)
+		  .then(data => data.json())
+			.then(json => json.user)
+			.then(user => {
+				log(user);
+				this.setState({
+					fetching: false,
+					user,
+				});
+			})
+			.catch(err => error(err));
 
-		return (<Form horizontal>
-					{this.state.editable ?
-						(<div>
-					 <FormGroup controlId="formHorizontalName">
-						 <Col componentClass={ControlLabel} sm={2}>
-							 Name
-						 </Col>
-						 <Col sm={10}>
-							 <FormControl
-							 	type="text"
-								placeholder={user.name}
-								onChange={this.handleFormChange('name')}
-								 />
-						 </Col>
-					 </FormGroup>
-
-					  <FormGroup controlId="formHorizontalEmail">
-					 	 <Col componentClass={ControlLabel} sm={2}>
-					 		 Email
-					 	 </Col>
-					 	 <Col sm={10}>
-					 		 <FormControl type="email"
-							 	placeholder={user.email}
-								onChange={this.handleFormChange('email')} />
-					 	 </Col>
-					  </FormGroup>
-
-					 <FormGroup controlId="formHorizontalPassword">
-						 <Col componentClass={ControlLabel} sm={2}>
-							 Password
-						 </Col>
-						 <Col sm={10}>
-							 <FormControl
-							 	type="password"
-								placeholder="Password"
-								onChange={this.handleFormChange('password')} />
-						 </Col>
-					 </FormGroup>
-					 </div>)
-				 :
-					 <ListGroup>
-						 {
-							 Object.keys(user)
-							 .map(key =>
-								 <ListGroupItem header={user[key]} key={key}>{key}</ListGroupItem>
-							 )
-						 }
-					 </ListGroup>}
-
-					 {
-						 this.displayButtons()
-					 }
-           <PostHistory userId={user.id}/>
-         </Form>)
-		;
-	}
-
-	handleLogoutClick(ev) {
-		ev.preventDefault();
-
-		this.props.logoutUser();
-	}
-	handleEditClick(ev) {
-		ev.preventDefault();
-
-		this.setState({ editable: !this.state.editable });
-	}
-
-	handleSaveClick(ev) {
-		ev.preventDefault();
-
-
-		this.props.updateUser({
-			...this.state.newUser,
-			token: this.props.user.token,
-		})
-		.catch(err => log)
-		;
-
-		this.setState({ editable: !this.state.editable });
-	}
-
-	handleFormChange(key) {
-
-		return (ev) => {
-			this.setState({ newUser: { ...this.state.newUser, [key]: ev.currentTarget.value} })
+			this.setState({ fetching: true });
 		}
 	}
+
   render() {
-
-    const user = this.props.user;
-
-		log(user);
-		log(this.state.newUser);
-
     return (
       <div>
 				<PageHeader>
 					Profile Page
 				</PageHeader>
-				{this.displayUser()}
+				{ do {
+					if(!this.isValid() && this.state.fetching){
+						<Loading />;
+					}else if(!this.isValid() && !this.state.fetching){
+						<h2> FAILED </h2>;
+					} else {
+						<ProfileForm
+							user={this.state.user}
+							localUser={this.props.localUser}
+						/>;
+					}
+				} }
+				<PostHistory userId={this.props.params.id}/>
       </div>
     );
   }
 }
 
-const mapStateToProps = ({user}) => ({user: user.toJS()});
-
-const mapDispatchToProps = dispatch => ({
-	updateUser: newUser => dispatch(userActions.update(newUser)),
-	logoutUser: () => dispatch(userActions.clear()),
-});
+const mapStateToProps = ({user}) => ({ localUser: user.toJS() });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
 )(Profile);

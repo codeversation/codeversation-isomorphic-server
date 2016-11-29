@@ -48,7 +48,10 @@ export default
 						body: JSON.stringify({ user: { email, password, name } }),
 					})
 					.then(res => res.json())
-					.then(({ user }) => dispatch(actions.merge(user)))
+					.then(({ user }) => {
+						dispatch(actions.merge(user));
+						dispatch(actions.save(user));
+					})
 		,
 	}
 ;
