@@ -6,6 +6,7 @@ import Loading from './Loading';
 import Post from './Post';
 import ShareButton from './ShareButton';
 import { Grid, Col, Row, Well, PageHeader } from 'react-bootstrap';
+import { ISO_ROOT, V1_API_BASE } from 'config';
 
 class Codeversation extends Component {
   constructor(props) {
@@ -17,7 +18,7 @@ class Codeversation extends Component {
     }
   }
   componentDidMount() {
-    fetch(`/api/v1/codeversation/${this.props.params.id}`, {
+    fetch(`${ISO_ROOT}${V1_API_BASE}/codeversation/${this.props.params.id}`, {
       method: 'GET'
     })
       .then(res => res.json())

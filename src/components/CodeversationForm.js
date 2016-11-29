@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import FormFieldGroup from './FormFieldGroup';
 import Snippet from './Snippet'
 import SnippetOutput from './SnippetOutput';
+import { ISO_ROOT, V1_API_BASE } from 'config';
 //redux
 import { user } from 'actions';
 
@@ -41,7 +42,7 @@ class CodeversationForm extends Component {
         }
 
     }
-    fetch('/api/v1/codeversation', {
+    fetch(`${ISO_ROOT}${V1_API_BASE}/codeversation`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

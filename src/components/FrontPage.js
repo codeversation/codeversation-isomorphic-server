@@ -2,6 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import Loading from './Loading';
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
 import CodeversationPreview from './CodeversationPreview';
+import { ISO_ROOT, V1_API_BASE } from 'config';
 
 class FrontPage extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class FrontPage extends Component {
     }
   }
   componentDidMount() {
-    fetch('/api/v1/codeversation')
+    fetch(`${ISO_ROOT}${V1_API_BASE}/codeversation`)
       .then((res) => res.json())
       .then((json) => {
         console.log(json);
@@ -34,7 +35,7 @@ class FrontPage extends Component {
             {this.state.codeversations.map((codeversation, ind) => {
               const style = ind % 2 ? {background: '#f2f2f2'} : null;
               return (
-                <CodeversationPreview 
+                <CodeversationPreview
                   key={ind}
                   style={style}
                   codeversation={codeversation}

@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { ListGroup, ListGroupItem, PageHeader } from 'react-bootstrap';
 import CodeversationPreview from './CodeversationPreview';
+import { ISO_ROOT, V1_API_BASE } from 'config';
 
 class PostHistory extends Component {
   constructor(props) {
@@ -39,7 +40,7 @@ class PostHistory extends Component {
 
 
 	fetchData() {
-    fetch('http://localhost:3000/api/v1/codeversation')
+    fetch(`${ISO_ROOT}${V1_API_BASE}/codeversation`)
       .then(res => res.json())
       .then((codeversations) => {
         console.log(codeversations);

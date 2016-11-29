@@ -4,6 +4,7 @@ import PostComment from './PostComment';
 import CommentForm from './CommentForm';
 //redux
 import { user } from 'actions';
+import { ISO_ROOT, V1_API_BASE } from 'config';
 
 class CommentList extends Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class CommentList extends Component {
     }
   }
   componentDidMount() {
-    fetch(`/api/v1/comment/${this.props.id}`)
+    fetch(`${ISO_ROOT}${V1_API_BASE}/comment/${this.props.id}`)
       .then(res => res.json())
       .then((json) => {
         this.setState({
@@ -29,7 +30,7 @@ class CommentList extends Component {
   }
 
   handleComment(commentTxt){
-    fetch('/api/v1/comment', {
+    fetch(`${ISO_ROOT}${V1_API_BASE}/comment`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

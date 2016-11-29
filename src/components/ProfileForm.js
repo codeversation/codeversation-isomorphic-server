@@ -14,10 +14,7 @@ import {
 	PageHeader,
 } from 'react-bootstrap';
 import { log } from 'utilities';
-import { ISO_BASE_URL } from 'config';
 import { user as userActions } from 'actions';
-import isEmpty from 'lodash/isEmpty';
-import PostHistory from './PostHistory';
 import Loading from './Loading';
 
 class ProfileForm extends Component {

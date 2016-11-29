@@ -2,6 +2,7 @@ import { USER } from '../actionTypes';
 import { mapActionFactory } from './factories';
 import decode from 'jwt-decode';
 import { log } from 'utilities';
+import { ISO_ROOT, V1_API_BASE } from 'config';
 
 const actions = mapActionFactory(
 	USER,
@@ -15,7 +16,7 @@ export default
 	{
 		...actions,
 		login({ email, password }) {
-			return (dispatch) => fetch('/api/v1/session',
+			return (dispatch) => fetch(`${ISO_ROOT}${V1_API_BASE}/session`,
 				{
 					method: 'POST',
 					headers: {
@@ -37,7 +38,7 @@ export default
 		},
 		update: ({ email, password, name, token }) =>
 			dispatch =>
-				fetch('/api/v1/user',
+				fetch(`${ISO_ROOT}${V1_API_BASE}/user`,
 					{
 						method: 'PUT',
 						headers: {
@@ -48,10 +49,7 @@ export default
 						body: JSON.stringify({ user: { email, password, name } }),
 					})
 					.then(res => res.json())
-					.then(({ user }) => {
-						dispatch(actions.merge(user));
-						dispatch(actions.save(user));
-					})
+					.then(({ user }) => dispatch(actions.merge(user)))
 		,
 	}
 ;

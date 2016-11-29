@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Grid, Row, Col, Button, Image } from 'react-bootstrap';
 import { Link } from 'react-router';
 import FormFieldGroup from './FormFieldGroup';
+import { ISO_ROOT, V1_API_BASE } from 'config';
 
 class Signup extends Component {
   constructor(props) {
@@ -38,7 +39,7 @@ class Signup extends Component {
       return;
     }
 
-    fetch('/api/v1/user', {
+    fetch(`${ISO_ROOT}${V1_API_BASE}/user`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

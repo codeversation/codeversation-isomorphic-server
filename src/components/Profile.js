@@ -14,7 +14,7 @@ import {
 	PageHeader,
 } from 'react-bootstrap';
 import { log, error } from 'utilities';
-import { ISO_BASE_URL } from 'config';
+import { ISO_ROOT, V1_API_BASE } from 'config';
 import { user as userActions } from 'actions';
 import isEmpty from 'lodash/isEmpty';
 import PostHistory from './PostHistory';
@@ -44,7 +44,7 @@ class Profile extends Component {
 
 	tryFetching(){
 		if(!this.state.fetching && !this.isValid()){
-			fetch(`${ISO_BASE_URL}/api/v1/user/${this.props.params.id}`)
+			fetch(`${ISO_ROOT}${V1_API_BASE}/user/${this.props.params.id}`)
 		  .then(data => data.json())
 			.then(json => json.user)
 			.then(user => {
