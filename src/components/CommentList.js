@@ -76,7 +76,7 @@ class CommentList extends Component {
         {this.state.comments.map((comment, ind) => {
           return (
             <PostComment
-              poster={comment._creator.email}
+              poster={comment._creator}
               content={comment.content}
               key={ind}
             />

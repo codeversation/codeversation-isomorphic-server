@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Link } from 'react-router';
+import Username from './Username';
 
 const CodeversationPreview = ({ codeversation, style }) => {
   return (
@@ -8,7 +9,7 @@ const CodeversationPreview = ({ codeversation, style }) => {
       style={style}
       >
       <Link to={`view/${codeversation.id}`}><h3>{codeversation.title}</h3></Link>
-      <p>{codeversation._creator.email}</p>
+      <Username user={codeversation._creator} />
     </ListGroupItem>
   );
 }
