@@ -78,7 +78,7 @@ class Profile extends Component {
 						/>;
 					}
 				} }
-				<PostHistory userId={this.props.params.id}/>
+				<PostHistory user={this.state.user}/>
       </div>
     );
   }
