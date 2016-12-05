@@ -106,7 +106,7 @@ class Signup extends Component {
             </Col>
           </Row>
           <Row>
-            <Col md={1} mdOffset={4}>
+            <Col md={1} mdOffset={5}>
               <Button
                 bsSize='large'
                 onClick={this.handleSignup.bind(this)}
