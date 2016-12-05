@@ -49,7 +49,7 @@ router.post('/', function(req, res) {
   })
 });
 
-// delete comment
+// delete snippet
 router.delete('/:id', function(req, res) {
   Snippet
     .remove({
