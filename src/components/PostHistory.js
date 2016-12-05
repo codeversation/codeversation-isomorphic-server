@@ -41,7 +41,6 @@ class PostHistory extends Component {
     fetch(`${ISO_ROOT}${V1_API_BASE}/codeversation`)
       .then(res => res.json())
       .then((codeversations) => {
-        console.log(codeversations);
         this.setState({
           profileCodeversations: codeversations.filter(codeversation => codeversation._creator.id === this.props.user.id),
 					fetching: false,
