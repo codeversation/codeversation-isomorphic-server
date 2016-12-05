@@ -64,7 +64,7 @@ class PostHistory extends Component {
                 key={ind}
                 style={style}
                 codeversation={codeversation}
-                user={user}
+                user={this.props.user}
                 />
             );
           })}
