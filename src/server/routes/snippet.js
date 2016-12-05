@@ -2,7 +2,7 @@ import { Router } from 'express';
 const router = Router();
 import Snippet from 'server/db/model/Snippet';
 
-//GET all comments
+//GET all snippets
 router.get('/', function(req, res) {
   Snippet
   .find()
@@ -11,7 +11,7 @@ router.get('/', function(req, res) {
   });
 });
 
-// GET one comment
+// GET one snippet
 router.get('/:id', function(req, res) {
   Snippet
     .findOne({
