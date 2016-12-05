@@ -6,7 +6,7 @@ class Username extends Component {
     const { user } = this.props;
     return (
       <Link 
-        to={`profile/${user.id}`} 
+        to={`/profile/${user.id}`} 
       >
         <p>{user.email}</p>
       </Link>

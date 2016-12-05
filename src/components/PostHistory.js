@@ -14,7 +14,7 @@ class PostHistory extends Component {
   }
 
 	componentWillReceiveProps(nextProps) {
-		let valid = nextProps.userId === this.props.userId;
+		let valid = nextProps.user.id === this.props.user.id;
 
 		if(valid){
 			this.setState({
@@ -43,7 +43,7 @@ class PostHistory extends Component {
       .then((codeversations) => {
         console.log(codeversations);
         this.setState({
-          profileCodeversations: codeversations.filter(codeversation => codeversation._creator.id === this.props.userId),
+          profileCodeversations: codeversations.filter(codeversation => codeversation._creator.id === this.props.user.id),
 					fetching: false,
         })
       })
@@ -75,7 +75,7 @@ class PostHistory extends Component {
 }
 
 PostHistory.propTypes = {
-  userId: PropTypes.string.isRequired
+  user: PropTypes.object.isRequired
 }
 
 export default PostHistory;
