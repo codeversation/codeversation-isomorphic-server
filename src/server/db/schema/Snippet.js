@@ -1,7 +1,9 @@
 import mongoose, { Schema } from 'mongoose';
 import db from 'mongoose';
 import mongooseDeepPopulate from 'mongoose-deep-populate';
+import tree from 'mongoose-tree';
 const deepPopulate = mongooseDeepPopulate(db);
+
 
 const SnippetSchema = new db.Schema({
   _creator: {
@@ -25,6 +27,10 @@ const SnippetSchema = new db.Schema({
     type: Date,
     required: true
   },
+  root: {
+    type: boolean,
+    required: true
+  },
   _codeversation: {
     type: Schema.Types.ObjectId,
     ref:'Codeversation'
@@ -32,6 +38,7 @@ const SnippetSchema = new db.Schema({
 });
 
 SnippetSchema.plugin(deepPopulate);
+SnippetSchema.plugin(tree);
 
 if(!SnippetSchema.options.toJSON) SnippetSchema.options.toJSON = {};
 SnippetSchema.options.toJSON.transform = (doc, ret) => {
