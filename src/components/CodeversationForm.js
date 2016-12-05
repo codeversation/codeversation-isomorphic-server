@@ -33,7 +33,6 @@ class CodeversationForm extends Component {
       public: true,
       _creator: this.props.user.toJS().id
     }
-    console.log(this.state.code);
     if (this.state.code !== '') {
       codeversation.snippet = {
           title: 'Original',
@@ -54,8 +53,6 @@ class CodeversationForm extends Component {
     })
       .then(res => res.json())
       .then((json) => {
-        console.log(json);
-        console.log(this);
         this.context.router.push(`/view/${json.codeversation.id}`);
 
       })

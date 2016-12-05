@@ -55,7 +55,6 @@ class Signup extends Component {
       })
     })
       .then((data) => {
-        console.log(data)
         this.context.router.push('/');
       })
       .catch((err) => {

@@ -47,8 +47,6 @@ class CommentList extends Component {
     })
       .then(data => data.json())
       .then((json) => {
-        console.log(this.props);
-        console.log(json);
         const newComment = [{
           content: this.state.comment,
           _creator: {

@@ -28,11 +28,9 @@ class SnippetOutput extends Component {
       })
     })
       .then((res) => {
-        console.log(res);
         return res.json();
       })
       .then((json) => {
-        console.log(json);
         if (json.js) {
           this.setState({
             output: eval(json.js),
@@ -50,7 +48,7 @@ class SnippetOutput extends Component {
           isCompiling: false,
           output: 'Error'
         });
-        console.log(err);
+        console.error(err);
       });
   }
 

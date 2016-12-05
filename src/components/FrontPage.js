@@ -16,7 +16,6 @@ class FrontPage extends Component {
     fetch(`${ISO_ROOT}${V1_API_BASE}/codeversation`)
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
         this.state.codeversations = json;
         this.setState({
           isLoading: false
