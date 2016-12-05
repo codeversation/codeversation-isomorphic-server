@@ -16,7 +16,6 @@ router.get('/', function(req, res) {
     .exec(function(error, codeversations) {
       res.json(codeversations);
     });
-
 });
 
 // GET one post
@@ -49,7 +48,6 @@ router.post('/', function(req, res) {
   console.log(codeversations);
   codeversations.dateCreated = new Date();
   var codeversation = new Codeversation(codeversations);
-  console.log(codeversation);
   if (codeversations.snippet) {
     const originalSnippet = codeversations.snippet;
     originalSnippet.dateCreated = new Date();
