@@ -37,8 +37,6 @@ class PostHistory extends Component {
 		}
 	}
 
-
-
 	fetchData() {
     fetch(`${ISO_ROOT}${V1_API_BASE}/codeversation`)
       .then(res => res.json())
@@ -66,6 +64,7 @@ class PostHistory extends Component {
                 key={ind}
                 style={style}
                 codeversation={codeversation}
+                user={user}
                 />
             );
           })}
