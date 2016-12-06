@@ -28,6 +28,7 @@ router.post('/', function(req, res) {
     res.status(400);
     res.end("error undefined in the snippet. ");
   }
+
   if (req.body.snippet) {
     snippets = req.body.snippet;
   } else {
@@ -35,6 +36,41 @@ router.post('/', function(req, res) {
   }
   snippets.dateCreated = new Date();
   var snippet = new Snippet(snippets);
+  if(req.query.parent_id) {
+    Snippet
+      .findById(new ObjectId(req.query.parent_id), function(error, parent) {
+        if (error) {
+          res.end('error finding parent: ' + error);
+          return res.send(500);
+        } else if (parent) {
+          parent.appendChild(newSnippet, function(error, snippet) {
+            if (error) {
+              res.end('error appending child' + error);
+              return res.send(500);
+
+            } else {
+              res.status(200);
+              res.json({newSnippet, message: 'snippet created successfully! '});
+            }
+          });
+        } else {
+          res.end('parent_id invalid.');
+          return res.send(500);
+        }
+      });
+  } else {
+    snippet.save(function(error, newSnippet) {
+      if(error) {
+        res.end('error posting snippet' + error);
+        return res.send(500);
+      } else {
+        res.status(200);
+        res.json({newSnippet, message: 'snippet created successfully! '});
+      }
+    });
+
+  }
+/*
   snippet.save(function(err, data) {
     if(err) {
       console.log("server controller :save contact error : ");
@@ -47,6 +83,8 @@ router.post('/', function(req, res) {
       res.json({snippet, message: 'snippet created successfully! '});
     }
   })
+*/
+
 });
 
 // delete snippet
