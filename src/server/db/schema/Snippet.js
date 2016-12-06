@@ -28,10 +28,6 @@ const SnippetSchema = new db.Schema({
     type: Date,
     required: true
   },
-  root: {
-    type: Boolean,
-    required: true
-  },
   _codeversation: {
     type: Schema.Types.ObjectId,
     ref:'Codeversation'

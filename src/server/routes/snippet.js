@@ -1,14 +1,38 @@
 import { Router } from 'express';
 const router = Router();
 import Snippet from 'server/db/model/Snippet';
+import async from 'async';
+//import ObjectId from 'mongoose.Types.ObjectId';
 
 //GET all snippets
 router.get('/', function(req, res) {
   Snippet
-  .find()
-  .then(function(snippets) {
-    res.json(snippets);
-  });
+  .find({parentId: null}, function(error, docs) {
+    if (error) {
+      res.send(500);
+      res.end('error loading all snippets');
+    } else {
+      var getTrees = [];
+      docs.forEach(function(root) {
+        getTrees.push(function(callback) {
+          root.getTree({
+            sort: {dateCreated: 1},
+
+          }, function(error, tree) {
+            callback(error, tree);
+          })
+        })
+      })
+      async.parallel(getTrees, function(error, trees) {
+        if(error) {
+           res.send(500);
+            res.end('error getting snippet tree');
+        } else {
+          return res.json(trees);
+        }
+      })
+    }
+  })
 });
 
 // GET one snippet
@@ -68,23 +92,7 @@ router.post('/', function(req, res) {
         res.json({newSnippet, message: 'snippet created successfully! '});
       }
     });
-
   }
-/*
-  snippet.save(function(err, data) {
-    if(err) {
-      console.log("server controller :save contact error : ");
-      console.log(err);
-      res
-          .status(400)
-          .json([{message: "error in saving data"}]);
-    } else {
-      res.status(200);
-      res.json({snippet, message: 'snippet created successfully! '});
-    }
-  })
-*/
-
 });
 
 // delete snippet
