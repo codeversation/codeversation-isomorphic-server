@@ -32,6 +32,7 @@ const SnippetSchema = new db.Schema({
     type: Schema.Types.ObjectId,
     ref:'Codeversation'
   }
+  //inserting parentId will create a child node.
 });
 
 SnippetSchema.plugin(deepPopulate);
