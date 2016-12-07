@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react'
-import { Grid, Row, Col, PageHeader, Button } from 'react-bootstrap';
+import { Grid, Row, Col, PageHeader, Button, Checkbox } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import FormFieldGroup from './FormFieldGroup';
 import Snippet from './Snippet'
@@ -14,7 +14,8 @@ class CodeversationForm extends Component {
     this.state = {
       title: '',
       body: '',
-      code: ''
+      code: '',
+      public: true
     }
   }
 
@@ -30,7 +31,7 @@ class CodeversationForm extends Component {
     const codeversation = {
       title: this.state.title,
       content: this.state.body,
-      public: true,
+      public: this.state.public,
       _creator: this.props.user.toJS().id
     }
     if (this.state.code !== '') {
@@ -82,7 +83,6 @@ class CodeversationForm extends Component {
           onChange={code => this.setState({code})}
         />
         <SnippetOutput snippet={this.state.code}/>
-
         <Button
           bsStyle='primary'
           style={{margin: 20}}
