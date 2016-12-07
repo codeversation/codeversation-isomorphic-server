@@ -96,6 +96,7 @@ class PostHistory extends Component {
                   codeversation={codeversation}
                   user={this.props.user}
 									onDelete={::this.handleDelete}
+									token={this.props.token}
                 />
               );
             }
@@ -107,7 +108,8 @@ class PostHistory extends Component {
 }
 
 PostHistory.propTypes = {
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+	token: PropTypes.string,
 }
 
 export default PostHistory;

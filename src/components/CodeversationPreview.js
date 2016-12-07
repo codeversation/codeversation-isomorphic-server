@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import Username from './Username';
 import { ISO_ROOT, V1_API_BASE } from 'config';
 
-const CodeversationPreview = ({ codeversation, style, user, onDelete }) => {
+const CodeversationPreview = ({ codeversation, style, user, onDelete, token }) => {
   return (
     <ListGroupItem
       style={style}
@@ -20,7 +20,12 @@ const CodeversationPreview = ({ codeversation, style, user, onDelete }) => {
               bsStyle = "danger"
               onClick = {() => {
                 fetch(`${ISO_ROOT}${V1_API_BASE}/codeversation/${codeversation.id}`, {
-                  method: "DELETE"
+                  method: "DELETE",
+									headers: {
+										'Accept': 'application/json',
+										'Content-Type': 'application/json',
+										'Authorization': token,
+									},
                 })
 								.then(() => onDelete())
                 .catch(err=>console.error(err));

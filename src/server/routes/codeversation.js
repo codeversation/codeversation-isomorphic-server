@@ -85,16 +85,35 @@ router.post('/', function(req, res) {
 
 // delete post
 router.delete('/:id', function(req, res) {
-  Codeversation
-    .remove({
-      _id: req.params.id
-    })
-    .then(() => res.status(200).json({
-      message: "Codeversations deleted."
-    }))
-    .catch((err) => {
-      res.status(400).json({message: "Error deleteing Codeversation.", err: err})
-    })
+	log('sldjfs',req.user);
+  if(!req.user){
+    res.status(400).json({ message: 'Invalid request.'});
+    return;
+  }
+
+	log('part 2');
+
+	Codeversation.findOne({ _id: req.params.id })
+		.then( verse => {
+			log(verse, 'part 3');
+			if(verse._creator.toString() !== req.user.id) {
+		    res.status(400).json({ message: 'Invalid request.'});
+		    return;
+			}
+
+		  Codeversation
+		    .remove({
+		      _id: req.params.id
+		    })
+		    .then(() => res.status(200).json({
+		      message: "Codeversations deleted."
+		    }))
+		    .catch((err) => {
+		      res.status(400).json({message: "Error deleteing Codeversation.", err: err})
+		    });
+		}
+	)
+
 
 });
 
