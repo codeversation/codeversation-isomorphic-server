@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import Username from './Username';
 import { ISO_ROOT, V1_API_BASE } from 'config';
 
-const CodeversationPreview = ({ codeversation, style, user }) => {
+const CodeversationPreview = ({ codeversation, style, user, onDelete }) => {
   return (
     <ListGroupItem
       style={style}
@@ -22,9 +22,10 @@ const CodeversationPreview = ({ codeversation, style, user }) => {
                 fetch(`${ISO_ROOT}${V1_API_BASE}/codeversation/${codeversation.id}`, {
                   method: "DELETE"
                 })
+								.then(() => onDelete())
                 .catch(err=>console.error(err));
               }}
-              >Delete 
+              >Delete
             </Button>
         </Col>}}
       </Row>
@@ -35,7 +36,8 @@ const CodeversationPreview = ({ codeversation, style, user }) => {
 
 CodeversationPreview.propTypes = {
   style: PropTypes.object,
-  codeversation: PropTypes.object.isRequired
+  codeversation: PropTypes.object.isRequired,
+	onDelete: PropTypes.func,
 }
 
 export default CodeversationPreview;

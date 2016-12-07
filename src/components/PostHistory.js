@@ -2,27 +2,42 @@ import React, { PropTypes, Component } from 'react';
 import { ListGroup, ListGroupItem, PageHeader } from 'react-bootstrap';
 import CodeversationPreview from './CodeversationPreview';
 import { ISO_ROOT, V1_API_BASE } from 'config';
+import { log } from 'utilities';
 
 class PostHistory extends Component {
   constructor(props) {
     super(props);
     this.state = {
       profileCodeversations: [],
-      fetching: false,
-      invalid: true,
+			fetching: false,
+			invalidated: true,
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    let valid = nextProps.user.id === this.props.user.id;
+	isValid(){
+		log('start');
+		log(this.state);
+		log(!this.state.invalidated);
+		log(!!this.state.profileCodeversations);
+		log(this.state.profileCodeversations
+		.reduce((valid, codeversation) => {
+			log(valid);
+			log('user id' + this.props.user.id);
+			log('creator id', codeversation._creator.id);
+			return (valid && this.props.user.id === codeversation._creator.id)
+		}, true));
 
-    if(valid){
-      this.setState({
-        invalid: false,
-      });
-    }
-  }
-
+		return (
+			!this.state.invalidated &&
+			!!this.state.profileCodeversations &&
+			this.state.profileCodeversations
+			.reduce((valid, codeversation) => {
+				log(valid);
+				log('user id' + this.props.user.id);
+				log('creator id', codeversation._creator.id);
+				return (valid && this.props.user.id === codeversation._creator.id)
+			}, true));
+	}
   componentDidMount() {
     this.tryFetchData();
   }
@@ -31,23 +46,31 @@ class PostHistory extends Component {
     this.tryFetchData();
   }
 
-  tryFetchData() {
-    if(!this.state.fetching && this.state.invalid){
-      this.fetchData();
-    }
-  }
+	tryFetchData() {
+		log(this.isValid());
+		if(!this.state.fetching && !this.isValid()){
+			this.fetchData();
+		}
+	}
 
-  fetchData() {
+	fetchData() {
+		this.setState({ fetching: true });
     fetch(`${ISO_ROOT}${V1_API_BASE}/codeversation`)
       .then(res => res.json())
       .then((codeversations) => {
         this.setState({
           profileCodeversations: codeversations.filter(codeversation => codeversation._creator.id === this.props.user.id),
-          fetching: false,
+					fetching: false,
+					invalidated: false,
         })
       })
       .catch(err => console.error('Couldn\'t retrieve codeversations', err));
   }
+
+	handleDelete(){
+		log('handling delete');
+		this.setState({ invalidated: true });
+	}
 
   render() {
     return (
@@ -67,6 +90,7 @@ class PostHistory extends Component {
                   style={style}
                   codeversation={codeversation}
                   user={this.props.user}
+									onDelete={::this.handleDelete}
                 />
               );
             }

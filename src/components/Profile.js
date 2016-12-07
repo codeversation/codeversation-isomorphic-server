@@ -13,7 +13,7 @@ import {
   Button,
   PageHeader,
 } from 'react-bootstrap';
-import { log, error } from 'utilities';
+import { log } from 'utilities';
 import { ISO_ROOT, V1_API_BASE } from 'config';
 import { user as userActions } from 'actions';
 import isEmpty from 'lodash/isEmpty';
@@ -54,7 +54,7 @@ class Profile extends Component {
             user,
           });
         })
-        .catch(err => error(err));
+        .catch(err => log.err(err));
 
       this.setState({ fetching: true });
     }

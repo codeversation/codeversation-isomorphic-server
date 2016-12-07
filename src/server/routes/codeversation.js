@@ -4,7 +4,7 @@ const router = Router();
 
 import Codeversation from 'server/db/model/Codeversation';
 import Snippet from 'server/db/model/Snippet';
-
+import { log } from 'utilities';
 
 // GET all posts
 router.get('/', function(req, res) {
@@ -45,15 +45,22 @@ router.post('/', function(req, res) {
   } else {
     codeversations = req.body;
   }
+
   console.log(codeversations);
   codeversations.dateCreated = new Date();
+
+	const snippet = codeversations.snippet;
+	delete codeversations.snippet;
   var codeversation = new Codeversation(codeversations);
-  if (codeversations.snippet) {
-    const originalSnippet = codeversations.snippet;
-    originalSnippet.dateCreated = new Date();
-    originalSnippet._codeversation = codeversation._id;
-    var snippet = new Snippet(originalSnippet);
-    snippet.save((err, data) => {
+
+	log('check')
+
+  if (snippet) {
+    (new Snippet({
+			...snippet,
+			dateCreated: new Date(),
+			_codeversation: codeversation._id})
+		).save((err, data) => {
       if(err) {
         console.log("snippet wasnt saved contact error : ");
         console.log(err);
@@ -62,6 +69,8 @@ router.post('/', function(req, res) {
       }
     })
   }
+
+
   codeversation.save(function(err, data) {
     if(err) {
       console.log("server controller :save contact error : ");
