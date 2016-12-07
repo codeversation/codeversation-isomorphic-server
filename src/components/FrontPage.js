@@ -31,8 +31,9 @@ class FrontPage extends Component {
     return (
       <div>
         <ListGroup>
-            {this.state.codeversations.map((codeversation, ind) => {
-              const style = ind % 2 ? {background: '#f2f2f2'} : null;
+          {this.state.codeversations.map((codeversation, ind) => {
+            const style = ind % 2 ? {background: '#f2f2f2'} : null;
+            if(codeversation.public) {
               return (
                 <CodeversationPreview
                   key={ind}
@@ -40,8 +41,11 @@ class FrontPage extends Component {
                   codeversation={codeversation}
                 />
               );
-            })}
-          </ListGroup>
+            } else {
+              return;
+            }
+          })}
+        </ListGroup>
       </div>
     );
   }

@@ -82,6 +82,9 @@ class CodeversationForm extends Component {
           readOnly={false}
           onChange={code => this.setState({code})}
         />
+        <Checkbox onClick={() => this.setState({public: !this.state.public})}>
+          Private
+        </Checkbox>
         <SnippetOutput snippet={this.state.code}/>
         <Button
           bsStyle='primary'
