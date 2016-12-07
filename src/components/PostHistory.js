@@ -72,6 +72,11 @@ class PostHistory extends Component {
 		this.setState({ invalidated: true });
 	}
 
+	handleDelete(){
+		log('handling delete');
+		this.setState({ invalidated: true });
+	}
+
   render() {
     return (
       <div>
