@@ -53,8 +53,6 @@ router.post('/', function(req, res) {
 	delete codeversations.snippet;
   var codeversation = new Codeversation(codeversations);
 
-	log('check')
-
   if (snippet) {
     (new Snippet({
 			...snippet,
