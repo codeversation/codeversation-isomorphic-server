@@ -12,35 +12,28 @@ class CodeversationForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: '',
-      body: '',
-      code: '',
-      public: true
+			codeversation: {
+	      public: true,
+				title: '',
+				content: '',
+				snippet: {
+		      code: '',
+					title: 'Original',
+					correct: false,
+				},
+			},
     }
   }
 
   handleTitleChange(e) {
-    this.setState({ title: e.target.value})
+    this.setState({ codeversation: { ...this.state.codeversation, title: e.target.value } })
   }
 
   handleBodyChange(e) {
-    this.setState({ body: e.target.value})
+    this.setState({ codeversation: { ...this.state.codeversation, content: e.target.value } })
   }
 
   handlePostCodeversation() {
-    const codeversation = {
-      title: this.state.title,
-      content: this.state.body,
-      public: this.state.public,
-    }
-    if (this.state.code !== '') {
-      codeversation.snippet = {
-          title: 'Original',
-          code: this.state.code,
-          correct: false,
-        }
-
-    }
     fetch(`${ISO_ROOT}${V1_API_BASE}/codeversation`, {
       method: 'POST',
 			headers: {
@@ -49,8 +42,8 @@ class CodeversationForm extends Component {
 				'Authorization': this.props.user.token,
 			},
       body: JSON.stringify({
-        codeversation
-        })
+        codeversation: this.state.codeversation,
+      }),
     })
       .then(res => res.json())
       .then((json) => {
@@ -67,25 +60,25 @@ class CodeversationForm extends Component {
           <FormFieldGroup
             label='Codeversation Title'
             type='text'
-            value={this.state.title}
+            value={this.state.codeversation.title}
             onChange={this.handleTitleChange.bind(this)}
           />
           <FormFieldGroup
             label='Codeversation Body'
             type='text'
-            value={this.state.body}
+            value={this.state.codeversation.content}
             onChange={this.handleBodyChange.bind(this)}
           />
         </form>
         <Snippet
-          code={this.state.code}
+					snippet={this.state.codeversation.snippet}
           readOnly={false}
-          onChange={code => this.setState({code})}
+          onChange={code => this.setState({ codeversation: { ...this.state.codeversation, snippet: {...this.state.codeversation.snippet, code} } })}
         />
-        <Checkbox onClick={() => this.setState({public: !this.state.public})}>
+        <Checkbox onClick={() => this.setState({ codeversation: { ...this.state.codeversation, public: !this.state.codeversation.public } })}>
           Private
         </Checkbox>
-        <SnippetOutput snippet={this.state.code}/>
+        <SnippetOutput snippet={this.state.codeversation.snippet.code}/>
         <Button
           bsStyle='primary'
           style={{margin: 20}}

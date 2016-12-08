@@ -16,7 +16,7 @@ class Post extends Component {
 		super(...args);
 
 		this.state = {
-			code: '',
+			snippet: { code: '', title: '' },
 			readOnly: this.props.readOnly !== null ? this.props.readOnly : true,
 		}
 	}
@@ -29,7 +29,7 @@ class Post extends Component {
 		.then(json => {
 			log(json);
 			this.setState({
-				code: json.code,
+				snippet: json,
 			});
 		});
 	}
@@ -40,14 +40,14 @@ class Post extends Component {
 				<Row>
 					<Col md={8} >
 		        <Snippet
-							id={this.props.snippetId}
+							snippet={this.state.snippet}
+							snippetId={this.props.snippetId}
 							readOnly={this.state.readOnly}
-							code={this.state.code}
-							onChange={code => this.setState({code})}
+							onChange={code => this.setState({ snippet: { code } })}
 						/>
 					</Col>
 					<Col md={4}>
-						<SnippetOutput snippet={this.state.code}/>
+						<SnippetOutput snippet={this.state.snippet.code}/>
 					</Col>
 				</Row>
         <CommentList id={this.props.snippetId} />
