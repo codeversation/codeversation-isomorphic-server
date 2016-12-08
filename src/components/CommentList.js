@@ -50,7 +50,8 @@ class CommentList extends Component {
         const newComment = [{
           content: this.state.comment,
           _creator: {
-            email: this.props.user.toJS().email
+            email: this.props.user.toJS().email,
+            id: this.props.user.toJS().id
           }
         }];
         this.setState({
