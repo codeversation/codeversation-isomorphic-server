@@ -8,7 +8,7 @@ import { log } from 'utilities';
 import { connect } from 'react-redux';
 
 const rowStyle = {
-	margin: '0 0 10px 0'
+	marginBottom: '10px'
 }
 
 class Post extends Component {
@@ -34,6 +34,10 @@ class Post extends Component {
 		});
 	}
 
+	handleFork() {
+		this.context.router.push(`/fork/${this.props.params.id}/${this.props.snippetId}`);
+	}
+
   render() {
     return (
       <Grid>
@@ -47,7 +51,16 @@ class Post extends Component {
 						/>
 					</Col>
 					<Col md={4}>
-						<SnippetOutput snippet={this.state.snippet.code}/>
+						<Row style={rowStyle}>
+							<SnippetOutput snippet={this.state.snippet.code}/>
+						</Row>
+						<Row>
+							<Col md={4}>
+								<Button bsStyle='success' onClick={::this.handleFork}>
+									Fork
+								</Button>
+							</Col>
+						</Row>
 					</Col>
 				</Row>
         <CommentList id={this.props.snippetId} />
@@ -62,6 +75,10 @@ class Post extends Component {
       </Grid>
     );
   }
+}
+
+Post.contextTypes = {
+  router: PropTypes.object.isRequired
 }
 
 Post.propTypes = {

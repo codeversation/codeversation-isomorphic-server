@@ -9,7 +9,8 @@ import {
   Signup,
   Snippet,
 	Post,
-  FrontPage
+  FrontPage,
+	ForkForm,
 } from 'components';
 
 export default {
@@ -56,6 +57,10 @@ export default {
     {
       component: Post,
       path: 'post'
-    }
+    },
+		{
+			component: ForkForm,
+			path: 'fork/:codeversationId/:snippetId',
+		}
   ]
 };

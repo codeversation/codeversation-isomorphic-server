@@ -32,6 +32,10 @@ const SnippetSchema = new db.Schema({
     type: Schema.Types.ObjectId,
     ref:'Codeversation'
   },
+	_parent: {
+		type: Schema.Types.ObjectId,
+		ref: 'Snippet',
+	},
   comments: [{
     type: Schema.Types.ObjectId,
     ref:'Comment'
