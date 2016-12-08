@@ -34,6 +34,20 @@ class Post extends Component {
 		});
 	}
 
+	componentWillReceiveProps(){
+		fetch(`${ISO_ROOT}${V1_API_BASE}/snippet/${this.props.snippetId}`, {
+      method: 'GET'
+    })
+		.then(res => res.json())
+		.then(json => {
+			log(json);
+			this.setState({
+				snippet: json,
+			});
+		});
+	}
+
+
 	handleFork() {
 		this.context.router.push(`/fork/${this.props.params.id}/${this.props.snippetId}`);
 	}
