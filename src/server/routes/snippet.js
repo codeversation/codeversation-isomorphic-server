@@ -46,7 +46,14 @@ router.get('/:id', function(req, res) {
     });
 });
 
+// POST one snippet
 router.post('/', function(req, res) {
+
+	if(!req.user){
+		res.status(400).json({ message: 'Invalid request.'});
+		return;
+	}
+
   var snippets;
   if(!req.body) {
     res.status(400);
@@ -58,6 +65,8 @@ router.post('/', function(req, res) {
   } else {
     snippets = req.body;
   }
+
+	snippets._creator = req.user._id;
   snippets.dateCreated = new Date();
   var snippet = new Snippet(snippets);
   if(req.query.parent_id) {

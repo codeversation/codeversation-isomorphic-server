@@ -28,6 +28,10 @@ const CodeversationSchema = new db.Schema({
     type: Schema.Types.ObjectId,
     ref: 'Snippet'
   }],
+	_selectedSnippet: {
+		type: Schema.Types.ObjectId,
+		ref: 'Snippet',
+	},
   comment: [{
     type: Schema.Types.ObjectId,
     ref: 'Comment'

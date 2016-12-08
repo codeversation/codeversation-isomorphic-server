@@ -31,7 +31,11 @@ const SnippetSchema = new db.Schema({
   _codeversation: {
     type: Schema.Types.ObjectId,
     ref:'Codeversation'
-  }
+  },
+  comments: [{
+    type: Schema.Types.ObjectId,
+    ref:'Comment'
+  }],
   //inserting parentId will create a child node.
 });
 

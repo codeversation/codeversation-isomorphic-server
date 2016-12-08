@@ -14,9 +14,22 @@ class Codeversation extends Component {
     this.state = {
       isLoading: true,
       codeversation: {},
-      curSnippet: 0
+			snippetId: this.props.params && this.props.params.snippetId,
     }
   }
+
+	// componentWillRecieveProps(props){
+	// 	if(props.params && props.params.snippetId){
+	// 		this.setState({snippetId: props.params.snippetId});
+	// 	}else{
+	// 		fetch(`${ISO_ROOT}${V1_API_BASE}/codeversation/${this.props.params.id}`, {
+	//       method: 'GET'
+	//     })
+	// 		.then(res => res.json())
+	// 		.then()
+	// 	}
+	// }
+
   componentDidMount() {
     fetch(`${ISO_ROOT}${V1_API_BASE}/codeversation/${this.props.params.id}`, {
       method: 'GET'
@@ -25,8 +38,9 @@ class Codeversation extends Component {
       .then((json) => {
         this.setState({
           isLoading: false,
-          codeversation: json
-        })
+          codeversation: json,
+					snippetId: this.state.snippetId || json._selectedSnippet,
+        });
       })
       .catch((err) => {
         console.error(err);
@@ -52,7 +66,7 @@ class Codeversation extends Component {
           </Row>
         </PageHeader>
         <Well>{codeversation.content}</Well>
-				<Post {...this.props } snippetId={'sklsdjflkdf'} readOnly={false} />
+				<Post {...this.props } snippetId={this.state.snippetId} />
       </Grid>
     );
   }

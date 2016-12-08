@@ -32,7 +32,6 @@ class CodeversationForm extends Component {
       title: this.state.title,
       content: this.state.body,
       public: this.state.public,
-      _creator: this.props.user.toJS().id
     }
     if (this.state.code !== '') {
       codeversation.snippet = {
@@ -44,10 +43,11 @@ class CodeversationForm extends Component {
     }
     fetch(`${ISO_ROOT}${V1_API_BASE}/codeversation`, {
       method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+				'Authorization': this.props.user.token,
+			},
       body: JSON.stringify({
         codeversation
         })
@@ -102,7 +102,7 @@ CodeversationForm.contextTypes = {
   router: PropTypes.object.isRequired
 }
 
-const mapStateToProps = ({ user }) => ({ user });
+const mapStateToProps = ({ user }) => ({ user: user.toJS() });
 const mapStateToDispatch = dispatch => ({});
 export default connect(
   mapStateToProps,

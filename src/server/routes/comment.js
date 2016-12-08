@@ -13,14 +13,14 @@ router.get('/', function(req, res) {
   });
 });
 
-// GET comments from codeversation id
+// GET comments from snippet id
 router.get('/:id', function(req, res) {
   Comment
   .find({
-    _codeversation: req.params.id
+    _snippet: req.params.id
   })
   .populate('_creator')
-  .populate('_codeversation')
+  .populate('_snippet')
   .then(function(comment) {
     res.json(comment);
   });

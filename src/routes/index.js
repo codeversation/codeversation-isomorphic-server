@@ -25,9 +25,13 @@ export default {
       component: Login,
       path: 'login'
     },
+		{
+			path: 'view/:id',
+			component: Codeversation,
+		},
     {
-      component: Codeversation,
-      path: 'view/:id',
+      path: 'view/:id/:snippetId',
+			component: Codeversation,
     },
     {
       component: CommentForm,

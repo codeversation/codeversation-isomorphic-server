@@ -3,6 +3,9 @@ import Snippet from './Snippet';
 import SnippetOutput from './SnippetOutput';
 import CommentList from './CommentList';
 import { Grid, Row, Col, ButtonToolbar, Button } from 'react-bootstrap';
+import { ISO_ROOT, V1_API_BASE } from 'config';
+import { log } from 'utilities';
+import { connect } from 'react-redux';
 
 const rowStyle = {
 	margin: '0 0 10px 0'
@@ -14,7 +17,21 @@ class Post extends Component {
 
 		this.state = {
 			code: '',
+			readOnly: this.props.readOnly !== null ? this.props.readOnly : true,
 		}
+	}
+
+	componentDidMount(){
+		fetch(`${ISO_ROOT}${V1_API_BASE}/snippet/${this.props.snippetId}`, {
+      method: 'GET'
+    })
+		.then(res => res.json())
+		.then(json => {
+			log(json);
+			this.setState({
+				code: json.code,
+			});
+		});
 	}
 
   render() {
@@ -24,7 +41,7 @@ class Post extends Component {
 					<Col md={8} >
 		        <Snippet
 							id={this.props.snippetId}
-							readOnly={this.props.readOnly}
+							readOnly={this.state.readOnly}
 							code={this.state.code}
 							onChange={code => this.setState({code})}
 						/>
@@ -33,7 +50,7 @@ class Post extends Component {
 						<SnippetOutput snippet={this.state.code}/>
 					</Col>
 				</Row>
-        <CommentList id={this.props.params.id} snippetId={this.props.snippetId}/>
+        <CommentList id={this.props.snippetId} />
 
 				<Row style={rowStyle}>
 					<ButtonToolbar>
@@ -53,7 +70,12 @@ Post.propTypes = {
 }
 
 Post.defaultProps = {
-	readOnly: false,
+	readOnly: null,
 };
 
-export default Post;
+
+const mapStateToProps = ({user}) => ({ localUser: user.toJS() });
+
+export default connect(
+  mapStateToProps,
+)(Post);

@@ -8,9 +8,9 @@ const CommentSchema = new db.Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
-  _codeversation: {
+  _snippet: {
     type: Schema.Types.ObjectId,
-    ref:'Codeversation'
+    ref:'Snippet'
   },
   content: {
     type: String,
@@ -24,11 +24,7 @@ const CommentSchema = new db.Schema({
   },
   dateCreated: {
     type: Date,
-  },
-  comments: [{
-    type: Schema.Types.ObjectId,
-    ref:'Comment'
-  }]
+  }
 });
 
 CommentSchema.plugin(deepPopulate);

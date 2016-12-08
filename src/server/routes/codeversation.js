@@ -26,8 +26,10 @@ router.get('/:id', function(req, res) {
     })
     .populate('_creator')
     .populate('snippet')
-    .deepPopulate('comment.comments')
-    .then((codeversation) => res.json(codeversation))
+    .then((codeversation) => {
+			res.json(codeversation);
+			log(codeversation);
+		})
     .catch((err) => {
       console.error(err);
     })
@@ -35,11 +37,18 @@ router.get('/:id', function(req, res) {
 });
 
 router.post('/', function(req, res) {
+  if(!req.user){
+    res.status(400).json({ message: 'Invalid request.'});
+    return;
+  }
+
   var codeversations;
   if(!req.body) {
     res.status(400);
-    res.end("Invalid request.");
+    res.json({ message: "Invalid request." });
+		return;
   }
+
   if (req.body.codeversation) {
     codeversations = req.body.codeversation;
   } else {
@@ -48,10 +57,25 @@ router.post('/', function(req, res) {
 
   console.log(codeversations);
   codeversations.dateCreated = new Date();
+	codeversations._creator = req.user._id;
 
 	const snippet = codeversations.snippet;
 	delete codeversations.snippet;
-  var codeversation = new Codeversation(codeversations);
+	snippet._creator = req.user._id;
+
+	const codeversation = new Codeversation(codeversations);
+
+	codeversation.save(function(err, data) {
+		if(err) {
+			console.log("server controller :save contact error : ");
+			console.log(err);
+			res
+				.status(400)
+				.json([{message: "error in saving data"}]);
+		} else {
+			log(codeversation);
+		}
+	});
 
   if (snippet) {
     (new Snippet({
@@ -59,33 +83,39 @@ router.post('/', function(req, res) {
 			dateCreated: new Date(),
 			_codeversation: codeversation._id})
 		).save((err, data) => {
+			log(data);
       if(err) {
         console.log("snippet wasnt saved contact error : ");
         console.log(err);
       } else {
         console.log('Snippet saved successfully');
+				codeversation.snippet = [data._id];
+				codeversation._selectedSnippet = data._id;
+
+				codeversation.save(err => {
+					if(err){
+						res
+							.status(500)
+							.json({ message: 'Failure to save snippet ref.' });
+					}else{
+						log(codeversation);
+						res
+							.status(200)
+							.json({
+								codeversation,
+								message: 'codeversation created successfully!'
+							}
+						);
+					}
+				});
       }
     })
   }
 
-
-  codeversation.save(function(err, data) {
-    if(err) {
-      console.log("server controller :save contact error : ");
-      console.log(err);
-      res
-        .status(400)
-        .json([{message: "error in saving data"}]);
-    } else {
-      res.status(200);
-      res.json({codeversation, message: 'codeversation created successfully! '});
-    }
-  })
 });
 
 // delete post
 router.delete('/:id', function(req, res) {
-	log('sldjfs',req.user);
   if(!req.user){
     res.status(400).json({ message: 'Invalid request.'});
     return;
