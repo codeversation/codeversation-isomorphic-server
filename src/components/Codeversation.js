@@ -5,6 +5,7 @@ import CommentList from './CommentList';
 import Loading from './Loading';
 import Post from './Post';
 import ShareButton from './ShareButton';
+import Sidebar from './Sidebar';
 import { Grid, Col, Row, Well, PageHeader } from 'react-bootstrap';
 import { ISO_ROOT, V1_API_BASE } from 'config';
 
@@ -53,8 +54,9 @@ class Codeversation extends Component {
       return <Loading />
     }
     const { codeversation } = this.state;
+    console.log(codeversation);
     return (
-      <Grid>
+      <Grid fluid>
         <PageHeader>
           <Row>
             <Col md={6}>
@@ -65,8 +67,18 @@ class Codeversation extends Component {
             </Col>
           </Row>
         </PageHeader>
-        <Well>{codeversation.content}</Well>
-				<Post {...this.props } snippetId={this.state.snippetId} />
+        <Row>
+          <Col md={3}>
+            <Sidebar 
+              posts={codeversation._snippets}
+              original={codeversation}
+            />
+          </Col>
+          <Col md={6}>
+            <Well>{codeversation.content}</Well>
+            <Post {...this.props } snippetId={this.state.snippetId} />
+          </Col>
+        </Row>
       </Grid>
     );
   }
