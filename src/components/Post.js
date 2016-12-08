@@ -3,9 +3,12 @@ import Snippet from './Snippet';
 import SnippetOutput from './SnippetOutput';
 import CommentList from './CommentList';
 import { Grid, Row, Col, ButtonToolbar, Button } from 'react-bootstrap';
+import { ISO_ROOT, V1_API_BASE } from 'config';
+import { log } from 'utilities';
+import { connect } from 'react-redux';
 
 const rowStyle = {
-	margin: '0 0 10px 0'
+	marginBottom: '10px'
 }
 
 class Post extends Component {
@@ -13,8 +16,40 @@ class Post extends Component {
 		super(...args);
 
 		this.state = {
-			code: '',
+			snippet: { code: '', title: '' },
+			readOnly: this.props.readOnly !== null ? this.props.readOnly : true,
 		}
+	}
+
+	componentDidMount(){
+		fetch(`${ISO_ROOT}${V1_API_BASE}/snippet/${this.props.snippetId}`, {
+      method: 'GET'
+    })
+		.then(res => res.json())
+		.then(json => {
+			log(json);
+			this.setState({
+				snippet: json,
+			});
+		});
+	}
+
+	componentWillReceiveProps(){
+		fetch(`${ISO_ROOT}${V1_API_BASE}/snippet/${this.props.snippetId}`, {
+      method: 'GET'
+    })
+		.then(res => res.json())
+		.then(json => {
+			log(json);
+			this.setState({
+				snippet: json,
+			});
+		});
+	}
+
+
+	handleFork() {
+		this.context.router.push(`/fork/${this.props.params.id}/${this.props.snippetId}`);
 	}
 
   render() {
@@ -23,17 +58,26 @@ class Post extends Component {
 				<Row>
 					<Col md={8} >
 		        <Snippet
-							id={this.props.snippetId}
-							readOnly={this.props.readOnly}
-							code={this.state.code}
-							onChange={code => this.setState({code})}
+							snippet={this.state.snippet}
+							snippetId={this.props.snippetId}
+							readOnly={this.state.readOnly}
+							onChange={code => this.setState({ snippet: { code } })}
 						/>
 					</Col>
 					<Col md={4}>
-						<SnippetOutput snippet={this.state.code}/>
+						<Row style={rowStyle}>
+							<SnippetOutput snippet={this.state.snippet.code}/>
+						</Row>
+						<Row>
+							<Col md={4}>
+								<Button bsStyle='success' onClick={::this.handleFork}>
+									Fork
+								</Button>
+							</Col>
+						</Row>
 					</Col>
 				</Row>
-        <CommentList id={this.props.params.id} snippetId={this.props.snippetId}/>
+        <CommentList id={this.props.snippetId} />
 
 				<Row style={rowStyle}>
 					<ButtonToolbar>
@@ -47,13 +91,22 @@ class Post extends Component {
   }
 }
 
+Post.contextTypes = {
+  router: PropTypes.object.isRequired
+}
+
 Post.propTypes = {
   snippetId: PropTypes.string.isRequired,
 	readOnly: PropTypes.bool,
 }
 
 Post.defaultProps = {
-	readOnly: false,
+	readOnly: null,
 };
 
-export default Post;
+
+const mapStateToProps = ({user}) => ({ localUser: user.toJS() });
+
+export default connect(
+  mapStateToProps,
+)(Post);

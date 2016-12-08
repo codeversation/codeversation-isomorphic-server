@@ -19,8 +19,6 @@ if(env() === 'browser') {
 	require('brace/theme/terminal');
 	require('brace/theme/monokai');
 
-	//console.log(<AceEditor/>);
-	// AceEditor.editor.setReadOnly(true);
 }
 
 class Editor extends Component {

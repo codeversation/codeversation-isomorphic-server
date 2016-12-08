@@ -4,6 +4,7 @@ import PostComment from './PostComment';
 import CommentForm from './CommentForm';
 //redux
 import { user } from 'actions';
+import { ISO_ROOT, V1_API_BASE } from 'config';
 
 class CommentList extends Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class CommentList extends Component {
     }
   }
   componentDidMount() {
-    fetch(`http://localhost:3000/api/v1/comment/${this.props.id}`)
+    fetch(`${ISO_ROOT}${V1_API_BASE}/comment/${this.props.id}`)
       .then(res => res.json())
       .then((json) => {
         this.setState({
@@ -22,14 +23,26 @@ class CommentList extends Component {
         })
       })
       .catch(err => console.error(err));
-  }  
+  }
+
+	componentWillReceiveProps() {
+    fetch(`${ISO_ROOT}${V1_API_BASE}/comment/${this.props.id}`)
+      .then(res => res.json())
+      .then((json) => {
+        this.setState({
+          comments: json
+        })
+      })
+      .catch(err => console.error(err));
+  }
+
 
   handleCommentChange(e) {
     this.setState({comment: e.target.value});
   }
 
   handleComment(commentTxt){
-    fetch('http://localhost:3000/api/v1/comment', {
+    fetch(`${ISO_ROOT}${V1_API_BASE}/comment`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -40,18 +53,17 @@ class CommentList extends Component {
           _creator: this.props.user.toJS().id,
           content: this.state.comment,
           likes: 0,
-          _codeversation: this.props.id
+          _snippet: this.props.id
         }
       })
     })
       .then(data => data.json())
       .then((json) => {
-        console.log(this.props);
-        console.log(json);
         const newComment = [{
           content: this.state.comment,
           _creator: {
-            email: this.props.user.toJS().email
+            email: this.props.user.toJS().email,
+            id: this.props.user.toJS().id
           }
         }];
         this.setState({
@@ -74,20 +86,20 @@ class CommentList extends Component {
         <h2>Comments</h2>
         {this.state.comments.map((comment, ind) => {
           return (
-            <PostComment 
-              poster={comment._creator.email} 
+            <PostComment
+              poster={comment._creator}
               content={comment.content}
               key={ind}
             />
           );
         })}
-        <CommentForm 
+        <CommentForm
           postComment={this.handleComment.bind(this)}
           comment={this.state.comment}
           codeversationId={this.props.id}
           onCommentChange={this.handleCommentChange.bind(this)}
         />
-      </div> 
+      </div>
     );
   }
 };

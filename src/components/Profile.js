@@ -2,189 +2,96 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import Item from './Item';
 import {
-	ListGroup,
-	ListGroupItem,
- 	Form,
-	FormGroup,
-	Col,
-	ControlClass,
-	ControlLabel,
-	FormControl,
-	Button,
-	PageHeader,
+  ListGroup,
+  ListGroupItem,
+  Form,
+  FormGroup,
+  Col,
+  ControlClass,
+  ControlLabel,
+  FormControl,
+  Button,
+  PageHeader,
 } from 'react-bootstrap';
 import { log } from 'utilities';
+import { ISO_ROOT, V1_API_BASE } from 'config';
 import { user as userActions } from 'actions';
 import isEmpty from 'lodash/isEmpty';
+import PostHistory from './PostHistory';
+import Loading from './Loading';
+import ProfileForm from './ProfileForm';
 
 class Profile extends Component {
-	constructor(...args) {
-		super(...args);
+  constructor(...args){
+    super(...args);
 
-		this.state = {
-			editable: false,
-		};
-	}
+    this.state = {
+      fetching: false,
+    };
+  }
 
-	displaySaveOrLoadButton() {
-		return this.state.editable ?
-			(<FormGroup>
-				<Col smOffset={2} sm={10}>
-					<Button type="submit" onClick={::this.handleSaveClick}>
-						Save
-					</Button>
-				</Col>
-			</FormGroup>)
-		 :
-			(<FormGroup>
-				<Col smOffset={2} sm={10}>
-					<Button type="submit" onClick={::this.handleEditClick}>
-						Edit
-					</Button>
-				</Col>
-			</FormGroup>)
-		;
-	}
+  isValid(){
+    return (this.state.user && this.props.params.id === this.state.user.id);
+  }
 
-	displayLogoutButton() {
-		return <FormGroup>
-				<Col smOffset={2} sm={10}>
-					<Button type="submit" onClick={::this.handleLogoutClick}>
-						Logout
-					</Button>
-				</Col>
-			</FormGroup>
-		;
-	}
+  componentWillMount() {
+    this.tryFetching();
+  }
 
-	displayButtons() {
-		log(!isEmpty(this.props.user))
-		log(this.props.user)
-		return !isEmpty(this.props.user) ?
-			<div>
-				{this.displaySaveOrLoadButton()}
-				{this.displayLogoutButton()}
-			</div>
-		:
-			undefined
-		;
-	}
+  componentDidUpdate() {
+    this.tryFetching();
+  }
 
-	displayUser() {
-		let user = this.props.user;
+  tryFetching(){
+    if(!this.state.fetching && !this.isValid()){
+      fetch(`${ISO_ROOT}${V1_API_BASE}/user/${this.props.params.id}`)
+        .then(data => data.json())
+        .then(json => json.user)
+        .then(user => {
+          log(user);
+          this.setState({
+            fetching: false,
+            user,
+          });
+        })
+        .catch(err => log.err(err));
 
-		return (<Form horizontal>
-					{this.state.editable ?
-						(<div>
-					 <FormGroup controlId="formHorizontalName">
-						 <Col componentClass={ControlLabel} sm={2}>
-							 Name
-						 </Col>
-						 <Col sm={10}>
-							 <FormControl
-							 	type="text"
-								placeholder={user.name}
-								onChange={this.handleFormChange('name')}
-								 />
-						 </Col>
-					 </FormGroup>
+      this.setState({ fetching: true });
+    }
+  }
 
-					  <FormGroup controlId="formHorizontalEmail">
-					 	 <Col componentClass={ControlLabel} sm={2}>
-					 		 Email
-					 	 </Col>
-					 	 <Col sm={10}>
-					 		 <FormControl type="email"
-							 	placeholder={user.email}
-								onChange={this.handleFormChange('email')} />
-					 	 </Col>
-					  </FormGroup>
-
-					 <FormGroup controlId="formHorizontalPassword">
-						 <Col componentClass={ControlLabel} sm={2}>
-							 Password
-						 </Col>
-						 <Col sm={10}>
-							 <FormControl
-							 	type="password"
-								placeholder="Password"
-								onChange={this.handleFormChange('password')} />
-						 </Col>
-					 </FormGroup>
-					 </div>)
-				 :
-					 <ListGroup>
-						 {
-							 Object.keys(user)
-							 .map(key =>
-								 <ListGroupItem header={user[key]} key={key}>{key}</ListGroupItem>
-							 )
-						 }
-					 </ListGroup>}
-
-					 {
-						 this.displayButtons()
-					 }
-					</Form>)
-		;
-	}
-
-	handleLogoutClick(ev) {
-		ev.preventDefault();
-
-		this.props.logoutUser();
-	}
-	handleEditClick(ev) {
-		ev.preventDefault();
-
-		this.setState({ editable: !this.state.editable });
-	}
-
-	handleSaveClick(ev) {
-		ev.preventDefault();
-
-		this.props.updateUser({
-			...this.state.newUser,
-			token: this.props.user.token,
-		})
-		.catch(err => log)
-		;
-
-		this.setState({ editable: !this.state.editable });
-	}
-
-	handleFormChange(key) {
-
-		return (ev) => {
-			this.setState({ newUser: { ...this.state.newUser, [key]: ev.currentTarget.value} })
-		}
-	}
   render() {
-		log(this.state.newUser);
-		log(this.displayButtons());
-		log(this.props.user);
-		log(isEmpty(this.state.user));
-
-    const user = this.props.user;
     return (
       <div>
-				<PageHeader>
-					Profile Page
-				</PageHeader>
-				{this.displayUser()}
+        <PageHeader>
+          Profile Page
+        </PageHeader>
+        { do {
+          if(!this.isValid() && this.state.fetching){
+              <Loading />;
+          } else if(!this.isValid() && !this.state.fetching){
+              <h2> FAILED </h2>;
+          } else {
+              <div>
+                <ProfileForm
+                  user={this.state.user}
+                  localUser={this.props.localUser}
+                />
+                <PostHistory
+									user={this.state.user}
+                  localUser={this.props.localUser}
+									token={this.props.localUser.token}
+								/>;
+              </div>
+          }
+        } }
       </div>
     );
   }
 }
 
-const mapStateToProps = ({user}) => ({user: user.toJS()});
-
-const mapDispatchToProps = dispatch => ({
-	updateUser: newUser => dispatch(userActions.update(newUser)),
-	logoutUser: () => dispatch(userActions.clear()),
-});
+const mapStateToProps = ({user}) => ({ localUser: user.toJS() });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
 )(Profile);

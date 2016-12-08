@@ -1,7 +1,16 @@
 import mongoose, { Schema } from 'mongoose';
 import db from 'mongoose';
+import mongooseDeepPopulate from 'mongoose-deep-populate';
+import tree from 'mongoose-tree';
+import materializedPlugin from 'mongoose-materialized';
+const deepPopulate = mongooseDeepPopulate(db);
+
 
 const SnippetSchema = new db.Schema({
+  _creator: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
   title: {
     type: String,
     required: true
@@ -12,15 +21,30 @@ const SnippetSchema = new db.Schema({
   },
   correct: {
     type: Boolean,
-    required: true
+    required: true,
+    default: false
   },
-  _codeversation: {
-    type:mongoose.Schema.Types.ObjectId, ref:'Codeversation'},
   dateCreated: {
     type: Date,
     required: true
-  }
+  },
+  _codeversation: {
+    type: Schema.Types.ObjectId,
+    ref:'Codeversation'
+  },
+	_parent: {
+		type: Schema.Types.ObjectId,
+		ref: 'Snippet',
+	},
+  comments: [{
+    type: Schema.Types.ObjectId,
+    ref:'Comment'
+  }],
+  //inserting parentId will create a child node.
 });
+
+SnippetSchema.plugin(deepPopulate);
+SnippetSchema.plugin(materializedPlugin);
 
 if(!SnippetSchema.options.toJSON) SnippetSchema.options.toJSON = {};
 SnippetSchema.options.toJSON.transform = (doc, ret) => {

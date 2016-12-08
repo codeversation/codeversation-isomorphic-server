@@ -57,7 +57,7 @@ class Snippet extends Component {
   render() {
     return (
 			<Well>
-				<h2> Snippet </h2>
+				<h2> { this.props.snippet.title } </h2>
 				<Row style={rowStyle}>
 					<Form inline>
 						<FormGroup controlId="formControlsSelect">
@@ -97,7 +97,7 @@ class Snippet extends Component {
 				</Row>
 				<Row style={rowStyle}>
 					<Editor
-						code={this.props.code}
+						code={this.props.snippet.code}
 						language={this.state.language}
 						theme={this.state.theme}
 						onChange={this.props.onChange}
@@ -118,7 +118,7 @@ Snippet.propTypes = {
 	readOnly: PropTypes.bool,
 	onChange: PropTypes.func,
 	theme: PropTypes.string,
-	code: PropTypes.string,
+	snippet: PropTypes.object,
 	language: PropTypes.string,
 }
 

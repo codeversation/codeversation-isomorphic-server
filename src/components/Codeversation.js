@@ -1,11 +1,12 @@
 import React, { PropTypes, Component } from 'react'
 import PostTitle from './PostTitle';
 import Snippet from './Snippet';
-import CommentList from './CommentList';
 import Loading from './Loading';
 import Post from './Post';
 import ShareButton from './ShareButton';
+import Sidebar from './Sidebar';
 import { Grid, Col, Row, Well, PageHeader } from 'react-bootstrap';
+import { ISO_ROOT, V1_API_BASE } from 'config';
 
 class Codeversation extends Component {
   constructor(props) {
@@ -13,19 +14,25 @@ class Codeversation extends Component {
     this.state = {
       isLoading: true,
       codeversation: {},
-      curSnippet: 0
+			snippetId: this.props.params && this.props.params.snippetId,
     }
   }
+
+	componentWillReceiveProps(props){
+		this.setState({ snippetId: this.props.params.snippetId });
+	}
+
   componentDidMount() {
-    fetch(`http://localhost:3000/api/v1/codeversation/${this.props.params.id}`, {
+    fetch(`${ISO_ROOT}${V1_API_BASE}/codeversation/${this.props.params.id}`, {
       method: 'GET'
     })
       .then(res => res.json())
       .then((json) => {
         this.setState({
           isLoading: false,
-          codeversation: json
-        })
+          codeversation: json,
+					snippetId: this.state.snippetId || json._selectedSnippet,
+        });
       })
       .catch((err) => {
         console.error(err);
@@ -38,8 +45,9 @@ class Codeversation extends Component {
       return <Loading />
     }
     const { codeversation } = this.state;
+    console.log(codeversation);
     return (
-      <Grid>
+      <Grid fluid>
         <PageHeader>
           <Row>
             <Col md={6}>
@@ -50,8 +58,18 @@ class Codeversation extends Component {
             </Col>
           </Row>
         </PageHeader>
-        <Well>{codeversation.content}</Well>
-				<Post {...this.props } snippetId={'sklsdjflkdf'} readOnly={false} />
+        <Row>
+          <Col md={3}>
+            <Sidebar
+              posts={codeversation.snippet}
+              original={codeversation}
+            />
+          </Col>
+          <Col md={6}>
+            <Well>{codeversation.content}</Well>
+            <Post {...this.props } snippetId={this.state.snippetId} />
+          </Col>
+        </Row>
       </Grid>
     );
   }

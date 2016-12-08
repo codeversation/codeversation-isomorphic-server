@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Grid, Row, Col, Button, Image } from 'react-bootstrap';
 import { Link } from 'react-router';
 import FormFieldGroup from './FormFieldGroup';
+import { ISO_ROOT, V1_API_BASE } from 'config';
 
 class Signup extends Component {
   constructor(props) {
@@ -38,7 +39,7 @@ class Signup extends Component {
       return;
     }
 
-    fetch('http://localhost:3000/api/v1/user', {
+    fetch(`${ISO_ROOT}${V1_API_BASE}/user`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -54,7 +55,6 @@ class Signup extends Component {
       })
     })
       .then((data) => {
-        console.log(data)
         this.context.router.push('/');
       })
       .catch((err) => {
@@ -106,7 +106,7 @@ class Signup extends Component {
             </Col>
           </Row>
           <Row>
-            <Col md={1} mdOffset={4}>
+            <Col md={1} mdOffset={5}>
               <Button
                 bsSize='large'
                 onClick={this.handleSignup.bind(this)}

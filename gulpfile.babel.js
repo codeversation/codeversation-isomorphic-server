@@ -15,7 +15,7 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import gutil from 'gulp-util';
 import eslint from 'gulp-eslint';
 import plumber from 'gulp-plumber';
-import { spawn } from 'child_process';
+import { spawn, spawnSync } from 'child_process';
 
 // browserSync = browserSyncImport.create();
 
@@ -48,8 +48,16 @@ const paths =
 			dest: buildPath('json'),
 		},
 		env: {
-			src: projPath('.env'),
-			dest: buildPath('.env'),
+			src: projPath('.env*'),
+			dest: buildPath(),
+		},
+		package: {
+			src: projPath('package.json'),
+			dest: buildPath(),
+		},
+		procfile: {
+			src: projPath('Procfile'),
+			dest: buildPath(),
 		},
 		vendor: {
 			src: projPath('vendor'),
@@ -111,6 +119,8 @@ export const build =
 			buildJSON,
 			buildDotenv,
 			buildVendor,
+			buildPackage,
+			buildProcfile,
 		)
 	)
 ;
@@ -133,7 +143,8 @@ export const watch =
 //////////////////////////////////////////////////////
 
 export function server(done) {
-	spawn('node', [paths.server.index]);
+	// { stdio: [0,1,2] }
+	spawnSync('node', [paths.server.index], { stdio: [0,1,2] });
 
 	done();
 }
@@ -318,8 +329,17 @@ function buildJSON() {
 
 function buildDotenv() {
   return gulp.src(paths.env.src)
-    .pipe(gulp.dest(buildPath()));
+    .pipe(gulp.dest(paths.env.dest));
+}
 
+function buildPackage() {
+  return gulp.src(paths.package.src)
+    .pipe(gulp.dest(paths.package.dest));
+}
+
+function buildProcfile() {
+  return gulp.src(paths.procfile.src)
+    .pipe(gulp.dest(paths.procfile.dest));
 }
 
 function buildVendor() {
@@ -342,10 +362,17 @@ function lint() {
     .pipe(eslint.failAfterError());
 }
 
-
 //////////////////////////////////////////////////////
 // default task
 //////////////////////////////////////////////////////
+
+function printDevMessage(done) {
+	gutil.log(gutil.colors.red(
+		'DEV SERVER RUNNING ON >>> http://localhost:3000 <<<'
+	));
+
+	done();
+}
 
 // start dev server
 export default
@@ -357,5 +384,6 @@ export default
 			devServer,
 			startBrowserSyncProxy,
 		),
+		printDevMessage,
 	)
 ;

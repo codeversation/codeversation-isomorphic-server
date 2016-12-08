@@ -7,21 +7,23 @@ import Comment from 'server/db/model/Comment';
 router.get('/', function(req, res) {
   Comment
   .find()
+  .populate('_creator')
   .then(function(comments) {
     res.json(comments);
   });
 });
 
-// GET comments from codeversation id
+// GET comments from snippet id
 router.get('/:id', function(req, res) {
   Comment
-    .find({
-      _codeversation: req.params.id
-    })
-    .populate('_creator')
-    .then(function(comment) {
-      res.json(comment);
-    });
+  .find({
+    _snippet: req.params.id
+  })
+  .populate('_creator')
+  .populate('_snippet')
+  .then(function(comment) {
+    res.json(comment);
+  });
 });
 
 router.post('/', function(req, res) {
@@ -35,7 +37,6 @@ router.post('/', function(req, res) {
   } else {
     comments = req.body;
   }
-
   comments.dateCreated = new Date();
   var comment = new Comment(comments);
   comment.save(function(err, data) {
@@ -43,13 +44,28 @@ router.post('/', function(req, res) {
       console.log("server controller :save contact error");
       console.log(err);
       res
-          .status(400)
-          .json([{ message: "error in saving data" }]);
+      .status(400)
+      .json([{ message: "error in saving data" }]);
     } else {
       res.status(200);
       res.json({comment, message: 'comment created successfully! '});
     }
   })
+});
+
+// delete comment
+router.delete('/:id', function(req, res) {
+  Comment
+  .remove({
+    _id: req.params.id
+  })
+  .then(() => res.status(200).json({
+    message: "Comment deleted."
+  }))
+  .catch((err) => {
+    res.status(400).json({message: "Error deleteing Comment.", err: err})
+  })
+
 });
 
 export default router;

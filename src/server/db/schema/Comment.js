@@ -1,13 +1,20 @@
 import mongoose, { Schema } from 'mongoose';
 import db from 'mongoose';
+import mongooseDeepPopulate from 'mongoose-deep-populate';
+const deepPopulate = mongooseDeepPopulate(db);
 
 const CommentSchema = new db.Schema({
   _creator: {
-    type: Schema.Types.ObjectId, ref: 'User',
-    required: true
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  _snippet: {
+    type: Schema.Types.ObjectId,
+    ref:'Snippet'
   },
   content: {
     type: String,
+    trim: true,
     required: true
   },
   likes: {
@@ -15,13 +22,12 @@ const CommentSchema = new db.Schema({
     required: true,
     default: "0"
   },
-  _codeversation: {
-    type:mongoose.Schema.Types.ObjectId, ref:'Codeversation'},
   dateCreated: {
     type: Date,
-    required: true
   }
 });
+
+CommentSchema.plugin(deepPopulate);
 
 if(!CommentSchema.options.toJSON) CommentSchema.options.toJSON = {};
 CommentSchema.options.toJSON.transform = (doc, ret) => {

@@ -1,7 +1,8 @@
 import React, { PropTypes, Component } from 'react';
 import Loading from './Loading';
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
-import { Link } from 'react-router';
+import CodeversationPreview from './CodeversationPreview';
+import { ISO_ROOT, V1_API_BASE } from 'config';
 
 class FrontPage extends Component {
   constructor(props) {
@@ -12,13 +13,13 @@ class FrontPage extends Component {
     }
   }
   componentDidMount() {
-    fetch('http://localhost:3000/api/v1/codeversation')
+    fetch(`${ISO_ROOT}${V1_API_BASE}/codeversation`)
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
-        this.state.codeversations = json;
         this.setState({
-          isLoading: false
+          isLoading: false,
+          codeversations: json.reverse()
+
         });
       })
       .catch((err) => console.error(err));
@@ -28,23 +29,24 @@ class FrontPage extends Component {
     if (this.state.isLoading) {
       return <Loading />;
     }
-    const { codeversations } = this.state;
     return (
       <div>
         <ListGroup>
-            {codeversations.map((codeversation, ind) => {
-              const style = ind % 2 ? {background: '#f2f2f2'} : null;
+          {this.state.codeversations.map((codeversation, ind) => {
+            const style = ind % 2 ? {background: '#f2f2f2'} : null;
+            if(codeversation.public) {
               return (
-                <ListGroupItem 
-                  key={ind} 
+                <CodeversationPreview
+                  key={ind}
                   style={style}
-                >
-                  <Link to={`view/${codeversation.id}`}><h3>{codeversation.title}</h3></Link>
-                  <p>{codeversation._creator.email}</p>
-                </ListGroupItem>
+                  codeversation={codeversation}
+                />
               );
-            })}
-          </ListGroup>
+            } else {
+              return;
+            }
+          })}
+        </ListGroup>
       </div>
     );
   }

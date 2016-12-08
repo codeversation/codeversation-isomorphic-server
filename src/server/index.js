@@ -3,10 +3,11 @@ import 'babel-polyfill';
 
 import app from './app';
 import { log } from 'utilities';
+import { PORT } from 'server/config';
 import db from 'server/db';
 
 db.once('open', () => {
-  var server = app.listen(3000, function () {
+  var server = app.listen(PORT, function () {
     var host = server.address().address;
     var port = server.address().port;
 
