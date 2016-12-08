@@ -18,17 +18,9 @@ class Codeversation extends Component {
     }
   }
 
-	// componentWillRecieveProps(props){
-	// 	if(props.params && props.params.snippetId){
-	// 		this.setState({snippetId: props.params.snippetId});
-	// 	}else{
-	// 		fetch(`${ISO_ROOT}${V1_API_BASE}/codeversation/${this.props.params.id}`, {
-	//       method: 'GET'
-	//     })
-	// 		.then(res => res.json())
-	// 		.then()
-	// 	}
-	// }
+	componentWillReceiveProps(props){
+		this.setState({ snippetId: this.props.params.snippetId });
+	}
 
   componentDidMount() {
     fetch(`${ISO_ROOT}${V1_API_BASE}/codeversation/${this.props.params.id}`, {
@@ -68,7 +60,7 @@ class Codeversation extends Component {
         </PageHeader>
         <Row>
           <Col md={3}>
-            <Sidebar 
+            <Sidebar
               posts={codeversation.snippet}
               original={codeversation}
             />

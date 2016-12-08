@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { Grid, Col, Row, Nav, NavItem, Well } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 
 class Sidebar extends Component {
   render() {
@@ -14,7 +15,9 @@ class Sidebar extends Component {
           {do{
             posts.map((post, ind) => {
               return (
-                <NavItem href={`/view/${post._codeversation}/${post.id}`} key={ind} eventKey={ind+1}>{post.title}</NavItem>
+								<LinkContainer to={`/view/${post._codeversation}/${post.id}`}>
+                	<NavItem key={ind} eventKey={ind+1}>{post.title}</NavItem>
+								</LinkContainer>
               );
             })
           }}
