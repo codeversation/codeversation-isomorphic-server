@@ -70,7 +70,7 @@ class Codeversation extends Component {
         <Row>
           <Col md={3}>
             <Sidebar 
-              posts={codeversation._snippets}
+              posts={codeversation.snippet}
               original={codeversation}
             />
           </Col>

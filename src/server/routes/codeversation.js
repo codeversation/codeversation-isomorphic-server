@@ -55,7 +55,6 @@ router.post('/', function(req, res) {
     codeversations = req.body;
   }
 
-  console.log(codeversations);
   codeversations.dateCreated = new Date();
 	codeversations._creator = req.user._id;
 
