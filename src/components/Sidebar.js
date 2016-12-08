@@ -1,29 +1,25 @@
 import React, { PropTypes, Component } from 'react';
-import { Grid, Col, Row, Nav, NavItem } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
-import { Link } from 'react-router';
+import { Grid, Col, Row, Nav, NavItem, Well } from 'react-bootstrap';
 
 class Sidebar extends Component {
   render() {
   const { original, posts } = this.props;
     return (
-      <div>
+      <Well>
         <h2>Answers</h2>
         <Nav 
           bsStyle='pills' 
           stacked
-          activeKey={1}
         >
-          <NavItem href={`/view/${original.id}`} eventKey={1}>{original.title}</NavItem>
           {do{
             posts.map((post, ind) => {
               return (
-                <NavItem href='/' key={ind} eventKey={ind+2}>{post.name}</NavItem>
+                <NavItem href={`/view/${post._codeversation}/${post.id}`} key={ind} eventKey={ind+1}>{post.title}</NavItem>
               );
             })
           }}
         </Nav>
-      </div>
+      </Well>
     );
   }
 }
