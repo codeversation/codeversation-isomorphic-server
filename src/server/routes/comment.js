@@ -37,7 +37,6 @@ router.post('/', function(req, res) {
   } else {
     comments = req.body;
   }
-
   comments.dateCreated = new Date();
   var comment = new Comment(comments);
   comment.save(function(err, data) {

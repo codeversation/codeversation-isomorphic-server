@@ -41,7 +41,7 @@ class CommentList extends Component {
           _creator: this.props.user.toJS().id,
           content: this.state.comment,
           likes: 0,
-          _codeversation: this.props.id
+          _snippet: this.props.id
         }
       })
     })

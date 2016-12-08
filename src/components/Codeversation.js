@@ -1,7 +1,6 @@
 import React, { PropTypes, Component } from 'react'
 import PostTitle from './PostTitle';
 import Snippet from './Snippet';
-import CommentList from './CommentList';
 import Loading from './Loading';
 import Post from './Post';
 import ShareButton from './ShareButton';

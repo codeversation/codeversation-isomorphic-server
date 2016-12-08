@@ -42,6 +42,7 @@ router.get('/:id', function(req, res) {
     .findOne({
       _id: req.params.id
     })
+    .populate('comments')
     .then(function(snippet) {
       res.json(snippet);
     });
