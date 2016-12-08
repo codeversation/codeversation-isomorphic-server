@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import Username from './Username';
 import { ISO_ROOT, V1_API_BASE } from 'config';
 
-const CodeversationPreview = ({ codeversation, style, user, onDelete, token }) => {
+const CodeversationPreview = ({ codeversation, style, user, localUser, token}) => {
   return (
     <ListGroupItem
       style={style}
@@ -14,7 +14,7 @@ const CodeversationPreview = ({ codeversation, style, user, onDelete, token }) =
           <Link to={`view/${codeversation.id}`}><h3>{codeversation.title}</h3></Link>
         </Col>
         {do{
-          if(user &&(user.id === codeversation._creator.id))
+          if(localUser && (localUser.id === codeversation._creator.id)) {
             <Col md={1} mdOffset={9}>
             <Button
               bsStyle = "danger"
@@ -32,7 +32,7 @@ const CodeversationPreview = ({ codeversation, style, user, onDelete, token }) =
               }}
               >Delete
             </Button>
-        </Col>}}
+        </Col>}}}
       </Row>
       <Username user={codeversation._creator} />
     </ListGroupItem>

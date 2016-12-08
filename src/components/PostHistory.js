@@ -97,6 +97,7 @@ class PostHistory extends Component {
                   user={this.props.user}
 									onDelete={::this.handleDelete}
 									token={this.props.token}
+                  localUser={this.props.localUser}
                 />
               );
             }

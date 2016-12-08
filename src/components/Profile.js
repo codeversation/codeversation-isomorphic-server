@@ -79,6 +79,7 @@ class Profile extends Component {
                 />
                 <PostHistory
 									user={this.state.user}
+                  localUser={this.props.localUser}
 									token={this.props.localUser.token}
 								/>;
               </div>
