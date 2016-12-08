@@ -31,12 +31,11 @@ Currently, there is no way to collaborate in browser on coding projects with imm
     - Code Changelog
 -  Back end server that will handle
     - User authentication
-    - Compiling code?
+    - Compiling code
     - Message and code storage
 
 ### Platforms and Frameworks
 - React
-- Sendbird
 - Express
 - NodeJS
 - git
