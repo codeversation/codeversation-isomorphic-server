@@ -7,8 +7,8 @@ class Sidebar extends Component {
     return (
       <Well>
         <h2>Answers</h2>
-        <Nav 
-          bsStyle='pills' 
+        <Nav
+          bsStyle='pills'
           stacked
         >
           {do{
