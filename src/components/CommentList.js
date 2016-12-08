@@ -46,7 +46,8 @@ class CommentList extends Component {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+				'Authorization': this.props.user.toJS().token,
       },
       body: JSON.stringify( {
         comment: {

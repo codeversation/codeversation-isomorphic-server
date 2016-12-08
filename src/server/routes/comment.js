@@ -27,6 +27,11 @@ router.get('/:id', function(req, res) {
 });
 
 router.post('/', function(req, res) {
+  if(!req.user){
+    res.status(400).json({ message: 'Invalid request.'});
+    return;
+  }
+
   var comments;
   if(!req.body) {
     res.status(400);
@@ -37,7 +42,10 @@ router.post('/', function(req, res) {
   } else {
     comments = req.body;
   }
+	
   comments.dateCreated = new Date();
+	comments._creator = req.user._id;
+
   var comment = new Comment(comments);
   comment.save(function(err, data) {
     if(err) {
