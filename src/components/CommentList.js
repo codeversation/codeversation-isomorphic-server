@@ -25,6 +25,18 @@ class CommentList extends Component {
       .catch(err => console.error(err));
   }
 
+	componentWillReceiveProps() {
+    fetch(`${ISO_ROOT}${V1_API_BASE}/comment/${this.props.id}`)
+      .then(res => res.json())
+      .then((json) => {
+        this.setState({
+          comments: json
+        })
+      })
+      .catch(err => console.error(err));
+  }
+
+
   handleCommentChange(e) {
     this.setState({comment: e.target.value});
   }
