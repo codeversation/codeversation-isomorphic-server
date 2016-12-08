@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import Username from './Username';
 import { ISO_ROOT, V1_API_BASE } from 'config';
 
-const CodeversationPreview = ({ codeversation, style, user, localUser, token}) => {
+const CodeversationPreview = ({ codeversation, style, user, onDelete, token, localUser}) => {
   return (
     <ListGroupItem
       style={style}
