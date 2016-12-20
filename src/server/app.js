@@ -4,7 +4,7 @@ import { V1_API_BASE } from 'config';
 const app = express();
 
 // set view engine and view folder
-app.set('views', './views');
+app.set('views', './assets/views');
 app.set('view engine', 'jade');
 
 // set middleware
