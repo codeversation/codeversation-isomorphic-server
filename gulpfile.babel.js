@@ -39,13 +39,9 @@ const paths =
 				hmr: buildPath('src', 'node_modules'),
 			},
 		},
-		views: {
-			src: projPath('views'),
-			dest: buildPath('views'),
-		},
-		json: {
-			src: projPath('json'),
-			dest: buildPath('json'),
+		assets: {
+			src: projPath('assets'),
+			dest: buildPath('assets'),
 		},
 		env: {
 			src: projPath('.env*'),
@@ -58,10 +54,6 @@ const paths =
 		procfile: {
 			src: projPath('Procfile'),
 			dest: buildPath(),
-		},
-		vendor: {
-			src: projPath('vendor'),
-			dest: libPath('vendor'),
 		},
 		server: {
 			dir: libPath('server'),
@@ -87,10 +79,8 @@ var nodemonState = 'down';
 const browserSyncWatch =
 	gulp.parallel(
 		watchSrc,
-		watchJSON,
-		watchViews,
+		watchAssets,
 		watchDotenv,
-		watchVendor,
 		watchHMR,
 		watchNodemon,
 	)
@@ -99,10 +89,8 @@ const browserSyncWatch =
 const browserSyncBuild =
 	gulp.parallel(
 		buildLib,
-		buildViews,
-		buildJSON,
+		buildAssets,
 		buildDotenv,
-		buildVendor,
 		buildHMR,
 	)
 ;
@@ -115,10 +103,8 @@ export const build =
 				buildLib,
 				buildApp,
 			),
-			buildViews,
-			buildJSON,
+			buildAssets,
 			buildDotenv,
-			buildVendor,
 			buildPackage,
 			buildProcfile,
 		)
@@ -224,20 +210,8 @@ function watchSrc(done) {
 	done();
 }
 
-
-function watchJSON(done) {
-	gulp.watch(files(paths.json.src), buildJSON);
-	done();
-}
-
-function watchViews(done) {
-	gulp.watch(files(paths.views.src), buildViews);
-	done();
-}
-
-function watchVendor(done) {
-	gulp.watch(files(paths.vendor.src), buildVendor);
-	done();
+function watchAssets(done) {
+	gulp.watch(files(paths.assets.src), buildAssets);
 }
 
 // unused in favor of webpackMiddleware with browser-sync
@@ -314,17 +288,10 @@ function buildHMR() {
 		.pipe(gulp.dest(paths.src.dest.hmr));
 }
 
-function buildViews() {
-  return gulp.src(files(paths.views.src))
-    .pipe(changed(paths.views.dest))
-    .pipe(gulp.dest(paths.views.dest));
-};
-
-
-function buildJSON() {
-  return gulp.src(files(paths.json.src))
-    .pipe(changed(paths.json.dest))
-    .pipe(gulp.dest(paths.json.dest));
+function buildAssets() {
+	return gulp.src(files(paths.assets.src))
+		.pipe(changed(paths.assets.dest))
+		.pipe(gulp.dest(paths.assets.dest));
 }
 
 function buildDotenv() {
@@ -341,12 +308,6 @@ function buildProcfile() {
   return gulp.src(paths.procfile.src)
     .pipe(gulp.dest(paths.procfile.dest));
 }
-
-function buildVendor() {
-  return gulp.src(files(paths.vendor.src))
-    .pipe(changed(paths.vendor.dest))
-    .pipe(gulp.dest(paths.vendor.dest));
-};
 
 // clean
 export function clean() {

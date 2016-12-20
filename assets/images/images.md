@@ -1,0 +1,1 @@
+# Place graphic assets here.
