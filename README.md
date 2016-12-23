@@ -1,1 +1,1 @@
-artifacts/charter.md
+# Starter Kit Readme
